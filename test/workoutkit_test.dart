@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:workoutkit/workoutkit.dart';
-import 'package:workoutkit/workoutkit_platform_interface.dart';
-import 'package:workoutkit/workoutkit_method_channel.dart';
+import 'package:flutter_workoutkit/workoutkit.dart';
+import 'package:flutter_workoutkit/workoutkit_platform_interface.dart';
+import 'package:flutter_workoutkit/workoutkit_method_channel.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 class MockWorkoutkitPlatform
@@ -9,6 +9,9 @@ class MockWorkoutkitPlatform
     implements WorkoutkitPlatform {
   @override
   Future<String?> getPlatformVersion() => Future.value('42');
+
+  @override
+  Future<void> requestHealthPermissions() => Future.value();
 
   @override
   Future<void> createCustomWorkout(Map<String, dynamic> customWorkoutJson) =>

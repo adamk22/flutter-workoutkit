@@ -1,28 +1,28 @@
 PODS:
   - Flutter (1.0.0)
-  - integration_test (0.0.1):
+  - flutter_workoutkit (0.0.1):
     - Flutter
-  - workoutkit (0.0.1):
+  - integration_test (0.0.1):
     - Flutter
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
+  - flutter_workoutkit (from `.symlinks/plugins/flutter_workoutkit/ios`)
   - integration_test (from `.symlinks/plugins/integration_test/ios`)
-  - workoutkit (from `.symlinks/plugins/workoutkit/ios`)
 
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
+  flutter_workoutkit:
+    :path: ".symlinks/plugins/flutter_workoutkit/ios"
   integration_test:
     :path: ".symlinks/plugins/integration_test/ios"
-  workoutkit:
-    :path: ".symlinks/plugins/workoutkit/ios"
 
 SPEC CHECKSUMS:
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  flutter_workoutkit: 7dc02016b8531fb6ace22229534db0dbbb88e721
   integration_test: 252f60fa39af5e17c3aa9899d35d908a0721b573
-  workoutkit: 08c367d40bf76b768780affb7ddaa258ba1e7f06
 
-PODFILE CHECKSUM: a57f30d18f102dd3ce366b1d62a55ecbef2158e5
+PODFILE CHECKSUM: 978dd492a93a8ef4ec2dc2b3631de447af34068a
 
 COCOAPODS: 1.15.2

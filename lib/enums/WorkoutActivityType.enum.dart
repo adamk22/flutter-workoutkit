@@ -10,7 +10,7 @@ enum WorkoutActivityType {
   cycling,
   dance,
   elliptical,
-  fitness,
+  fitnessGaming,
   functionalStrengthTraining,
   golf,
   hiking,
@@ -50,6 +50,8 @@ enum WorkoutActivityType {
         return 'Table Tennis';
       case WorkoutActivityType.waterFitness:
         return 'Water Fitness';
+      case WorkoutActivityType.fitnessGaming:
+        return 'Fitness Gaming';
       case WorkoutActivityType.waterPolo:
         return 'Water Polo';
       case WorkoutActivityType.waterSports:

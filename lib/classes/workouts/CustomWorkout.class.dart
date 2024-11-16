@@ -1,4 +1,5 @@
-import 'package:workoutkit/classes/index.dart';
+import 'package:flutter_workoutkit/classes/index.dart';
+import 'package:flutter_workoutkit/enums/WorkoutType.enum.dart';
 
 class CustomWorkout extends Workout {
   final String displayName;
@@ -13,11 +14,12 @@ class CustomWorkout extends Workout {
     this.warmup,
     required this.blocks,
     this.cooldown,
-  }) : super();
+  }) : super(workoutType: WorkoutType.customWorkout);
 
   Map<String, dynamic> toJson() {
     return {
       'activityType': activityType.toString().split('.').last,
+      'workoutType': workoutType.toString().split('.').last,
       'location': location.toString().split('.').last,
       'displayName': displayName,
       'warmup': warmup?.toJson(),

@@ -1,8 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:flutter/services.dart';
-import 'package:workoutkit/workoutkit.dart';
+import 'package:flutter_workoutkit/workoutkit.dart';
 import 'package:workoutkit_example/test_workout.dart';
 
 void main() {
@@ -56,11 +58,22 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Plugin example app'),
         ),
         body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: WorkoutPreviewButton(workoutJson: testWorkout.toJson()),
+            ),
             ElevatedButton(
-                onPressed: () =>
-                    _workoutkitPlugin.createCustomWorkout(test_workout),
-                child: Text('Create Workout')),
+              onPressed: () => _workoutkitPlugin.requestHealthPermissions(),
+              child: Text('Request Health Permissions'),
+            ),
+            ElevatedButton(
+              onPressed: () =>
+                  _workoutkitPlugin.createCustomWorkout(testWorkout),
+              child: Text('Create Workout'),
+            ),
             Center(
               child: Text('Running on: $_platformVersion\n'),
             ),

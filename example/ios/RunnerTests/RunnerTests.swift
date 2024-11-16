@@ -3,7 +3,7 @@ import UIKit
 import XCTest
 
 
-@testable import workoutkit
+@testable import flutter_workoutkit
 
 // This demonstrates a simple unit test of the Swift portion of this plugin's implementation.
 //

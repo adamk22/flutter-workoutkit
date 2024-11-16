@@ -3,7 +3,7 @@
 # Run `pod lib lint workoutkit.podspec` to validate before publishing.
 #
 Pod::Spec.new do |s|
-  s.name             = 'workoutkit'
+  s.name             = 'flutter_workoutkit'
   s.version          = '0.0.1'
   s.summary          = 'A new Flutter plugin project.'
   s.description      = <<-DESC

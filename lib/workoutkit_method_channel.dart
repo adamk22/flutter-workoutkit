@@ -22,4 +22,9 @@ class MethodChannelWorkoutkit extends WorkoutkitPlatform {
     await methodChannel.invokeMethod<void>(
         'createCustomWorkout', customWorkoutJson);
   }
+
+  @override
+  Future<void> requestHealthPermissions() async {
+    await methodChannel.invokeMethod<void>('requestHealthPermissions');
+  }
 }

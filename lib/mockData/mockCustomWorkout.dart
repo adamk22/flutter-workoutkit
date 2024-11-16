@@ -1,9 +1,15 @@
-import 'package:flutter_workoutkit/workoutkit.dart';
+import 'package:flutter_workoutkit/classes/workouts/CustomWorkout.class.dart';
+import 'package:flutter_workoutkit/classes/workoutParts/IntervalBlock.class.dart';
+import 'package:flutter_workoutkit/classes/workoutParts/IntervalStep.class.dart';
+import 'package:flutter_workoutkit/classes/workoutParts/WorkoutGoal.class.dart';
+import 'package:flutter_workoutkit/classes/workoutParts/WorkoutStep.class.dart';
+import 'package:flutter_workoutkit/enums/WorkoutActivityType.enum.dart';
+import 'package:flutter_workoutkit/enums/WorkoutLocationType.enum.dart';
 
-final CustomWorkout testWorkout = CustomWorkout(
+final CustomWorkout mockCustomWorkout = CustomWorkout(
   activityType: WorkoutActivityType.running,
   location: WorkoutLocationType.outdoor,
-  displayName: "[TEST] 5K Training Run",
+  displayName: "5K Training Run",
   warmup: WorkoutStep(
     goal: const WorkoutGoal(
       type: WorkoutGoalType.time,

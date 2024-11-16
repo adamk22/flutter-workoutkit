@@ -1,5 +1,5 @@
-import 'package:workoutkit/classes/workoutParts/WorkoutGoal.class.dart';
-import 'package:workoutkit/enums/WorkoutSwimmingLocationType.enum.dart';
+import 'package:flutter_workoutkit/classes/workoutParts/WorkoutGoal.class.dart';
+import 'package:flutter_workoutkit/enums/WorkoutSwimmingLocationType.enum.dart';
 
 import 'Workout.class.dart';
 

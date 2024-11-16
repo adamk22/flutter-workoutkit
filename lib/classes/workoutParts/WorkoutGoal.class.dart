@@ -24,8 +24,8 @@ class WorkoutGoal {
 enum WorkoutGoalType {
   distance,
   time,
-  calories,
-  custom,
+  energy,
+  open,
 }
 
 enum WorkoutGoalUnit {
@@ -38,5 +38,5 @@ enum WorkoutGoalUnit {
   seconds,
   calories,
   kilocalories,
-  custom,
+  open,
 }

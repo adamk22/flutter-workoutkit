@@ -31,6 +31,11 @@ abstract class WorkoutkitPlatform extends PlatformInterface {
     throw UnimplementedError('createCustomWorkout() has not been implemented.');
   }
 
+  Future<void> requestHealthPermissions() {
+    throw UnimplementedError(
+        'requestHealthPermissions() has not been implemented.');
+  }
+
   Future<void> createSingleGoalWorkout(
       Map<String, dynamic> singleGoalWorkoutJson) {
     throw UnimplementedError(

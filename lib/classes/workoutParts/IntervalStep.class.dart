@@ -1,16 +1,16 @@
-import 'package:workoutkit/classes/workoutParts/WorkoutAlert.class.dart';
-import 'package:workoutkit/classes/workoutParts/WorkoutGoal.class.dart';
+import 'package:flutter_workoutkit/classes/workoutParts/WorkoutAlert.class.dart';
+import 'package:flutter_workoutkit/classes/workoutParts/WorkoutGoal.class.dart';
 
 class IntervalStep {
   final IntervalStepPurpose purpose;
   final WorkoutGoal goal;
   final WorkoutAlert? alert;
-  final int repeat;
+  // final int repeat;
 
   IntervalStep({
     required this.purpose,
     required this.goal,
-    required this.repeat,
+    // required this.repeat,
     this.alert,
   });
 
@@ -19,7 +19,7 @@ class IntervalStep {
       'purpose': purpose.toString().split('.').last,
       'goal': goal.toJson(),
       'alert': alert?.toJson(),
-      'repeat': repeat,
+      // 'repeat': repeat,
     };
   }
 }
@@ -27,5 +27,4 @@ class IntervalStep {
 enum IntervalStepPurpose {
   work,
   recovery,
-  workRecovery,
 }
