@@ -17,7 +17,6 @@ public class WorkoutkitPlugin: NSObject, FlutterPlugin {
       if #available(iOS 17.0, *) {
           let factory = WorkoutPreviewFactory(messenger: registrar.messenger())
           registrar.register(factory, withId: "workout_preview_button")
-
       } else {
           // Fallback on earlier versions
       }

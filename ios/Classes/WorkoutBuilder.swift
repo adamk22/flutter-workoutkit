@@ -5,7 +5,6 @@ import HealthKit
 public class WorkoutBuilder {
     @available(iOS 17.0, *)
     public static func parseIntervalBlocks(blocksJson: [[String: Any]]) -> [IntervalBlock] {
-        print("blocksJson: \(blocksJson)")
         var blocks: [IntervalBlock] = [];
 
         for block: [String : Any] in blocksJson {
@@ -75,7 +74,7 @@ public class WorkoutBuilder {
 
     @available(iOS 17.0, *)
     private static func createTimeWorkoutGoal(_ goalJson: [String: Any]) -> WorkoutGoal {
-        let targetValue = createTargetDuration(goalJson)
+        let targetValue = createTargetDuration(goalJson["unit"] as! String, goalJson["targetDuration"] as! Int)
         let timeUnit = WorkoutTypeConvert.getTimeUnit(goalJson["unit"] as! String)
         return .time(targetValue, timeUnit)
     }
@@ -86,12 +85,9 @@ public class WorkoutBuilder {
         let distanceUnit = WorkoutTypeConvert.getDistanceUnit(goalJson["unit"] as! String)
         return .distance(targetValue, distanceUnit)
     }
-
+    
     @available(iOS 17.0, *)
-    private static func createTargetDuration(_ goalJson: [String: Any]) -> Double {
-        let durationUnit = goalJson["unit"] as! String
-        let durationAsSeconds = goalJson["targetDuration"] as! Int
-
+    public static func createTargetDuration(_ durationUnit: String, _ durationAsSeconds: Int) -> Double {
         switch durationUnit {
         case "minutes":
             return max(0.0, Double(durationAsSeconds / 60))

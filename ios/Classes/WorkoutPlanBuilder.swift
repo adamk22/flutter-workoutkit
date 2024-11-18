@@ -42,11 +42,40 @@ public class WorkoutPlanBuilder {
     }
 
     private static func createSingleGoalWorkoutPlan(workoutJson: [String: Any]) -> WorkoutPlan {
-        return createCustomWorkoutPlan(workoutJson: workoutJson)
+        let goal = WorkoutBuilder.createWorkoutGoal(workoutJson["goal"] as! [String: Any])
+        let activityType = WorkoutTypeConvert.convertActivityType(workoutJson["activityType"] as! String)
+
+        var singleGoalWorkout: SingleGoalWorkout
+        if (activityType == .swimming) {
+            guard let swimmingLocationString = workoutJson["swimmingLocation"] as? String else {
+                fatalError("Swimming workout must have a swimming location")
+            }
+            let swimmingLocation = WorkoutTypeConvert.convertSwimmingLocationType(swimmingLocationString)
+            singleGoalWorkout = SingleGoalWorkout(activity: activityType, swimmingLocation: swimmingLocation, goal: goal)
+        } else {
+            let location = WorkoutTypeConvert.convertLocationType(workoutJson["location"] as! String)
+            singleGoalWorkout = SingleGoalWorkout(activity: activityType, location: location, goal: goal)
+        }
+        
+        let workoutPlan = WorkoutPlan(.goal(singleGoalWorkout))
+        return workoutPlan
     }
 
     private static func createPacerWorkoutPlan(workoutJson: [String: Any]) -> WorkoutPlan {
-        return createCustomWorkoutPlan(workoutJson: workoutJson)
+        let activityType = WorkoutTypeConvert.convertActivityType(workoutJson["activityType"] as! String)
+        let location = WorkoutTypeConvert.convertLocationType(workoutJson["location"] as! String)
+        let targetValue = workoutJson["targetValue"] as! Double
+        let targetValueUnit = WorkoutTypeConvert.getDistanceUnit(workoutJson["targetValueUnit"] as! String)
+        let targetDuration = WorkoutBuilder.createTargetDuration(workoutJson["targetDurationUnit"] as! String, workoutJson["targetDuration"] as! Int)
+        let targetDurationUnit = WorkoutTypeConvert.getTimeUnit(workoutJson["targetDurationUnit"] as! String)
+
+        let distance: Measurement<UnitLength> = Measurement(value: targetValue, unit: targetValueUnit)
+        let time: Measurement<UnitDuration> = Measurement(value: targetDuration, unit: targetDurationUnit)
+        
+        let pacerWorkout = PacerWorkout(activity: activityType, location: location, distance: distance, time: time)
+        let workoutPlan = WorkoutPlan(.pacer(pacerWorkout))
+
+        return workoutPlan
     }
 
     private static func createSwimBikeRunWorkoutPlan(workoutJson: [String: Any]) -> WorkoutPlan {

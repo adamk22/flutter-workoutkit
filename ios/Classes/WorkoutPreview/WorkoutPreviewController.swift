@@ -4,9 +4,11 @@ import SwiftUI
 @available(iOS 17.0, *)
 class WorkoutPreviewViewController: UIViewController {
     private var workoutJson: [String: Any]
-    
-    init(workoutJson: [String: Any]) {
+    private var buttonTitle: String
+
+    init(workoutJson: [String: Any], buttonTitle: String) {
         self.workoutJson = workoutJson
+        self.buttonTitle = buttonTitle
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -17,7 +19,7 @@ class WorkoutPreviewViewController: UIViewController {
     override func viewDidLoad() { 
         super.viewDidLoad()
         
-        let swiftUIView = WorkoutPreviewButton(workoutJson: workoutJson)
+        let swiftUIView = WorkoutPreviewButton(workoutJson: workoutJson, buttonTitle: buttonTitle)
         let hostingController = UIHostingController(rootView: swiftUIView)
         
         addChild(hostingController)

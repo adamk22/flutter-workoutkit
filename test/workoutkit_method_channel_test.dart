@@ -1,8 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_workoutkit/workoutkit.dart';
 import 'package:flutter_workoutkit/workoutkit_method_channel.dart';
-
-import 'mockCustomWorkout.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

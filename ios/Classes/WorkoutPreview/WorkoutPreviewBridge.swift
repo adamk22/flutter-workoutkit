@@ -8,9 +8,10 @@ class WorkoutPreviewBridge: NSObject, FlutterPlatformView {
     private var _view: UIView
 
     init(frame: CGRect, viewIdentifier viewId: Int64, arguments args: Any?, messenger: FlutterBinaryMessenger) {
-        let workoutJson = args as? [String: Any] ?? [:]
+        let workoutJson = (args as? [String: Any])?["workoutJson"] as? [String: Any] ?? [:]
+        let buttonTitle = (args as? [String: Any])?["buttonTitle"] as? String ?? "Preview & Start Workout"
         let hostingController = UIHostingController(
-            rootView: WorkoutPreviewButton(workoutJson: workoutJson)
+            rootView: WorkoutPreviewButton(workoutJson: workoutJson, buttonTitle: buttonTitle)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         )
         

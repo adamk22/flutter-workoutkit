@@ -1,16 +1,18 @@
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_workoutkit/workoutkit.dart';
 
 class WorkoutPreviewButton extends StatelessWidget {
-  final Map<String, dynamic> workoutJson;
+  final Workout workout;
+  final String buttonTitle;
 
   const WorkoutPreviewButton({
-    Key? key,
-    required this.workoutJson,
-  }) : super(key: key);
+    super.key,
+    required this.workout,
+    this.buttonTitle = 'Preview & Start Workout',
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,11 +20,16 @@ class WorkoutPreviewButton extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
+    final workoutJson = workout.toJson();
+
     return SizedBox(
       height: 50, // Adjust height as needed
       child: UiKitView(
         viewType: 'workout_preview_button',
-        creationParams: workoutJson,
+        creationParams: {
+          'workoutJson': workoutJson,
+          'buttonTitle': buttonTitle,
+        },
         creationParamsCodec: const StandardMessageCodec(),
       ),
     );

@@ -1,3 +1,5 @@
+import 'package:flutter_workoutkit/workoutkit.dart';
+
 class WorkoutGoal {
   final WorkoutGoalType type;
   final double? targetValue;
@@ -9,7 +11,13 @@ class WorkoutGoal {
     this.targetValue,
     this.targetDuration,
     this.unit,
-  });
+  }) : assert(
+          (type == WorkoutGoalType.distance && targetValue != null) ||
+              (type == WorkoutGoalType.time && targetDuration != null) ||
+              (type == WorkoutGoalType.energy && targetValue != null) ||
+              type == WorkoutGoalType.open,
+          'targetValue is required for distance type, targetDuration is required for time type, targetValue is required for energy type',
+        );
 
   Map<String, dynamic> toJson() {
     return {
@@ -19,24 +27,4 @@ class WorkoutGoal {
       'unit': unit?.toString().split('.').last,
     };
   }
-}
-
-enum WorkoutGoalType {
-  distance,
-  time,
-  energy,
-  open,
-}
-
-enum WorkoutGoalUnit {
-  kilometers,
-  miles,
-  meters,
-  yards,
-  minutes,
-  hours,
-  seconds,
-  calories,
-  kilocalories,
-  open,
 }

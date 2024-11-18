@@ -41,6 +41,18 @@ public class WorkoutTypeConvert {
             return .meters
         }
     }
+    
+    public static func convertSwimmingLocationType(_ swimmingLocationType: String) -> HKWorkoutSwimmingLocationType {
+        switch swimmingLocationType {
+        case "openWater":
+            return .openWater
+        case "pool":
+            return .pool
+        default:
+            return .unknown
+        }
+    }
+    
   public static func convertLocationType(_ locationType: String) -> HKWorkoutSessionLocationType {
     switch locationType {
       case "outdoor":

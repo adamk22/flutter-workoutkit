@@ -5,10 +5,11 @@ import WorkoutKit
 struct WorkoutPreviewButton: View {
     @State private var showPreview = false
       let workoutPlan: WorkoutPlan
+      let buttonTitle: String
 
-      init(workoutJson: [String: Any]) {
+      init(workoutJson: [String: Any], buttonTitle: String) {
           self.workoutPlan = WorkoutPlanBuilder.createWorkoutPlan(workoutJson: workoutJson)
-          print("workoutJson: \(workoutJson)")
+          self.buttonTitle = buttonTitle
       }
       
 
@@ -18,7 +19,7 @@ struct WorkoutPreviewButton: View {
                 print("Button tapped")
                 self.showPreview = true
             }) {
-                Text("Preview Workout")
+                Text(buttonTitle)
                     .frame(maxWidth: .infinity)
                     .padding()
                     .background(Color.blue)
