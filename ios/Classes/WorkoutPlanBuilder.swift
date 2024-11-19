@@ -79,8 +79,6 @@ public class WorkoutPlanBuilder {
     }
 
     private static func createSwimBikeRunWorkoutPlan(workoutJson: [String: Any]) -> WorkoutPlan {
-        print(workoutJson)
-
         let activities = WorkoutBuilder.createActivities(activitiesJson: workoutJson["activities"] as! [[String: Any]])
         
         var swimBikeRunWorkout: SwimBikeRunWorkout

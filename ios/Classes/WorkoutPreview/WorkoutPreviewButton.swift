@@ -16,7 +16,6 @@ struct WorkoutPreviewButton: View {
       var body: some View {
           VStack {
             Button(action: {
-                print("Button tapped")
                 self.showPreview = true
             }) {
                 Text(buttonTitle)

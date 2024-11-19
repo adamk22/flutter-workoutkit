@@ -1,10 +1,57 @@
 import 'package:flutter_workoutkit/workoutkit.dart';
 
+final CustomWorkout mockSpeedCyclingWorkout = CustomWorkout(
+  activityType: WorkoutActivityType.cycling,
+  location: WorkoutLocationType.outdoor,
+  displayName: "Test Speed Cycling",
+  warmup: WorkoutStep(
+    alert: HeartRateZoneAlert(zone: 1),
+    goal: const WorkoutGoal(
+      type: WorkoutGoalType.time,
+      targetDuration: Duration(minutes: 10),
+      unit: WorkoutGoalUnit.minutes,
+    ),
+  ),
+  blocks: [
+    IntervalBlock(
+      type: IntervalBlockType.work,
+      iterations: 1,
+      steps: [
+        IntervalStep(
+          alert: SpeedRangeAlert(
+            lowerBound: 28,
+            upperBound: 32,
+            unitSpeed: UnitSpeed.kilometersPerHour,
+            metric: WorkoutAlertMetric.average,
+          ),
+          purpose: IntervalStepPurpose.work,
+          goal: const WorkoutGoal(
+            type: WorkoutGoalType.distance,
+            targetValue: 24,
+            unit: WorkoutGoalUnit.kilometers,
+          ),
+        ),
+      ],
+    ),
+  ],
+  cooldown: WorkoutStep(
+    alert: HeartRateZoneAlert(zone: 1),
+    goal: const WorkoutGoal(
+      type: WorkoutGoalType.time,
+      targetDuration: Duration(minutes: 10),
+      unit: WorkoutGoalUnit.minutes,
+    ),
+  ),
+);
+
 final CustomWorkout mockCustomWorkout = CustomWorkout(
   activityType: WorkoutActivityType.running,
   location: WorkoutLocationType.outdoor,
   displayName: "Test Timed Run",
   warmup: WorkoutStep(
+    alert: HeartRateZoneAlert(
+      zone: 1,
+    ),
     goal: const WorkoutGoal(
       type: WorkoutGoalType.time,
       targetDuration: Duration(minutes: 5),
@@ -17,6 +64,7 @@ final CustomWorkout mockCustomWorkout = CustomWorkout(
       iterations: 4,
       steps: [
         IntervalStep(
+          alert: HeartRateZoneAlert(zone: 2),
           purpose: IntervalStepPurpose.work,
           goal: const WorkoutGoal(
             type: WorkoutGoalType.time,
@@ -31,6 +79,7 @@ final CustomWorkout mockCustomWorkout = CustomWorkout(
       iterations: 4,
       steps: [
         IntervalStep(
+          alert: HeartRateZoneAlert(zone: 3),
           purpose: IntervalStepPurpose.work,
           goal: const WorkoutGoal(
             type: WorkoutGoalType.time,
@@ -39,6 +88,7 @@ final CustomWorkout mockCustomWorkout = CustomWorkout(
           ),
         ),
         IntervalStep(
+          alert: HeartRateZoneAlert(zone: 1),
           purpose: IntervalStepPurpose.recovery,
           goal: const WorkoutGoal(
             type: WorkoutGoalType.time,
@@ -53,6 +103,7 @@ final CustomWorkout mockCustomWorkout = CustomWorkout(
       iterations: 1,
       steps: [
         IntervalStep(
+          alert: HeartRateZoneAlert(zone: 2),
           purpose: IntervalStepPurpose.recovery,
           goal: const WorkoutGoal(
             type: WorkoutGoalType.time,
@@ -64,6 +115,7 @@ final CustomWorkout mockCustomWorkout = CustomWorkout(
     ),
   ],
   cooldown: WorkoutStep(
+    alert: HeartRateZoneAlert(zone: 1),
     goal: const WorkoutGoal(
       type: WorkoutGoalType.time,
       targetDuration: Duration(minutes: 5),
@@ -77,6 +129,7 @@ final CustomWorkout mock10kTrainingRun = CustomWorkout(
   location: WorkoutLocationType.outdoor,
   displayName: "10K Training Run",
   warmup: WorkoutStep(
+    alert: HeartRateRangeAlert(lowerBound: 86, upperBound: 120),
     goal: const WorkoutGoal(
       type: WorkoutGoalType.time,
       targetDuration: Duration(minutes: 10),
@@ -89,6 +142,7 @@ final CustomWorkout mock10kTrainingRun = CustomWorkout(
       iterations: 1,
       steps: [
         IntervalStep(
+          alert: HeartRateRangeAlert(lowerBound: 136, upperBound: 156),
           purpose: IntervalStepPurpose.work,
           goal: const WorkoutGoal(
             type: WorkoutGoalType.distance,
@@ -103,6 +157,7 @@ final CustomWorkout mock10kTrainingRun = CustomWorkout(
       iterations: 1,
       steps: [
         IntervalStep(
+          alert: HeartRateRangeAlert(lowerBound: 90, upperBound: 120),
           purpose: IntervalStepPurpose.recovery,
           goal: const WorkoutGoal(
             type: WorkoutGoalType.time,
@@ -117,6 +172,7 @@ final CustomWorkout mock10kTrainingRun = CustomWorkout(
       iterations: 1,
       steps: [
         IntervalStep(
+          alert: HeartRateRangeAlert(lowerBound: 136, upperBound: 156),
           purpose: IntervalStepPurpose.work,
           goal: const WorkoutGoal(
             type: WorkoutGoalType.distance,
@@ -128,6 +184,7 @@ final CustomWorkout mock10kTrainingRun = CustomWorkout(
     ),
   ],
   cooldown: WorkoutStep(
+    alert: HeartRateRangeAlert(lowerBound: 86, upperBound: 120),
     goal: const WorkoutGoal(
       type: WorkoutGoalType.time,
       targetDuration: Duration(minutes: 5),
@@ -142,6 +199,7 @@ final CustomWorkout mock21kmTrainingRun = CustomWorkout(
   displayName: "21k Stepped Run",
   warmup: WorkoutStep(
     displayName: "5 min warmup",
+    alert: HeartRateZoneAlert(zone: 1),
     goal: const WorkoutGoal(
       type: WorkoutGoalType.time,
       targetDuration: Duration(minutes: 5),
@@ -151,24 +209,30 @@ final CustomWorkout mock21kmTrainingRun = CustomWorkout(
   blocks: [
     IntervalBlock(
       type: IntervalBlockType.work,
-      iterations: 4,
+      iterations: 1,
       steps: [
         IntervalStep(
+          alert: HeartRateZoneAlert(zone: 2),
           purpose: IntervalStepPurpose.work,
-          goal: const WorkoutGoal(
-            type: WorkoutGoalType.distance,
-            targetValue: 16,
-            unit: WorkoutGoalUnit.kilometers,
+          step: WorkoutStep(
+            alert: HeartRateZoneAlert(zone: 2),
+            displayName: "16k Zone 2",
+            goal: const WorkoutGoal(
+              type: WorkoutGoalType.distance,
+              targetValue: 16,
+              unit: WorkoutGoalUnit.kilometers,
+            ),
           ),
         ),
       ],
     ),
     IntervalBlock(
       type: IntervalBlockType.work,
-      iterations: 4,
+      iterations: 1,
       steps: [
         IntervalStep(
           purpose: IntervalStepPurpose.work,
+          alert: HeartRateZoneAlert(zone: 3),
           step: WorkoutStep(
             displayName: "5k Zone 3",
             goal: const WorkoutGoal(
@@ -182,6 +246,7 @@ final CustomWorkout mock21kmTrainingRun = CustomWorkout(
     ),
   ],
   cooldown: WorkoutStep(
+    alert: HeartRateZoneAlert(zone: 1),
     displayName: "5 min cooldown",
     goal: const WorkoutGoal(
       type: WorkoutGoalType.time,

@@ -32,20 +32,94 @@ public class WorkoutBuilder {
         }
         return activities
     }
+    
+    @available(iOS 17.0, *)
+    public static func createWorkoutAlert(_ alertJson: [String: Any]) -> any WorkoutAlert {
+        let type = alertJson["type"] as! String
+
+        switch type {
+        case "heartRateZone":
+            let zone = alertJson["zone"] as! Int
+            return .heartRate(zone: zone)
+        case "heartRateRange":
+            let lowerBound = alertJson["lowerBound"] as! Double
+            let upperBound = alertJson["upperBound"] as! Double
+            return .heartRate(lowerBound...upperBound)
+        case "cadenceRange":
+            let lowerBound = alertJson["lowerBound"] as! Double
+            let upperBound = alertJson["upperBound"] as! Double
+            return .cadence(lowerBound...upperBound)
+        case "cadenceThreshold":
+            let threshold = alertJson["threshold"] as! Double
+            return .cadence(threshold)
+        case "powerRange":
+            let lowerBound = alertJson["lowerBound"] as! Double
+            let upperBound = alertJson["upperBound"] as! Double
+            if #available(iOS 17.4, *) {
+                let metric = WorkoutTypeConvert.convertWorkoutAlertMetricType(alertJson["metric"] as! String)
+                return .power(lowerBound...upperBound, unit: .watts, metric: metric)
+            } else {
+                return .power(lowerBound...upperBound, unit: .watts)
+            }
+        case "powerThreshold":
+            let threshold = alertJson["threshold"] as! Double
+            let metric = alertJson["metric"] as! String
+            if #available(iOS 17.4, *) {
+                let metric = WorkoutTypeConvert.convertWorkoutAlertMetricType(alertJson["metric"] as! String)
+                return .power(threshold, unit: .watts, metric: metric)
+            } else {
+                return .power(threshold, unit: .watts)
+            }
+        case "powerZone":
+            let zone = alertJson["zone"] as! Int
+            return .power(zone: zone)
+        case "speedRange":
+            let lowerBound = alertJson["lowerBound"] as! Double
+            let upperBound = alertJson["upperBound"] as! Double
+            let unitSpeed = WorkoutTypeConvert.convertUnitSpeed(alertJson["unitSpeed"] as! String)
+            
+            if #available(iOS 17.4, *) {
+                let metric = WorkoutTypeConvert.convertWorkoutAlertMetricType(alertJson["metric"] as! String)
+                return .speed(lowerBound...upperBound, unit: unitSpeed, metric: metric)
+            } else {
+                return .speed(lowerBound...upperBound, unit: unitSpeed)
+            }
+        case "speedThreshold":
+            let threshold = alertJson["threshold"] as! Double
+            let unitSpeed = WorkoutTypeConvert.convertUnitSpeed(alertJson["unitSpeed"] as! String)
+            
+            if #available(iOS 17.4, *) {
+                let metric = WorkoutTypeConvert.convertWorkoutAlertMetricType(alertJson["metric"] as! String)
+                return .speed(threshold, unit: unitSpeed, metric: metric)
+            } else {
+                return .speed(threshold, unit: unitSpeed)
+            }
+        default:
+            return .heartRate(zone: 1)
+        }
+    }
 
     @available(iOS 17.0, *)
     public static func createWorkoutStep(stepJson: [String: Any]) -> WorkoutStep {
         let goal = createWorkoutGoal(stepJson["goal"] as! [String: Any])
         let displayName = stepJson["displayName"] as? String
-        // if let alert = stepJson["alert"] as? [String: Any] {
-        //     return WorkoutStep(goal: goal, alert: alert)
-        // }
+        
+        var step: WorkoutStep
         if let displayName = displayName {
             if #available(iOS 18.0, *) {
-                return WorkoutStep(goal: goal, displayName: displayName)
+                step = WorkoutStep(goal: goal, displayName: displayName)
+            } else {
+                step = WorkoutStep(goal: goal)
             }
+        } else {
+            step = WorkoutStep(goal: goal)
         }
-        return WorkoutStep(goal: goal)
+        
+        if let alert = stepJson["alert"] as? [String: Any] {
+            step.alert = createWorkoutAlert(alert)
+        }
+        
+        return step
     }
 
     @available(iOS 17.0, *)
@@ -72,7 +146,9 @@ public class WorkoutBuilder {
                 intervalStep.step = createWorkoutStep(stepJson: stepJson)
             }
 
-//          intervalStep.step.alert
+            if let alert = step["alert"] as? [String: Any] {
+                intervalStep.step.alert = createWorkoutAlert(alert)
+            }
 
             steps.append(intervalStep)
         }

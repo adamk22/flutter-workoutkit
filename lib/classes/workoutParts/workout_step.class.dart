@@ -1,5 +1,4 @@
-import 'package:flutter_workoutkit/classes/workoutParts/workout_alert.class.dart';
-import 'package:flutter_workoutkit/classes/workoutParts/workout_goal.class.dart';
+import 'package:flutter_workoutkit/workoutkit.dart';
 
 class WorkoutStep {
   final WorkoutGoal goal;

@@ -80,7 +80,37 @@ public class WorkoutTypeConvert {
           return .running(.unknown)
       }
   }
-
+    
+    @available(iOS 17.0, *)
+    public static func convertWorkoutAlertMetricType(_ metricType: String) -> WorkoutAlertMetric {
+        switch metricType {
+        case "average":
+            return .average
+        case "current":
+            return .current
+        default:
+            return .average
+        }
+        
+    }
+    
+    
+    @available(iOS 17.0, *)
+    public static func convertUnitSpeed(_ unitSpeed: String) -> UnitSpeed {
+        switch unitSpeed {
+        case "metersPerSecond":
+            return .metersPerSecond
+        case "kilometersPerHour":
+            return .kilometersPerHour
+        case "milesPerHour":
+            return .milesPerHour
+        case "knots":
+            return .knots
+        default:
+            return .metersPerSecond
+        }
+        
+    }
 
     public static func convertActivityType(_ activityType: String) -> HKWorkoutActivityType {
     switch activityType {
