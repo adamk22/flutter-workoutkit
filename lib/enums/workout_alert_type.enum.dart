@@ -1,4 +1,3 @@
-// TODO: Add paceRange and paceThreshold and its relevant class properties
 enum WorkoutAlertType {
   cadenceRange,
   cadenceThreshold,

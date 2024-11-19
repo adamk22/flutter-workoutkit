@@ -74,77 +74,77 @@ class _MyAppState extends State<MyApp> {
                     padding:
                         const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     child: WorkoutPreviewButton(
-                        workout: mockSwimBikeRunWorkout,
+                        workout: sampleSwimBikeRunWorkout,
                         buttonTitle: '[SwimBikeRun] Triathlon Training'),
                   ),
                   Padding(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     child: WorkoutPreviewButton(
-                        workout: mockPacerHoursWorkout,
+                        workout: samplePacerHoursWorkout,
                         buttonTitle: '[Pacer] 2 Hour Cycle'),
                   ),
                   Padding(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     child: WorkoutPreviewButton(
-                        workout: mockPacerMinutesWorkout,
+                        workout: samplePacerMinutesWorkout,
                         buttonTitle: '[Pacer] 30 Minute Run'),
                   ),
                   Padding(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     child: WorkoutPreviewButton(
-                        workout: mockSpeedCyclingWorkout,
+                        workout: sampleSpeedCyclingWorkout,
                         buttonTitle: '[Custom] Speed Cycling'),
                   ),
                   Padding(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     child: WorkoutPreviewButton(
-                        workout: mockCustomWorkout,
+                        workout: sampleCustomWorkout,
                         buttonTitle: '[Custom] Timed Workout'),
                   ),
                   Padding(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     child: WorkoutPreviewButton(
-                        workout: mock10kTrainingRun,
+                        workout: sample10kTrainingRun,
                         buttonTitle: '[Custom] 10k Training Run'),
                   ),
                   Padding(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     child: WorkoutPreviewButton(
-                        workout: mock21kmTrainingRun,
+                        workout: sample21kmTrainingRun,
                         buttonTitle: '[Custom] 21k Stepped Run'),
                   ),
                   Padding(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     child: WorkoutPreviewButton(
-                        workout: mockSingleGoalTimedWorkout,
+                        workout: sampleSingleGoalTimedWorkout,
                         buttonTitle: '[Single] Timed Workout'),
                   ),
                   Padding(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     child: WorkoutPreviewButton(
-                        workout: mockSingleGoalEnergyWorkout,
+                        workout: sampleSingleGoalEnergyWorkout,
                         buttonTitle: '[Single] Energy Workout'),
                   ),
                   Padding(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     child: WorkoutPreviewButton(
-                        workout: mockSingleOpenWorkout,
+                        workout: sampleSingleOpenWorkout,
                         buttonTitle: '[Single] Open Workout'),
                   ),
                   Padding(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     child: WorkoutPreviewButton(
-                        workout: mockSingleGoalSwimmingWorkout,
+                        workout: sampleSingleGoalSwimmingWorkout,
                         buttonTitle: '[Single] Swimming Workout'),
                   ),
                 ],

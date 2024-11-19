@@ -29,6 +29,6 @@ void main() {
   });
 
   test('createCustomWorkout', () async {
-    await platform.createCustomWorkout(mockCustomWorkout.toJson());
+    await platform.createCustomWorkout(sampleCustomWorkout.toJson());
   });
 }

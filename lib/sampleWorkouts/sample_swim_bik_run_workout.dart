@@ -1,6 +1,6 @@
 import 'package:flutter_workoutkit/workoutkit.dart';
 
-final SwimBikeRunWorkout mockSwimBikeRunWorkout = SwimBikeRunWorkout(
+final SwimBikeRunWorkout sampleSwimBikeRunWorkout = SwimBikeRunWorkout(
   displayName: 'Triathlon Training',
   activities: [
     MultisportActivity(

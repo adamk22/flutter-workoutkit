@@ -1,6 +1,6 @@
 import 'package:flutter_workoutkit/workoutkit.dart';
 
-final SingleGoalWorkout mockSingleGoalTimedWorkout = SingleGoalWorkout(
+final SingleGoalWorkout sampleSingleGoalTimedWorkout = SingleGoalWorkout(
   activityType: WorkoutActivityType.running,
   location: WorkoutLocationType.indoor,
   goal: const WorkoutGoal(
@@ -10,7 +10,7 @@ final SingleGoalWorkout mockSingleGoalTimedWorkout = SingleGoalWorkout(
   ),
 );
 
-final SingleGoalWorkout mockSingleGoalEnergyWorkout = SingleGoalWorkout(
+final SingleGoalWorkout sampleSingleGoalEnergyWorkout = SingleGoalWorkout(
   activityType: WorkoutActivityType.cycling,
   location: WorkoutLocationType.outdoor,
   goal: const WorkoutGoal(
@@ -20,7 +20,7 @@ final SingleGoalWorkout mockSingleGoalEnergyWorkout = SingleGoalWorkout(
   ),
 );
 
-final SingleGoalWorkout mockSingleOpenWorkout = SingleGoalWorkout(
+final SingleGoalWorkout sampleSingleOpenWorkout = SingleGoalWorkout(
   activityType: WorkoutActivityType.basketball,
   location: WorkoutLocationType.outdoor,
   goal: const WorkoutGoal(
@@ -28,7 +28,7 @@ final SingleGoalWorkout mockSingleOpenWorkout = SingleGoalWorkout(
   ),
 );
 
-final SingleGoalWorkout mockSingleGoalSwimmingWorkout = SingleGoalWorkout(
+final SingleGoalWorkout sampleSingleGoalSwimmingWorkout = SingleGoalWorkout(
   activityType: WorkoutActivityType.swimming,
   swimmingLocation: WorkoutSwimmingLocationType.pool,
   goal: const WorkoutGoal(

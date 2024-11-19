@@ -1,6 +1,6 @@
 import 'package:flutter_workoutkit/workoutkit.dart';
 
-final CustomWorkout mockSpeedCyclingWorkout = CustomWorkout(
+final CustomWorkout sampleSpeedCyclingWorkout = CustomWorkout(
   activityType: WorkoutActivityType.cycling,
   location: WorkoutLocationType.outdoor,
   displayName: "Test Speed Cycling",
@@ -44,7 +44,7 @@ final CustomWorkout mockSpeedCyclingWorkout = CustomWorkout(
   ),
 );
 
-final CustomWorkout mockCustomWorkout = CustomWorkout(
+final CustomWorkout sampleCustomWorkout = CustomWorkout(
   activityType: WorkoutActivityType.running,
   location: WorkoutLocationType.outdoor,
   displayName: "Test Timed Run",
@@ -124,7 +124,7 @@ final CustomWorkout mockCustomWorkout = CustomWorkout(
   ),
 );
 
-final CustomWorkout mock10kTrainingRun = CustomWorkout(
+final CustomWorkout sample10kTrainingRun = CustomWorkout(
   activityType: WorkoutActivityType.running,
   location: WorkoutLocationType.outdoor,
   displayName: "10K Training Run",
@@ -193,7 +193,7 @@ final CustomWorkout mock10kTrainingRun = CustomWorkout(
   ),
 );
 
-final CustomWorkout mock21kmTrainingRun = CustomWorkout(
+final CustomWorkout sample21kmTrainingRun = CustomWorkout(
   activityType: WorkoutActivityType.running,
   location: WorkoutLocationType.outdoor,
   displayName: "21k Stepped Run",
