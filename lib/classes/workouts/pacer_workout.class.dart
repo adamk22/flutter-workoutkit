@@ -1,6 +1,7 @@
 import 'package:flutter_workoutkit/workoutkit.dart';
 
 class PacerWorkout extends Workout {
+  final WorkoutActivityType activityType;
   final WorkoutLocationType location;
   final double targetValue;
   final GoalDistanceUnits targetValueUnit;
@@ -8,7 +9,7 @@ class PacerWorkout extends Workout {
   final GoalTimeUnits targetDurationUnit;
 
   PacerWorkout({
-    required super.activityType,
+    required this.activityType,
     required this.location,
     required this.targetValue,
     required this.targetValueUnit,
@@ -20,6 +21,7 @@ class PacerWorkout extends Workout {
   Map<String, dynamic> toJson() {
     return {
       ...super.toJson(),
+      'activityType': activityType.toString().split('.').last,
       'location': location.toString().split('.').last,
       'targetValue': targetValue,
       'targetValueUnit': targetValueUnit.toString().split('.').last,

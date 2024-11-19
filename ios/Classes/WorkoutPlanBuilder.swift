@@ -14,7 +14,7 @@ public class WorkoutPlanBuilder {
             case .pacerWorkout:
                 return createPacerWorkoutPlan(workoutJson: workoutJson)
             case .swimBikeRunWorkout:
-                return createCustomWorkoutPlan(workoutJson: workoutJson)
+                return createSwimBikeRunWorkoutPlan(workoutJson: workoutJson)
             default:
                 fatalError("Unknown workout type")
         }
@@ -79,6 +79,19 @@ public class WorkoutPlanBuilder {
     }
 
     private static func createSwimBikeRunWorkoutPlan(workoutJson: [String: Any]) -> WorkoutPlan {
-        return createCustomWorkoutPlan(workoutJson: workoutJson)
+        print(workoutJson)
+
+        let activities = WorkoutBuilder.createActivities(activitiesJson: workoutJson["activities"] as! [[String: Any]])
+        
+        var swimBikeRunWorkout: SwimBikeRunWorkout
+        if let displayName = workoutJson["displayName"] as? String {
+            swimBikeRunWorkout = SwimBikeRunWorkout(activities: activities, displayName: displayName)
+        } else {
+            swimBikeRunWorkout = SwimBikeRunWorkout(activities: activities)
+        }
+        
+        let workoutPlan = WorkoutPlan(.swimBikeRun(swimBikeRunWorkout))
+        
+        return workoutPlan
     }
 }

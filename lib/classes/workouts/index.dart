@@ -1,4 +1,5 @@
-export 'CustomWorkout.class.dart';
-export 'PacerWorkout.class.dart';
-export 'SingleGoalWorkout.class.dart';
-export 'Workout.class.dart';
+export 'custom_workout.class.dart';
+export 'pacer_workout.class.dart';
+export 'single_goal_workout.class.dart';
+export 'swim_bike_run_workout.class.dart';
+export 'workout.class.dart';

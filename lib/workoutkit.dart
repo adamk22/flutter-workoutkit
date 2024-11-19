@@ -4,7 +4,7 @@ export 'enums/index.dart';
 export 'workout_preview_button.dart';
 export 'mockData/index.dart';
 
-import 'package:flutter_workoutkit/classes/workouts/CustomWorkout.class.dart';
+import 'package:flutter_workoutkit/classes/workouts/custom_workout.class.dart';
 
 import 'workoutkit_platform_interface.dart';
 

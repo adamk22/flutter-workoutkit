@@ -17,11 +17,34 @@ public class WorkoutBuilder {
     }
 
     @available(iOS 17.0, *)
+    public static func createActivities(activitiesJson: [[String: Any]]) -> [SwimBikeRunWorkout.Activity] {
+        var activities: [SwimBikeRunWorkout.Activity] = []
+        for activityJson: [String: Any] in activitiesJson {
+            let activityTypeJson = activityJson["type"] as! String
+            var locationJson: String
+            if (activityTypeJson == "swimming") {
+                locationJson = activityJson["swimmingLocation"] as! String
+            } else {
+                locationJson = activityJson["location"] as! String
+            }
+            let activity = WorkoutTypeConvert.convertSwimBikeRunActivity(activityTypeJson, locationJson);
+            activities.append(activity)
+        }
+        return activities
+    }
+
+    @available(iOS 17.0, *)
     public static func createWorkoutStep(stepJson: [String: Any]) -> WorkoutStep {
         let goal = createWorkoutGoal(stepJson["goal"] as! [String: Any])
+        let displayName = stepJson["displayName"] as? String
         // if let alert = stepJson["alert"] as? [String: Any] {
         //     return WorkoutStep(goal: goal, alert: alert)
         // }
+        if let displayName = displayName {
+            if #available(iOS 18.0, *) {
+                return WorkoutStep(goal: goal, displayName: displayName)
+            }
+        }
         return WorkoutStep(goal: goal)
     }
 
@@ -42,8 +65,15 @@ public class WorkoutBuilder {
         var steps: [IntervalStep] = []
         for step: [String : Any] in stepsJson {
             var intervalStep = createIntervalStep(step["purpose"] as! String)
-            intervalStep.step.goal = createWorkoutGoal(step["goal"] as! [String: Any])
+            
+            if let goalJson = step["goal"] as? [String: Any] {
+                intervalStep.step.goal = createWorkoutGoal(goalJson)
+            } else if let stepJson = step["step"] as? [String: Any] {
+                intervalStep.step = createWorkoutStep(stepJson: stepJson)
+            }
+
 //          intervalStep.step.alert
+
             steps.append(intervalStep)
         }
         return steps

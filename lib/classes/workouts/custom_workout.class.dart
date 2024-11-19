@@ -1,6 +1,7 @@
 import 'package:flutter_workoutkit/workoutkit.dart';
 
 class CustomWorkout extends Workout {
+  final WorkoutActivityType activityType;
   final String displayName;
   final WorkoutStep? warmup;
   final List<IntervalBlock> blocks;
@@ -8,7 +9,7 @@ class CustomWorkout extends Workout {
   final WorkoutLocationType location;
 
   CustomWorkout({
-    required super.activityType,
+    required this.activityType,
     required this.location,
     required this.displayName,
     this.warmup,

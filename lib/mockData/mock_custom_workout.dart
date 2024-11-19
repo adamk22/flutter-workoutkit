@@ -135,3 +135,58 @@ final CustomWorkout mock10kTrainingRun = CustomWorkout(
     ),
   ),
 );
+
+final CustomWorkout mock21kmTrainingRun = CustomWorkout(
+  activityType: WorkoutActivityType.running,
+  location: WorkoutLocationType.outdoor,
+  displayName: "21k Stepped Run",
+  warmup: WorkoutStep(
+    displayName: "5 min warmup",
+    goal: const WorkoutGoal(
+      type: WorkoutGoalType.time,
+      targetDuration: Duration(minutes: 5),
+      unit: WorkoutGoalUnit.minutes,
+    ),
+  ),
+  blocks: [
+    IntervalBlock(
+      type: IntervalBlockType.work,
+      iterations: 4,
+      steps: [
+        IntervalStep(
+          purpose: IntervalStepPurpose.work,
+          goal: const WorkoutGoal(
+            type: WorkoutGoalType.distance,
+            targetValue: 16,
+            unit: WorkoutGoalUnit.kilometers,
+          ),
+        ),
+      ],
+    ),
+    IntervalBlock(
+      type: IntervalBlockType.work,
+      iterations: 4,
+      steps: [
+        IntervalStep(
+          purpose: IntervalStepPurpose.work,
+          step: WorkoutStep(
+            displayName: "5k Zone 3",
+            goal: const WorkoutGoal(
+              type: WorkoutGoalType.distance,
+              targetValue: 5,
+              unit: WorkoutGoalUnit.kilometers,
+            ),
+          ),
+        ),
+      ],
+    ),
+  ],
+  cooldown: WorkoutStep(
+    displayName: "5 min cooldown",
+    goal: const WorkoutGoal(
+      type: WorkoutGoalType.time,
+      targetDuration: Duration(minutes: 5),
+      unit: WorkoutGoalUnit.minutes,
+    ),
+  ),
+);

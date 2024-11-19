@@ -1,4 +1,4 @@
-import 'package:flutter_workoutkit/classes/workoutParts/IntervalStep.class.dart';
+import 'package:flutter_workoutkit/classes/workoutParts/interval_step.class.dart';
 
 class IntervalBlock {
   final int iterations;

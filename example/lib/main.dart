@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -56,72 +54,98 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: const Text('Plugin example app'),
         ),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: ElevatedButton(
-                onPressed: () => _workoutkitPlugin.requestHealthPermissions(),
-                child: Text('Request Health Permissions'),
+        body: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: ElevatedButton(
+                  onPressed: () => _workoutkitPlugin.requestHealthPermissions(),
+                  child: const Text('Request Health Permissions'),
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: Center(
-                child: Text('Running on: $_platformVersion\n'),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: Center(
+                  child: Text('Running on: $_platformVersion\n'),
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: WorkoutPreviewButton(
-                  workout: mockPacerHoursWorkout,
-                  buttonTitle: '[Pacer] 2 Hour Cycle'),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: WorkoutPreviewButton(
-                  workout: mockPacerMinutesWorkout,
-                  buttonTitle: '[Pacer] 30 Minute Run'),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: WorkoutPreviewButton(
-                  workout: mockCustomWorkout,
-                  buttonTitle: '[Custom] Timed Workout'),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: WorkoutPreviewButton(
-                  workout: mock10kTrainingRun,
-                  buttonTitle: '[Custom] 10k Training Run'),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: WorkoutPreviewButton(
-                  workout: mockSingleGoalTimedWorkout,
-                  buttonTitle: '[Single] Timed Workout'),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: WorkoutPreviewButton(
-                  workout: mockSingleGoalEnergyWorkout,
-                  buttonTitle: '[Single] Energy Workout'),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: WorkoutPreviewButton(
-                  workout: mockSingleOpenWorkout,
-                  buttonTitle: '[Single] Open Workout'),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: WorkoutPreviewButton(
-                  workout: mockSingleGoalSwimmingWorkout,
-                  buttonTitle: '[Single] Swimming Workout'),
-            ),
-          ],
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: WorkoutPreviewButton(
+                    workout: mockSwimBikeRunWorkout,
+                    buttonTitle: '[SwimBikeRun] Triathlon Training'),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: WorkoutPreviewButton(
+                    workout: mockPacerHoursWorkout,
+                    buttonTitle: '[Pacer] 2 Hour Cycle'),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: WorkoutPreviewButton(
+                    workout: mockPacerMinutesWorkout,
+                    buttonTitle: '[Pacer] 30 Minute Run'),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: WorkoutPreviewButton(
+                    workout: mockCustomWorkout,
+                    buttonTitle: '[Custom] Timed Workout'),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: WorkoutPreviewButton(
+                    workout: mock10kTrainingRun,
+                    buttonTitle: '[Custom] 10k Training Run'),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: WorkoutPreviewButton(
+                    workout: mock21kmTrainingRun,
+                    buttonTitle: '[Custom] 21k Stepped Run'),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: WorkoutPreviewButton(
+                    workout: mockSingleGoalTimedWorkout,
+                    buttonTitle: '[Single] Timed Workout'),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: WorkoutPreviewButton(
+                    workout: mockSingleGoalEnergyWorkout,
+                    buttonTitle: '[Single] Energy Workout'),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: WorkoutPreviewButton(
+                    workout: mockSingleOpenWorkout,
+                    buttonTitle: '[Single] Open Workout'),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: WorkoutPreviewButton(
+                    workout: mockSingleGoalSwimmingWorkout,
+                    buttonTitle: '[Single] Swimming Workout'),
+              ),
+            ],
+          ),
         ),
       ),
     );

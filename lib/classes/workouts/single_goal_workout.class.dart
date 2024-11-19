@@ -5,9 +5,10 @@ class SingleGoalWorkout extends Workout {
   final WorkoutGoal goal;
   final WorkoutSwimmingLocationType? swimmingLocation;
   final WorkoutLocationType? location;
+  final WorkoutActivityType activityType;
 
   SingleGoalWorkout({
-    required super.activityType,
+    required this.activityType,
     required this.goal,
     this.location,
     this.swimmingLocation,

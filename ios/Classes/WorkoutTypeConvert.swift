@@ -64,6 +64,24 @@ public class WorkoutTypeConvert {
     }
   }
 
+    @available(iOS 17.0, *)
+    public static func convertSwimBikeRunActivity(_ activityTypeJson: String, _ locationJson: String) -> SwimBikeRunWorkout.Activity {
+      switch activityTypeJson {
+        case "cycling":
+          let location = convertLocationType(locationJson)
+          return .cycling(location)
+        case "running":
+          let location = convertLocationType(locationJson)
+          return .running(location)
+      case "swimming":
+          let location = convertSwimmingLocationType(locationJson)
+          return .swimming(location)
+      default:
+          return .running(.unknown)
+      }
+  }
+
+
     public static func convertActivityType(_ activityType: String) -> HKWorkoutActivityType {
     switch activityType {
       case "archery":

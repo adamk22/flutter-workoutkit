@@ -1,5 +1,6 @@
-export 'IntervalBlock.class.dart';
-export 'IntervalStep.class.dart';
-export 'WorkoutAlert.class.dart';
-export 'WorkoutGoal.class.dart';
-export 'WorkoutStep.class.dart';
+export 'interval_block.class.dart';
+export 'interval_step.class.dart';
+export 'workout_alert.class.dart';
+export 'workout_goal.class.dart';
+export 'workout_step.class.dart';
+export 'multisport_activity.class.dart';
