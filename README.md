@@ -1,5 +1,8 @@
 # flutter_workoutkit
 
+![GitHub Tag](https://img.shields.io/github/v/tag/adamk22/flutter_workoutkit) [![platform](https://img.shields.io/badge/platform-ios-blue.svg)](https://pub.dev/packages/flutter_workoutkit)
+[![License: MIT](https://img.shields.io/badge/license-Apache%202.0-blue?style=flat-square)](https://opensource.org/licenses/Apache-2.0)
+
 > **Attention**: **This plugin is exclusively for iOS 17.0+ devices and requires an Apple Watch paired with the iOS device. Android devices are not supported.**
 
 A Flutter plugin that leverages Apple's [WorkoutKit SDK](https://developer.apple.com/documentation/workoutkit) to create, preview, and sync custom workouts with the Apple Watch Workout app. This plugin enables seamless integration between Flutter apps and WatchOS workout functionality, allowing developers to programmatically define and manage workout routines that users can access directly on their Apple Watch.
@@ -111,6 +114,8 @@ To preview and sync a workout, you can use the `WorkoutPreview` widget:
 ```dart
 WorkoutPreview(workout: speedCyclingWorkout);
 ```
+
+The `WorkoutPreview` widget will automatically call the native `workoutPreview` method to preview the workout and allow the user to save the workout to their Apple Watch.
 
 Before previewing a workout, you must request health permissions:
 
