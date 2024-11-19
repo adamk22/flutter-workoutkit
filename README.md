@@ -18,14 +18,14 @@ A Flutter plugin that leverages Apple's [WorkoutKit SDK](https://developer.apple
 ## 🎥 Preview
 
 <div style="display: flex; justify-content: space-between;">
-    <img src="screenshots/demo.gif" width="100%" alt="Demo 1">
+    <img src="https://adamkramer.nl/workoutkit/demo.gif" width="100%" alt="Demo 1">
 </div>
 
 ## 📸 Screenshots
 
 <div style="display: flex; justify-content: space-between;">
-    <img src="screenshots/1.png" style="width: 49%;" width="49%" alt="Screenshot 1">
-    <img src="screenshots/2.png" style="width: 49%;" width="49%" alt="Screenshot 2">
+    <img src="https://adamkramer.nl/workoutkit/1.png" style="width: 49%;" width="49%" alt="Screenshot 1">
+    <img src="https://adamkramer.nl/workoutkit/2.png" style="width: 49%;" width="49%" alt="Screenshot 2">
 </div>
 
 ## 📝 Example Workout
@@ -96,7 +96,7 @@ This plugin requires HealthKit to be enabled in your project. Ensure you have th
 
 And ensure you have the necessary capabilities in your Xcode project:
 
-![Xcode Capabilities](screenshots/3.png)
+![Xcode Capabilities](https://adamkramer.nl/workoutkit/3.png)
 
 ## 📚 Usage
 
@@ -156,4 +156,4 @@ For questions or feedback, please contact me at a@adamkramer.dev
 
 If you find this plugin useful, please consider buying me a coffee:
 
-<a href="https://buymeacoffee.com/admkrmr"><img style="width: 200px; border-radius: 10px;" src="screenshots/coffee.png" /></a>
+<a href="https://buymeacoffee.com/admkrmr"><img style="width: 200px; border-radius: 10px;" src="https://adamkramer.nl/workoutkit/coffee.png" /></a>
