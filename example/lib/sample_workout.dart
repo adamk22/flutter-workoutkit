@@ -1,10 +1,11 @@
 import 'package:flutter_workoutkit/workoutkit.dart';
 
-final CustomWorkout testWorkout = CustomWorkout(
+final CustomWorkout sampleWorkout = CustomWorkout(
   activityType: WorkoutActivityType.running,
   location: WorkoutLocationType.outdoor,
-  displayName: "[TEST] 5K Training Run",
+  displayName: "[SAMPLE] 5K Training Run",
   warmup: WorkoutStep(
+    alert: HeartRateZoneAlert(zone: 1),
     goal: const WorkoutGoal(
       type: WorkoutGoalType.time,
       targetDuration: Duration(minutes: 5),
@@ -17,6 +18,7 @@ final CustomWorkout testWorkout = CustomWorkout(
       iterations: 4,
       steps: [
         IntervalStep(
+          alert: HeartRateZoneAlert(zone: 3),
           purpose: IntervalStepPurpose.work,
           goal: const WorkoutGoal(
             type: WorkoutGoalType.time,
@@ -31,6 +33,7 @@ final CustomWorkout testWorkout = CustomWorkout(
       iterations: 4,
       steps: [
         IntervalStep(
+          alert: HeartRateZoneAlert(zone: 3),
           purpose: IntervalStepPurpose.work,
           goal: const WorkoutGoal(
             type: WorkoutGoalType.time,
@@ -39,6 +42,7 @@ final CustomWorkout testWorkout = CustomWorkout(
           ),
         ),
         IntervalStep(
+          alert: HeartRateZoneAlert(zone: 2),
           purpose: IntervalStepPurpose.recovery,
           goal: const WorkoutGoal(
             type: WorkoutGoalType.time,
@@ -53,6 +57,7 @@ final CustomWorkout testWorkout = CustomWorkout(
       iterations: 1,
       steps: [
         IntervalStep(
+          alert: HeartRateZoneAlert(zone: 2),
           purpose: IntervalStepPurpose.recovery,
           goal: const WorkoutGoal(
             type: WorkoutGoalType.time,
@@ -64,6 +69,7 @@ final CustomWorkout testWorkout = CustomWorkout(
     ),
   ],
   cooldown: WorkoutStep(
+    alert: HeartRateZoneAlert(zone: 1),
     goal: const WorkoutGoal(
       type: WorkoutGoalType.time,
       targetDuration: Duration(minutes: 5),
