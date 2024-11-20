@@ -133,12 +133,13 @@ To accommodate this limitation, this plugin provides a `WorkoutPreviewButton` wi
 
 ## 🚨 Active Development!
 
-This plugin is currently under active development. Breaking changes may be introduced until version 1.0.0 is released. Please report any issues or feature requests on the [GitHub repository](https://github.com/mhoc/flutter_workoutkit).
+This plugin is currently under active development. Breaking changes may be introduced until version 1.0.0 is released. Please report any issues or feature requests on the [GitHub repository](https://github.com/adamk22/flutter-workoutkit).
 
 ## 🚧 Roadmap
 
 - ✅ Add support for `WorkoutPreview` for previewing workouts
-- ❌ Add customization options for `WorkoutPreview` widget
+- ✅ Add basic customization options for `WorkoutPreviewButton` widget
+- ❌ Add more advanced customization options for `WorkoutPreviewButton` widget
 - ❌ Add support for `WorkoutScheduler` for scheduling and managing workouts
 - ❌ Add support for `ScheduledWorkoutPlan` for scheduling workout plans
 - ❌ Add support for `poolSwimDistanceWithTime` for workout goals.
