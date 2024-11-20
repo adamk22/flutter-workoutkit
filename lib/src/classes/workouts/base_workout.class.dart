@@ -1,4 +1,4 @@
-import 'package:flutter_workoutkit/enums/workout_type.enum.dart';
+import '../../enums/index.dart';
 
 class Workout {
   final WorkoutType workoutType;

@@ -1,5 +1,4 @@
-import 'package:flutter_workoutkit/classes/index.dart';
-import 'package:flutter_workoutkit/enums/index.dart';
+import 'package:flutter_workoutkit/workoutkit.dart';
 
 class SingleGoalWorkout extends Workout {
   final WorkoutGoal goal;

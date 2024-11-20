@@ -1,5 +1,5 @@
 import 'package:flutter/services.dart';
-import 'package:flutter_workoutkit/sampleWorkouts/sample_custom_workout.dart';
+import '../samples/sample_custom_workout.dart';
 
 class WorkoutService {
   static Future<void> startWorkout() async {

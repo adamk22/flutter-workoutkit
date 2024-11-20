@@ -2,7 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_workoutkit/workoutkit.dart';
+
+import 'classes/index.dart';
 
 class WorkoutPreviewButton extends StatelessWidget {
   final Workout workout;
