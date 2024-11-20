@@ -2,6 +2,8 @@
 
 ## [0.0.6]
 
+- Added basic customization options for `WorkoutPreviewButton` widget
+
 ## [0.0.5]
 
 ## [0.0.4]

@@ -129,9 +129,7 @@ await workoutkitPlugin.requestHealthPermissions();
 
 The WorkoutKit framework currently only provides a native button to trigger the workout preview modal. There is no API available to programmatically trigger the preview without user interaction.
 
-To accommodate this limitation, this plugin provides a `WorkoutPreview` widget that renders the native iOS button, therefore customizing the button is limited for now.
-
-TODO (in progress)
+To accommodate this limitation, this plugin provides a `WorkoutPreviewButton` widget that renders the native iOS button, therefore customizing the button is limited for now. Check the `WorkoutPreviewButton` widget for available customization options.
 
 ## 🚨 Active Development!
 
