@@ -1,6 +1,6 @@
 name: flutter_workoutkit
 description: "A Flutter plugin that leverages Apple's WorkoutKit SDK to create, preview, and sync custom workouts with the Apple Watch Workout app."
-version: 0.0.6
+version: 0.0.7
 homepage: https://adamkramer.dev
 repository: https://github.com/adamk22/flutter-workoutkit
 issue_tracker: https://github.com/adamk22/flutter-workoutkit/issues
