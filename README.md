@@ -1,6 +1,6 @@
 # flutter_workoutkit
 
-![GitHub Tag](https://img.shields.io/github/v/tag/adamk22/flutter_workoutkit) [![platform](https://img.shields.io/badge/platform-ios-blue.svg)](https://pub.dev/packages/flutter_workoutkit)
+![GitHub Tag](https://img.shields.io/github/v/tag/adamk22/flutter-workoutkit) [![platform](https://img.shields.io/badge/platform-ios-blue.svg)](https://pub.dev/packages/flutter_workoutkit)
 [![License: MIT](https://img.shields.io/badge/license-Apache%202.0-blue?style=flat-square)](https://opensource.org/licenses/Apache-2.0)
 
 > **Attention**: **This plugin is exclusively for iOS 17.0+ devices and requires an Apple Watch paired with the iOS device. Android devices are not supported.**
