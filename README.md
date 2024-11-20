@@ -26,8 +26,8 @@ A Flutter plugin that leverages Apple's [WorkoutKit SDK](https://developer.apple
 ## 📸 Screenshots
 
 <div style="display: flex; justify-content: space-between;">
-    <img src="https://adamkramer.nl/workoutkit/1.png" style="width: 49%;" width="49%" alt="Screenshot 1">
-    <img src="https://adamkramer.nl/workoutkit/2.png" style="width: 49%;" width="49%" alt="Screenshot 2">
+    <img src="https://adamkramer.nl/workoutkit/1.png" style="width: 48%;" width="48%" alt="Screenshot 1">
+    <img src="https://adamkramer.nl/workoutkit/2.png" style="width: 48%;" width="48%" alt="Screenshot 2">
 </div>
 
 ## 📝 Example Workout
