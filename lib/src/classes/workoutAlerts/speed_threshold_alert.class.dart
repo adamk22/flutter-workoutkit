@@ -1,10 +1,17 @@
 import 'package:flutter_workoutkit/workoutkit.dart';
 
+/// Represents a speed threshold alert
 class SpeedThresholdAlert extends WorkoutAlert {
+  /// The threshold of the speed
   final double threshold;
+
+  /// The unit of the speed
   final UnitSpeed unitSpeed;
+
+  /// The metric of the speed
   final WorkoutAlertMetric metric;
 
+  /// Creates a new speed threshold alert
   SpeedThresholdAlert({
     required this.threshold,
     required this.unitSpeed,

@@ -1,5 +1,6 @@
 import 'package:flutter_workoutkit/workoutkit.dart';
 
+/// A sample speed cycling workout
 final CustomWorkout sampleSpeedCyclingWorkout = CustomWorkout(
   activityType: WorkoutActivityType.cycling,
   location: WorkoutLocationType.outdoor,

@@ -5,16 +5,33 @@ import 'package:flutter/services.dart';
 
 import 'classes/index.dart';
 
+/// Represents a workout preview button
 class WorkoutPreviewButton extends StatelessWidget {
+  /// The workout to preview
   final Workout workout;
+
+  /// The title of the button
   final String? buttonTitle;
+
+  /// The background color of the button
   final Color? backgroundColor;
+
+  /// The foreground color of the button
   final Color? foregroundColor;
+
+  /// The corner radius size of the button
   final double? cornerRadiusSize;
+
+  /// The height of the button
   final double? buttonHeight;
+
+  /// The font size of the button
   final double? fontSize;
+
+  /// The font weight of the button
   final FontWeight? fontWeight;
 
+  /// Creates a new workout preview button
   const WorkoutPreviewButton({
     super.key,
     required this.workout,

@@ -1,9 +1,14 @@
 import 'package:flutter_workoutkit/workoutkit.dart';
 
+/// Represents a swim bike run workout
 class SwimBikeRunWorkout extends Workout {
+  /// The display name of the workout (optional)
   final String? displayName;
+
+  /// The activities of the workout
   final List<MultisportActivity> activities;
 
+  /// Creates a new swim bike run workout
   SwimBikeRunWorkout({
     required this.activities,
     this.displayName,

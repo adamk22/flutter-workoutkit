@@ -1,5 +1,6 @@
 import 'package:flutter_workoutkit/workoutkit.dart';
 
+/// A sample pacer workout for running
 final PacerWorkout samplePacerMinutesWorkout = PacerWorkout(
   activityType: WorkoutActivityType.running,
   location: WorkoutLocationType.outdoor,
@@ -9,6 +10,7 @@ final PacerWorkout samplePacerMinutesWorkout = PacerWorkout(
   targetDurationUnit: GoalTimeUnits.minutes,
 );
 
+/// A sample pacer workout for cycling
 final PacerWorkout samplePacerHoursWorkout = PacerWorkout(
   activityType: WorkoutActivityType.cycling,
   location: WorkoutLocationType.outdoor,

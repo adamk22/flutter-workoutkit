@@ -1,5 +1,6 @@
 import 'package:flutter_workoutkit/workoutkit.dart';
 
+/// A sample swim bike run workout
 final SwimBikeRunWorkout sampleSwimBikeRunWorkout = SwimBikeRunWorkout(
   displayName: 'Triathlon Training',
   activities: [

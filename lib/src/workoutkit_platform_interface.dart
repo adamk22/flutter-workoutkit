@@ -2,6 +2,7 @@ import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import 'workoutkit_method_channel.dart';
 
+/// Abstract class for the workoutkit platform
 abstract class WorkoutkitPlatform extends PlatformInterface {
   /// Constructs a WorkoutkitPlatform.
   WorkoutkitPlatform() : super(token: _token);
@@ -23,22 +24,14 @@ abstract class WorkoutkitPlatform extends PlatformInterface {
     _instance = instance;
   }
 
+  /// Gets the platform version
   Future<String?> getPlatformVersion() {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
 
-  Future<void> createCustomWorkout(Map<String, dynamic> customWorkoutJson) {
-    throw UnimplementedError('createCustomWorkout() has not been implemented.');
-  }
-
+  /// Requests health permissions
   Future<void> requestHealthPermissions() {
     throw UnimplementedError(
         'requestHealthPermissions() has not been implemented.');
-  }
-
-  Future<void> createSingleGoalWorkout(
-      Map<String, dynamic> singleGoalWorkoutJson) {
-    throw UnimplementedError(
-        'createSingleGoalWorkout() has not been implemented.');
   }
 }

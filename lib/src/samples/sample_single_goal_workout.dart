@@ -1,5 +1,6 @@
 import 'package:flutter_workoutkit/workoutkit.dart';
 
+/// A sample single goal timed workout
 final SingleGoalWorkout sampleSingleGoalTimedWorkout = SingleGoalWorkout(
   activityType: WorkoutActivityType.running,
   location: WorkoutLocationType.indoor,
@@ -10,6 +11,7 @@ final SingleGoalWorkout sampleSingleGoalTimedWorkout = SingleGoalWorkout(
   ),
 );
 
+/// A sample single goal energy workout
 final SingleGoalWorkout sampleSingleGoalEnergyWorkout = SingleGoalWorkout(
   activityType: WorkoutActivityType.cycling,
   location: WorkoutLocationType.outdoor,
@@ -20,6 +22,7 @@ final SingleGoalWorkout sampleSingleGoalEnergyWorkout = SingleGoalWorkout(
   ),
 );
 
+/// A sample single goal open workout
 final SingleGoalWorkout sampleSingleOpenWorkout = SingleGoalWorkout(
   activityType: WorkoutActivityType.basketball,
   location: WorkoutLocationType.outdoor,
@@ -28,6 +31,7 @@ final SingleGoalWorkout sampleSingleOpenWorkout = SingleGoalWorkout(
   ),
 );
 
+/// A sample single goal swimming workout
 final SingleGoalWorkout sampleSingleGoalSwimmingWorkout = SingleGoalWorkout(
   activityType: WorkoutActivityType.swimming,
   swimmingLocation: WorkoutSwimmingLocationType.pool,

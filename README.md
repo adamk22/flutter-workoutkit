@@ -111,13 +111,13 @@ You can define a workout using one of the four Workout classes:
 
 You can preview examples of each workout in the `lib/sampleWorkouts` folder in the plugin package or in the example app.
 
-To preview and sync a workout, you can use the `WorkoutPreview` widget:
+To preview and sync a workout, you can use the `WorkoutPreviewButton` widget:
 
 ```dart
-WorkoutPreview(workout: speedCyclingWorkout);
+WorkoutPreviewButton(workout: speedCyclingWorkout);
 ```
 
-The `WorkoutPreview` widget will automatically call the native `workoutPreview` method to preview the workout and allow the user to save the workout to their Apple Watch.
+The `WorkoutPreviewButton` widget will automatically call the native `workoutPreview()` method to preview the workout and allow the user to save the workout to their Apple Watch.
 
 Before previewing a workout, you must request health permissions:
 
@@ -137,7 +137,7 @@ This plugin is currently under active development. Breaking changes may be intro
 
 ## 🚧 Roadmap
 
-- ✅ Add support for `WorkoutPreview` for previewing workouts
+- ✅ Add support for `WorkoutPreviewButton` for previewing workouts
 - ✅ Add basic customization options for `WorkoutPreviewButton` widget
 - ❌ Add more advanced customization options for `WorkoutPreviewButton` widget
 - ❌ Add support for `WorkoutScheduler` for scheduling and managing workouts

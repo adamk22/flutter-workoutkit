@@ -1,9 +1,10 @@
+// ignore_for_file: public_member_api_docs
+
 enum WorkoutSwimmingLocationType {
   unknown,
   openWater,
   pool;
 
-  // Convert enum to string representation
   String toDisplayString() {
     switch (this) {
       case WorkoutSwimmingLocationType.unknown:
@@ -15,12 +16,10 @@ enum WorkoutSwimmingLocationType {
     }
   }
 
-  // Helper getters
   bool get isOpenWater => this == WorkoutSwimmingLocationType.openWater;
   bool get isPool => this == WorkoutSwimmingLocationType.pool;
   bool get isUnknown => this == WorkoutSwimmingLocationType.unknown;
 
-  // Factory constructor to handle string conversion
   factory WorkoutSwimmingLocationType.fromString(String? value) {
     switch (value?.toLowerCase()) {
       case 'openwater':

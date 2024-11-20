@@ -1,10 +1,17 @@
 import 'package:flutter_workoutkit/workoutkit.dart';
 
+/// Represents a power range alert
 class PowerRangeAlert extends WorkoutAlert {
+  /// The lower bound of the power range
   final double lowerBound;
+
+  /// The upper bound of the power range
   final double upperBound;
+
+  /// The metric of the power
   final WorkoutAlertMetric metric;
 
+  /// Creates a new power range alert
   PowerRangeAlert({
     required this.lowerBound,
     required this.upperBound,

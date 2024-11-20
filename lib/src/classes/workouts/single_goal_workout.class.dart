@@ -1,11 +1,22 @@
 import 'package:flutter_workoutkit/workoutkit.dart';
 
+/// Represents a single goal workout
 class SingleGoalWorkout extends Workout {
+  /// The goal of the workout
   final WorkoutGoal goal;
+
+  /// The swimming location of the workout (optional)
+  /// swimmingLocation is required if the activity type is swimming
   final WorkoutSwimmingLocationType? swimmingLocation;
+
+  /// The location of the workout (optional)
+  /// location is required if the activity type is not swimming
   final WorkoutLocationType? location;
+
+  /// The activity type of the workout
   final WorkoutActivityType activityType;
 
+  /// Creates a new single goal workout
   SingleGoalWorkout({
     required this.activityType,
     required this.goal,

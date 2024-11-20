@@ -1,13 +1,26 @@
 import 'package:flutter_workoutkit/workoutkit.dart';
 
+/// Represents a custom workout
 class CustomWorkout extends Workout {
+  /// The activity type of the workout
   final WorkoutActivityType activityType;
+
+  /// The display name of the workout
   final String displayName;
+
+  /// The warmup step of the workout (optional)
   final WorkoutStep? warmup;
+
+  /// The blocks of the workout
   final List<IntervalBlock> blocks;
+
+  /// The cooldown step of the workout (optional)
   final WorkoutStep? cooldown;
+
+  /// The location type of the workout
   final WorkoutLocationType location;
 
+  /// Creates a new custom workout
   CustomWorkout({
     required this.activityType,
     required this.location,
