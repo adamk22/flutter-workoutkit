@@ -1,5 +1,3 @@
-// import 'package:flutter_workoutkit/workoutkit.dart';
-import 'package:flutter_workoutkit/src/classes/index.dart';
 import 'package:flutter_workoutkit/workoutkit.dart';
 
 final CustomWorkout sampleWorkout = CustomWorkout(
