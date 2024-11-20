@@ -1,6 +1,6 @@
 import '../../enums/index.dart';
 
-class Workout {
+abstract class Workout {
   final WorkoutType workoutType;
 
   Workout({
