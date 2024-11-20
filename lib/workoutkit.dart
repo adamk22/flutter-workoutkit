@@ -1,7 +1,7 @@
 // Export Workout Parts
 export 'classes/workoutParts/interval_block.class.dart';
 export 'classes/workoutParts/interval_step.class.dart';
-export 'classes/workoutParts/workoutAlerts/index.dart';
+export 'classes/workoutAlerts/index.dart';
 export 'classes/workoutParts/workout_goal.class.dart';
 export 'classes/workoutParts/workout_step.class.dart';
 export 'classes/workoutParts/multisport_activity.class.dart';
