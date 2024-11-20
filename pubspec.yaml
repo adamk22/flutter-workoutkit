@@ -5,9 +5,11 @@ homepage: https://adamkramer.dev
 repository: https://github.com/adamk22/flutter-workoutkit
 issue_tracker: https://github.com/adamk22/flutter-workoutkit/issues
 topics:
-  - workoutkit
-  - apple watch
-  - healthkit
+  -  #workoutkit
+  -  #apple-watch
+  -  #healthkit
+  -  #fitness
+  -  #workouts
 
 environment:
   sdk: ^3.5.4
