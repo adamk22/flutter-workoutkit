@@ -27,4 +27,13 @@ class SpeedThresholdAlert extends WorkoutAlert {
       'metric': metric.toString().split('.').last,
     };
   }
+
+  /// Creates a new speed threshold alert from a JSON object
+  static SpeedThresholdAlert fromJson(Map<String, dynamic> json) {
+    return SpeedThresholdAlert(
+      threshold: json['threshold'] as double,
+      unitSpeed: UnitSpeed.fromString(json['unitSpeed'] as String),
+      metric: WorkoutAlertMetric.fromString(json['metric'] as String),
+    );
+  }
 }

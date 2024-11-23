@@ -32,4 +32,14 @@ class PaceThresholdAlert extends WorkoutAlert {
       'metric': metric.toString().split('.').last,
     };
   }
+
+  /// Creates a new pace threshold alert from a JSON object
+  static PaceThresholdAlert fromJson(Map<String, dynamic> json) {
+    return PaceThresholdAlert(
+      thresholdMinute: json['thresholdMinute'] as double,
+      thresholdSecond: json['thresholdSecond'] as double,
+      unitSpeed: UnitSpeed.fromString(json['unitSpeed'] as String),
+      metric: WorkoutAlertMetric.fromString(json['metric'] as String),
+    );
+  }
 }

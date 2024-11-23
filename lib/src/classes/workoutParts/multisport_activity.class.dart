@@ -32,4 +32,20 @@ class MultisportActivity {
       'swimmingLocation': swimmingLocation?.toString().split('.').last,
     };
   }
+
+  /// Creates a new multisport activity from a JSON object
+  static MultisportActivity fromJson(Map<String, dynamic> json) {
+    return MultisportActivity(
+      type: MultisportActivityType.values
+          .firstWhere((e) => e.toString().split('.').last == json['type']),
+      location: json['location'] != null
+          ? WorkoutLocationType.values.firstWhere(
+              (e) => e.toString().split('.').last == json['location'])
+          : null,
+      swimmingLocation: json['swimmingLocation'] != null
+          ? WorkoutSwimmingLocationType.values.firstWhere(
+              (e) => e.toString().split('.').last == json['swimmingLocation'])
+          : null,
+    );
+  }
 }

@@ -27,4 +27,13 @@ class PowerRangeAlert extends WorkoutAlert {
       'metric': metric.toString().split('.').last,
     };
   }
+
+  /// Creates a new power range alert from a JSON object
+  static PowerRangeAlert fromJson(Map<String, dynamic> json) {
+    return PowerRangeAlert(
+      lowerBound: json['lowerBound'] as double,
+      upperBound: json['upperBound'] as double,
+      metric: WorkoutAlertMetric.fromString(json['metric'] as String),
+    );
+  }
 }

@@ -42,4 +42,20 @@ class PacerWorkout extends Workout {
       'targetDurationUnit': targetDurationUnit.toString().split('.').last,
     };
   }
+
+  /// Creates a new pacer workout from a JSON object
+  static PacerWorkout fromJson(Map<String, dynamic> json) {
+    return PacerWorkout(
+      activityType: WorkoutActivityType.values
+          .firstWhere((e) => e.name == json['activityType']),
+      location: WorkoutLocationType.values
+          .firstWhere((e) => e.name == json['location']),
+      targetValue: json['targetValue'],
+      targetValueUnit: GoalDistanceUnits.values
+          .firstWhere((e) => e.name == json['targetValueUnit']),
+      targetDuration: Duration(seconds: json['targetDuration']),
+      targetDurationUnit: GoalTimeUnits.values
+          .firstWhere((e) => e.name == json['targetDurationUnit']),
+    );
+  }
 }

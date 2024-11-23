@@ -26,6 +26,18 @@ class IntervalBlock {
       'type': type.toString().split('.').last,
     };
   }
+
+  /// Creates a new interval block from a JSON object
+  static IntervalBlock fromJson(Map<String, dynamic> json) {
+    return IntervalBlock(
+      iterations: json['iterations'] as int,
+      steps: json['steps']
+          .map((step) => IntervalStep.fromJson(step as Map<String, dynamic>))
+          .toList(),
+      type: IntervalBlockType.values
+          .firstWhere((e) => e.toString().split('.').last == json['type']),
+    );
+  }
 }
 
 /// The type of interval block

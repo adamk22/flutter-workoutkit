@@ -32,4 +32,14 @@ class SpeedRangeAlert extends WorkoutAlert {
       'metric': metric.toString().split('.').last,
     };
   }
+
+  /// Creates a new speed range alert from a JSON object
+  static SpeedRangeAlert fromJson(Map<String, dynamic> json) {
+    return SpeedRangeAlert(
+      lowerBound: json['lowerBound'] as double,
+      upperBound: json['upperBound'] as double,
+      unitSpeed: UnitSpeed.fromString(json['unitSpeed'] as String),
+      metric: WorkoutAlertMetric.fromString(json['metric'] as String),
+    );
+  }
 }

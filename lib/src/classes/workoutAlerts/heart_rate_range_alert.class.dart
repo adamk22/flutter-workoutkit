@@ -20,4 +20,12 @@ class HeartRateRangeAlert extends WorkoutAlert {
       'upperBound': upperBound,
     };
   }
+
+  /// Creates a new heart rate range alert from a JSON object
+  static HeartRateRangeAlert fromJson(Map<String, dynamic> json) {
+    return HeartRateRangeAlert(
+      lowerBound: json['lowerBound'] as double,
+      upperBound: json['upperBound'] as double,
+    );
+  }
 }

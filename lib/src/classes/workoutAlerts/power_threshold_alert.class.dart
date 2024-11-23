@@ -22,4 +22,12 @@ class PowerThresholdAlert extends WorkoutAlert {
       'metric': metric.toString().split('.').last,
     };
   }
+
+  /// Creates a new power threshold alert from a JSON object
+  static PowerThresholdAlert fromJson(Map<String, dynamic> json) {
+    return PowerThresholdAlert(
+      threshold: json['threshold'] as double,
+      metric: WorkoutAlertMetric.fromString(json['metric'] as String),
+    );
+  }
 }

@@ -26,4 +26,15 @@ class WorkoutStep {
       'displayName': displayName,
     };
   }
+
+  /// Creates a new workout step from a JSON object
+  static WorkoutStep fromJson(Map<String, dynamic> json) {
+    return WorkoutStep(
+      goal: WorkoutGoal.fromJson(json['goal'] as Map<String, dynamic>),
+      alert: json['alert'] != null
+          ? WorkoutAlert.fromJson(json['alert'] as Map<String, dynamic>)
+          : null,
+      displayName: json['displayName'],
+    );
+  }
 }

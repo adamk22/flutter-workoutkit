@@ -42,4 +42,24 @@ class CustomWorkout extends Workout {
       'cooldown': cooldown?.toJson(),
     };
   }
+
+  /// Creates a new custom workout from a JSON object
+  static CustomWorkout fromJson(Map<String, dynamic> json) {
+    return CustomWorkout(
+      activityType: WorkoutActivityType.values
+          .firstWhere((e) => e.name == json['activityType']),
+      location: WorkoutLocationType.values
+          .firstWhere((e) => e.name == json['location']),
+      displayName: json['displayName'],
+      warmup: json['warmup'] != null
+          ? WorkoutStep.fromJson(json['warmup'] as Map<String, dynamic>)
+          : null,
+      blocks: json['blocks']
+          .map((block) => IntervalBlock.fromJson(block as Map<String, dynamic>))
+          .toList(),
+      cooldown: json['cooldown'] != null
+          ? WorkoutStep.fromJson(json['cooldown'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }

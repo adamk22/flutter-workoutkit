@@ -37,6 +37,23 @@ class IntervalStep {
       'alert': alert?.toJson(),
     };
   }
+
+  /// Creates a new interval step from a JSON object
+  static IntervalStep fromJson(Map<String, dynamic> json) {
+    return IntervalStep(
+      purpose: IntervalStepPurpose.values
+          .firstWhere((e) => e.toString().split('.').last == json['purpose']),
+      goal: json['goal'] != null
+          ? WorkoutGoal.fromJson(json['goal'] as Map<String, dynamic>)
+          : null,
+      step: json['step'] != null
+          ? WorkoutStep.fromJson(json['step'] as Map<String, dynamic>)
+          : null,
+      alert: json['alert'] != null
+          ? WorkoutAlert.fromJson(json['alert'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 enum IntervalStepPurpose {

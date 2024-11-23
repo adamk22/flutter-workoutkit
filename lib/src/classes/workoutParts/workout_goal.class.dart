@@ -40,4 +40,20 @@ class WorkoutGoal {
       'unit': unit?.toString().split('.').last,
     };
   }
+
+  /// Creates a new workout goal from a JSON object
+  static WorkoutGoal fromJson(Map<String, dynamic> json) {
+    return WorkoutGoal(
+      type: WorkoutGoalType.values
+          .firstWhere((e) => e.toString().split('.').last == json['type']),
+      targetValue: json['targetValue'] as double?,
+      targetDuration: json['targetDuration'] != null
+          ? Duration(seconds: json['targetDuration'] as int)
+          : null,
+      unit: json['unit'] != null
+          ? WorkoutGoalUnit.values
+              .firstWhere((e) => e.toString().split('.').last == json['unit'])
+          : null,
+    );
+  }
 }

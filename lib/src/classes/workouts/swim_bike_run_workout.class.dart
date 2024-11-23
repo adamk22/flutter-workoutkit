@@ -24,4 +24,15 @@ class SwimBikeRunWorkout extends Workout {
     }
     return json;
   }
+
+  /// Creates a new swim bike run workout from a JSON object
+  static SwimBikeRunWorkout fromJson(Map<String, dynamic> json) {
+    return SwimBikeRunWorkout(
+      activities: json['activities']
+          .map((activity) =>
+              MultisportActivity.fromJson(activity as Map<String, dynamic>))
+          .toList(),
+      displayName: json['displayName'],
+    );
+  }
 }

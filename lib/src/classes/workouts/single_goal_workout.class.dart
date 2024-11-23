@@ -52,4 +52,21 @@ class SingleGoalWorkout extends Workout {
     }
     return json;
   }
+
+  /// Creates a new single goal workout from a JSON object
+  static SingleGoalWorkout fromJson(Map<String, dynamic> json) {
+    return SingleGoalWorkout(
+      activityType: WorkoutActivityType.values
+          .firstWhere((e) => e.name == json['activityType']),
+      goal: WorkoutGoal.fromJson(json['goal'] as Map<String, dynamic>),
+      location: json['location'] != null
+          ? WorkoutLocationType.values
+              .firstWhere((e) => e.name == json['location'])
+          : null,
+      swimmingLocation: json['swimmingLocation'] != null
+          ? WorkoutSwimmingLocationType.values
+              .firstWhere((e) => e.name == json['swimmingLocation'])
+          : null,
+    );
+  }
 }

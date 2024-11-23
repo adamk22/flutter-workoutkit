@@ -16,4 +16,9 @@ class CadenceThresholdAlert extends WorkoutAlert {
       'threshold': threshold,
     };
   }
+
+  /// Creates a new cadence threshold alert from a JSON object
+  static CadenceThresholdAlert fromJson(Map<String, dynamic> json) {
+    return CadenceThresholdAlert(threshold: json['threshold'] as double);
+  }
 }

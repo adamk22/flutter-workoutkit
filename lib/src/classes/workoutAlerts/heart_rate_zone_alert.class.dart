@@ -17,4 +17,9 @@ class HeartRateZoneAlert extends WorkoutAlert {
       'zone': zone,
     };
   }
+
+  /// Creates a new heart rate zone alert from a JSON object
+  static HeartRateZoneAlert fromJson(Map<String, dynamic> json) {
+    return HeartRateZoneAlert(zone: json['zone'] as int);
+  }
 }

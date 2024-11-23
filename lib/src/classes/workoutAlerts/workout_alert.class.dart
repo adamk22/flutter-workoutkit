@@ -14,4 +14,11 @@ class WorkoutAlert {
       'type': type.toString().split('.').last,
     };
   }
+
+  /// Creates a new workout alert from a JSON object
+  static WorkoutAlert fromJson(Map<String, dynamic> json) {
+    return WorkoutAlert(
+      type: WorkoutAlertType.fromString(json['type'] as String),
+    );
+  }
 }

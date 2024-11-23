@@ -18,4 +18,12 @@ class CadenceRangeAlert extends WorkoutAlert {
       'type': type.toString().split('.').last,
     };
   }
+
+  /// Creates a new cadence range alert from a JSON object
+  static CadenceRangeAlert fromJson(Map<String, dynamic> json) {
+    return CadenceRangeAlert(
+      lowerBound: json['lowerBound'] as double,
+      upperBound: json['upperBound'] as double,
+    );
+  }
 }

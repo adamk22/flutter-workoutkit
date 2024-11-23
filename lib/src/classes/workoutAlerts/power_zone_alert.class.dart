@@ -23,4 +23,12 @@ class PowerZoneAlert extends WorkoutAlert {
       'metric': metric.toString().split('.').last,
     };
   }
+
+  /// Creates a new power zone alert from a JSON object
+  static PowerZoneAlert fromJson(Map<String, dynamic> json) {
+    return PowerZoneAlert(
+      zone: json['zone'] as int,
+      metric: WorkoutAlertMetric.fromString(json['metric'] as String),
+    );
+  }
 }

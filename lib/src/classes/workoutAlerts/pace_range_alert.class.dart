@@ -42,4 +42,16 @@ class PaceRangeAlert extends WorkoutAlert {
       'metric': metric.toString().split('.').last,
     };
   }
+
+  /// Creates a new pace range alert from a JSON object
+  static PaceRangeAlert fromJson(Map<String, dynamic> json) {
+    return PaceRangeAlert(
+      lowerBoundMinute: json['lowerBoundMinute'] as double,
+      lowerBoundSecond: json['lowerBoundSecond'] as double,
+      upperBoundMinute: json['upperBoundMinute'] as double,
+      upperBoundSecond: json['upperBoundSecond'] as double,
+      unitSpeed: UnitSpeed.fromString(json['unitSpeed'] as String),
+      metric: WorkoutAlertMetric.fromString(json['metric'] as String),
+    );
+  }
 }
