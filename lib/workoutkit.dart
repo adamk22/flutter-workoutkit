@@ -8,12 +8,17 @@ import 'src/workoutkit_platform_interface.dart';
 /// The main class for the workoutkit package
 class Workoutkit {
   /// Gets the platform version
-  Future<String?> getPlatformVersion() {
+  static Future<String?> getPlatformVersion() {
     return WorkoutkitPlatform.instance.getPlatformVersion();
   }
 
   /// Requests health permissions
-  Future<void> requestHealthPermissions() {
+  static Future<void> requestHealthPermissions() {
     return WorkoutkitPlatform.instance.requestHealthPermissions();
+  }
+
+  /// Gets the health permissions boolean status
+  static Future<bool> hasHealthPermissions() {
+    return WorkoutkitPlatform.instance.hasHealthPermissions();
   }
 }

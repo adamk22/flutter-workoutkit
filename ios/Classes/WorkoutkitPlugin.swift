@@ -28,9 +28,16 @@ public class WorkoutkitPlugin: NSObject, FlutterPlugin {
       result("iOS " + UIDevice.current.systemVersion)
     case "requestHealthPermissions":
       requestHealthPermissions(result: result)
+    case "hasHealthPermissions":
+      hasHealthPermissions(result: result)
     default:
       result(FlutterMethodNotImplemented)
     }
+  }
+
+  private func hasHealthPermissions(result: @escaping FlutterResult) {
+    let status = healthStore.authorizationStatus(for: HKObjectType.workoutType())
+    result(status == .sharingAuthorized)
   }
 
   private func requestHealthPermissions(result: @escaping FlutterResult) {

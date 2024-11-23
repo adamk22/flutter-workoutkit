@@ -34,4 +34,10 @@ abstract class WorkoutkitPlatform extends PlatformInterface {
     throw UnimplementedError(
         'requestHealthPermissions() has not been implemented.');
   }
+
+  /// Gets the health permissions status
+  Future<bool> hasHealthPermissions() {
+    throw UnimplementedError(
+        'hasHealthPermissions() has not been implemented.');
+  }
 }

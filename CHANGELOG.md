@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.0.9]
+
+- Added `hasHealthPermissions` method to the Workoutkit class
+
 ## [0.0.8]
 
 - Minor fixes

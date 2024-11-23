@@ -126,7 +126,10 @@ The `WorkoutPreviewButton` widget will automatically call the native `workoutPre
 Before previewing a workout, you must request health permissions:
 
 ```dart
-await workoutkitPlugin.requestHealthPermissions();
+import 'package:flutter_workoutkit/workoutkit.dart';
+
+await Workoutkit.hasHealthPermissions();
+await Workoutkit.requestHealthPermissions();
 ```
 
 ## 🎨 Customizing the preview button

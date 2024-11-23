@@ -17,8 +17,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String _platformVersion = 'Unknown';
-  final _workoutkitPlugin = Workoutkit();
-
+  bool _hasHealthPermissions = false;
   @override
   void initState() {
     super.initState();
@@ -29,8 +28,8 @@ class _MyAppState extends State<MyApp> {
   Future<void> initPlatformState() async {
     String platformVersion;
     try {
-      platformVersion = await _workoutkitPlugin.getPlatformVersion() ??
-          'Unknown platform version';
+      platformVersion =
+          await Workoutkit.getPlatformVersion() ?? 'Unknown platform version';
     } on PlatformException {
       platformVersion = 'Failed to get platform version.';
     }
@@ -58,10 +57,28 @@ class _MyAppState extends State<MyApp> {
                     padding:
                         const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     child: ElevatedButton(
-                      onPressed: () =>
-                          _workoutkitPlugin.requestHealthPermissions(),
+                      onPressed: () => Workoutkit.requestHealthPermissions(),
                       child: const Text('Request Health Permissions'),
                     ),
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    child: ElevatedButton(
+                      onPressed: () =>
+                          Workoutkit.hasHealthPermissions().then((value) {
+                        setState(() {
+                          _hasHealthPermissions = value;
+                        });
+                      }),
+                      child: const Text('Check Health Permissions'),
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    child:
+                        Text('Has Health Permissions: $_hasHealthPermissions'),
                   ),
                   Padding(
                     padding:

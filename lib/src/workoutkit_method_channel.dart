@@ -20,4 +20,11 @@ class MethodChannelWorkoutkit extends WorkoutkitPlatform {
   Future<void> requestHealthPermissions() async {
     await methodChannel.invokeMethod<void>('requestHealthPermissions');
   }
+
+  @override
+  Future<bool> hasHealthPermissions() async {
+    final status =
+        await methodChannel.invokeMethod<bool>('hasHealthPermissions');
+    return status ?? false;
+  }
 }
