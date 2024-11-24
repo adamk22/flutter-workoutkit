@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.0.10]
+
+- Added `toJson` and `fromJson` methods to all workout classes
+- Added `iconData` property to `WorkoutActivityType` enum
+
 ## [0.0.9]
 
 - Added `hasHealthPermissions` method to the Workoutkit class
