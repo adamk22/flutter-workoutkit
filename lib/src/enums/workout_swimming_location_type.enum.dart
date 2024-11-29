@@ -1,20 +1,12 @@
 // ignore_for_file: public_member_api_docs
 
 enum WorkoutSwimmingLocationType {
-  unknown,
-  openWater,
-  pool;
+  unknown(label: 'Unknown'),
+  openWater(label: 'Open Water'),
+  pool(label: 'Pool');
 
-  String toDisplayString() {
-    switch (this) {
-      case WorkoutSwimmingLocationType.unknown:
-        return 'Unknown';
-      case WorkoutSwimmingLocationType.openWater:
-        return 'Open Water';
-      case WorkoutSwimmingLocationType.pool:
-        return 'Pool';
-    }
-  }
+  final String label;
+  const WorkoutSwimmingLocationType({required this.label});
 
   bool get isOpenWater => this == WorkoutSwimmingLocationType.openWater;
   bool get isPool => this == WorkoutSwimmingLocationType.pool;

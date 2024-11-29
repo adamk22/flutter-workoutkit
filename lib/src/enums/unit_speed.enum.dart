@@ -1,14 +1,16 @@
 // ignore_for_file: public_member_api_docs
 
 enum UnitSpeed {
-  metersPerSecond(symbol: 'metersPerSecond'),
-  kilometersPerHour(symbol: 'kilometersPerHour'),
-  milesPerHour(symbol: 'milesPerHour'),
-  knots(symbol: 'knots');
+  metersPerSecond(label: 'Meters per Second', symbol: 'm/s'),
+  kilometersPerHour(label: 'Kilometers per Hour', symbol: 'kph'),
+  milesPerHour(label: 'Miles per Hour', symbol: 'mph'),
+  knots(label: 'Knots', symbol: 'knots');
 
+  final String label;
   final String symbol;
 
   const UnitSpeed({
+    required this.label,
     required this.symbol,
   });
 

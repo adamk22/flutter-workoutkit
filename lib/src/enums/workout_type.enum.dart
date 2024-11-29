@@ -1,21 +1,11 @@
 // ignore_for_file: public_member_api_docs
 
 enum WorkoutType {
-  customWorkout,
-  singleGoalWorkout,
-  pacerWorkout,
-  swimBikeRunWorkout;
+  customWorkout(label: 'Custom Workout'),
+  singleGoalWorkout(label: 'Single Goal Workout'),
+  pacerWorkout(label: 'Pacer Workout'),
+  swimBikeRunWorkout(label: 'Swim Bike Run Workout');
 
-  String toDisplayString() {
-    switch (this) {
-      case WorkoutType.customWorkout:
-        return 'Custom Workout';
-      case WorkoutType.singleGoalWorkout:
-        return 'Single Goal Workout';
-      case WorkoutType.pacerWorkout:
-        return 'Pacer Workout';
-      case WorkoutType.swimBikeRunWorkout:
-        return 'Swim Bike Run Workout';
-    }
-  }
+  final String label;
+  const WorkoutType({required this.label});
 }

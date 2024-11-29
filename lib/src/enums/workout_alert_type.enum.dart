@@ -1,21 +1,25 @@
 // ignore_for_file: public_member_api_docs
 
 enum WorkoutAlertType {
-  cadenceRange(symbol: 'cadenceRange'),
-  cadenceThreshold(symbol: 'cadenceThreshold'),
-  heartRateRange(symbol: 'heartRateRange'),
-  heartRateZone(symbol: 'heartRateZone'),
-  powerRange(symbol: 'powerRange'),
-  powerThreshold(symbol: 'powerThreshold'),
-  powerZone(symbol: 'powerZone'),
-  speedRange(symbol: 'speedRange'),
-  speedThreshold(symbol: 'speedThreshold'),
-  paceRange(symbol: 'paceRange'),
-  paceThreshold(symbol: 'paceThreshold');
+  cadenceRange(label: 'Cadence Range', symbol: 'cadenceRange'),
+  cadenceThreshold(label: 'Cadence Threshold', symbol: 'cadenceThreshold'),
+  heartRateRange(label: 'Heart Rate Range', symbol: 'heartRateRange'),
+  heartRateZone(label: 'Heart Rate Zone', symbol: 'heartRateZone'),
+  powerRange(label: 'Power Range', symbol: 'powerRange'),
+  powerThreshold(label: 'Power Threshold', symbol: 'powerThreshold'),
+  powerZone(label: 'Power Zone', symbol: 'powerZone'),
+  speedRange(label: 'Speed Range', symbol: 'speedRange'),
+  speedThreshold(label: 'Speed Threshold', symbol: 'speedThreshold'),
+  paceRange(label: 'Pace Range', symbol: 'paceRange'),
+  paceThreshold(label: 'Pace Threshold', symbol: 'paceThreshold');
 
+  final String label;
   final String symbol;
 
-  const WorkoutAlertType({required this.symbol});
+  const WorkoutAlertType({
+    required this.label,
+    required this.symbol,
+  });
 
   /// Creates a new workout alert type from a string
   static WorkoutAlertType fromString(String type) {

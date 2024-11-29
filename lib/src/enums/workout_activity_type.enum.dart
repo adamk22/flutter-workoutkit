@@ -1,77 +1,48 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 enum WorkoutActivityType {
-  archery,
-  badminton,
-  baseball,
-  basketball,
-  bowling,
-  boxing,
-  climbing,
-  crossTraining,
-  cycling,
-  dance,
-  elliptical,
-  fitnessGaming,
-  functionalStrengthTraining,
-  golf,
-  hiking,
-  hockey,
-  jumpRope,
-  kickboxing,
-  martialArts,
-  pilates,
-  rowing,
-  rugby,
-  running,
-  sailing,
-  skatingSports,
-  soccer,
-  stairs,
-  swimming,
-  tableTennis,
-  tennis,
-  volleyball,
-  walking,
-  waterFitness,
-  waterPolo,
-  waterSports,
-  wrestling,
-  yoga;
+  archery(label: 'Archery'),
+  badminton(label: 'Badminton'),
+  baseball(label: 'Baseball'),
+  basketball(label: 'Basketball'),
+  bowling(label: 'Bowling'),
+  boxing(label: 'Boxing'),
+  climbing(label: 'Climbing'),
+  crossTraining(label: 'Cross Training'),
+  cycling(label: 'Cycling'),
+  dance(label: 'Dance'),
+  elliptical(label: 'Elliptical'),
+  fitnessGaming(label: 'Fitness Gaming'),
+  functionalStrengthTraining(label: 'Strength Training'),
+  golf(label: 'Golf'),
+  hiking(label: 'Hiking'),
+  hockey(label: 'Hockey'),
+  jumpRope(label: 'Jump Rope'),
+  kickboxing(label: 'Kickboxing'),
+  martialArts(label: 'Martial Arts'),
+  pilates(label: 'Pilates'),
+  rowing(label: 'Rowing'),
+  rugby(label: 'Rugby'),
+  running(label: 'Running'),
+  sailing(label: 'Sailing'),
+  skatingSports(label: 'Skating'),
+  soccer(label: 'Soccer'),
+  stairs(label: 'Stairs'),
+  swimming(label: 'Swimming'),
+  tableTennis(label: 'Table Tennis'),
+  tennis(label: 'Tennis'),
+  volleyball(label: 'Volleyball'),
+  walking(label: 'Walking'),
+  waterFitness(label: 'Water Fitness'),
+  waterPolo(label: 'Water Polo'),
+  waterSports(label: 'Water Sports'),
+  wrestling(label: 'Wrestling'),
+  yoga(label: 'Yoga');
 
-  // Convert enum to string representation
-  String toDisplayString() {
-    switch (this) {
-      case WorkoutActivityType.crossTraining:
-        return 'Cross Training';
-      case WorkoutActivityType.functionalStrengthTraining:
-        return 'Strength Training';
-      case WorkoutActivityType.skatingSports:
-        return 'Skating';
-      case WorkoutActivityType.tableTennis:
-        return 'Table Tennis';
-      case WorkoutActivityType.waterFitness:
-        return 'Water Fitness';
-      case WorkoutActivityType.fitnessGaming:
-        return 'Fitness Gaming';
-      case WorkoutActivityType.waterPolo:
-        return 'Water Polo';
-      case WorkoutActivityType.waterSports:
-        return 'Water Sports';
-      default:
-        // Capitalize first letter and add spaces before capital letters
-        return name
-            .replaceAllMapped(
-              RegExp(r'([A-Z])'),
-              (match) => ' ${match.group(0)}',
-            )
-            .trim()
-            .capitalize();
-    }
-  }
+  final String label;
+  const WorkoutActivityType({required this.label});
 
   IconData get iconData {
     switch (this) {
@@ -150,12 +121,5 @@ enum WorkoutActivityType {
       case WorkoutActivityType.yoga:
         return Icons.self_improvement;
     }
-  }
-}
-
-// Extension to capitalize first letter of a string
-extension StringExtension on String {
-  String capitalize() {
-    return "${this[0].toUpperCase()}${substring(1)}";
   }
 }

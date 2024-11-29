@@ -1,12 +1,14 @@
 // ignore_for_file: public_member_api_docs
 
 enum WorkoutAlertMetric {
-  average(symbol: 'average'),
-  current(symbol: 'current');
+  average(label: 'Average', symbol: 'average'),
+  current(label: 'Current', symbol: 'current');
 
+  final String label;
   final String symbol;
 
   const WorkoutAlertMetric({
+    required this.label,
     required this.symbol,
   });
 

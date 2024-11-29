@@ -194,6 +194,7 @@ final CustomWorkout sample10kTrainingRun = CustomWorkout(
   ),
 );
 
+/// A sample 21km stepped run workout
 final CustomWorkout sample21kmTrainingRun = CustomWorkout(
   activityType: WorkoutActivityType.running,
   location: WorkoutLocationType.outdoor,
@@ -213,7 +214,6 @@ final CustomWorkout sample21kmTrainingRun = CustomWorkout(
       iterations: 1,
       steps: [
         IntervalStep(
-          alert: HeartRateZoneAlert(zone: 2),
           purpose: IntervalStepPurpose.work,
           step: WorkoutStep(
             alert: HeartRateZoneAlert(zone: 2),
@@ -233,14 +233,29 @@ final CustomWorkout sample21kmTrainingRun = CustomWorkout(
       steps: [
         IntervalStep(
           purpose: IntervalStepPurpose.work,
-          alert: HeartRateZoneAlert(zone: 3),
           step: WorkoutStep(
-            displayName: "5k Zone 3",
+            alert: HeartRateZoneAlert(zone: 3),
+            displayName: "3k Zone 3",
             goal: const WorkoutGoal(
               type: WorkoutGoalType.distance,
-              targetValue: 5,
+              targetValue: 3,
               unit: WorkoutGoalUnit.kilometers,
             ),
+          ),
+        ),
+      ],
+    ),
+    IntervalBlock(
+      type: IntervalBlockType.work,
+      iterations: 1,
+      steps: [
+        IntervalStep(
+          purpose: IntervalStepPurpose.work,
+          alert: HeartRateZoneAlert(zone: 1),
+          goal: const WorkoutGoal(
+            type: WorkoutGoalType.distance,
+            targetValue: 2,
+            unit: WorkoutGoalUnit.kilometers,
           ),
         ),
       ],
