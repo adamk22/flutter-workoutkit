@@ -1,4 +1,4 @@
-import 'package:flutter_workoutkit/workoutkit.dart';
+import 'package:flutter_workoutkit/flutter_workoutkit.dart';
 
 /// Represents a single goal workout
 class SingleGoalWorkout extends Workout {

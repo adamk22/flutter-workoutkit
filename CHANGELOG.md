@@ -2,6 +2,7 @@
 
 ## [0.0.11]
 
+- BREAKING: Changed main import from `workoutkit.dart` to `flutter_workoutkit.dart`
 - Added display string methods to all workout alert classes and enums
 
 ## [0.0.10]

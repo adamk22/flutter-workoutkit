@@ -1,4 +1,4 @@
-import 'package:flutter_workoutkit/workoutkit.dart';
+import 'package:flutter_workoutkit/flutter_workoutkit.dart';
 
 /// Represents a power zone alert
 class PowerZoneAlert extends WorkoutAlert {

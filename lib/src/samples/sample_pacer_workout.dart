@@ -1,4 +1,4 @@
-import 'package:flutter_workoutkit/workoutkit.dart';
+import 'package:flutter_workoutkit/flutter_workoutkit.dart';
 
 /// A sample pacer workout for running
 final PacerWorkout samplePacerMinutesWorkout = PacerWorkout(

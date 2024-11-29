@@ -1,4 +1,4 @@
-import 'package:flutter_workoutkit/workoutkit.dart';
+import 'package:flutter_workoutkit/flutter_workoutkit.dart';
 
 /// A sample speed cycling workout
 final CustomWorkout sampleSpeedCyclingWorkout = CustomWorkout(

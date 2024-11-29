@@ -1,4 +1,4 @@
-import 'package:flutter_workoutkit/workoutkit.dart';
+import 'package:flutter_workoutkit/flutter_workoutkit.dart';
 
 /// A sample swim bike run workout
 final SwimBikeRunWorkout sampleSwimBikeRunWorkout = SwimBikeRunWorkout(
