@@ -16,7 +16,7 @@ class WorkoutService {
         customWorkout.toJson(),
       );
     } catch (e) {
-      print('Error creating workout: $e');
+      throw Exception('Error creating workout: $e');
     }
   }
 }

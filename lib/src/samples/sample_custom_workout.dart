@@ -45,6 +45,7 @@ final CustomWorkout sampleSpeedCyclingWorkout = CustomWorkout(
   ),
 );
 
+/// A sample timed run workout
 final CustomWorkout sampleCustomWorkout = CustomWorkout(
   activityType: WorkoutActivityType.running,
   location: WorkoutLocationType.outdoor,
@@ -125,6 +126,7 @@ final CustomWorkout sampleCustomWorkout = CustomWorkout(
   ),
 );
 
+/// A sample 10k training run workout
 final CustomWorkout sample10kTrainingRun = CustomWorkout(
   activityType: WorkoutActivityType.running,
   location: WorkoutLocationType.outdoor,

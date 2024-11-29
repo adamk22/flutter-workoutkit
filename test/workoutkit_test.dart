@@ -14,13 +14,7 @@ class MockWorkoutkitPlatform
   Future<void> requestHealthPermissions() => Future.value();
 
   @override
-  Future<void> createCustomWorkout(Map<String, dynamic> customWorkoutJson) =>
-      Future.value();
-
-  @override
-  Future<void> createSingleGoalWorkout(
-          Map<String, dynamic> singleGoalWorkoutJson) =>
-      Future.value();
+  Future<bool> hasHealthPermissions() => Future.value(true);
 }
 
 void main() {
@@ -31,10 +25,9 @@ void main() {
   });
 
   test('getPlatformVersion', () async {
-    Workoutkit workoutkitPlugin = Workoutkit();
     MockWorkoutkitPlatform fakePlatform = MockWorkoutkitPlatform();
     WorkoutkitPlatform.instance = fakePlatform;
 
-    expect(await workoutkitPlugin.getPlatformVersion(), '42');
+    expect(await Workoutkit.getPlatformVersion(), '42');
   });
 }

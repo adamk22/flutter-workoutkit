@@ -56,7 +56,11 @@ class IntervalStep {
   }
 }
 
+/// The purpose of the interval step
 enum IntervalStepPurpose {
+  /// The step is a workout step
   work,
+
+  /// The step is a recovery step
   recovery,
 }
