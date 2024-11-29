@@ -11,6 +11,11 @@ class HeartRateZoneAlert extends WorkoutAlert {
       : super(type: WorkoutAlertType.heartRateZone);
 
   @override
+  String toDisplayString() {
+    return 'HR Zone $zone';
+  }
+
+  @override
   Map<String, dynamic> toJson() {
     return {
       'type': type.toString().split('.').last,

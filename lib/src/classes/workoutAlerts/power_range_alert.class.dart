@@ -19,6 +19,11 @@ class PowerRangeAlert extends WorkoutAlert {
   }) : super(type: WorkoutAlertType.powerRange);
 
   @override
+  String toDisplayString() {
+    return '$lowerBound - $upperBound watts';
+  }
+
+  @override
   Map<String, dynamic> toJson() {
     return {
       'type': type.toString().split('.').last,

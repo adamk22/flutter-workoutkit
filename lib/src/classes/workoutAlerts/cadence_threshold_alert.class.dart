@@ -10,6 +10,11 @@ class CadenceThresholdAlert extends WorkoutAlert {
       : super(type: WorkoutAlertType.cadenceThreshold);
 
   @override
+  String toDisplayString() {
+    return '$threshold rpm';
+  }
+
+  @override
   Map<String, dynamic> toJson() {
     return {
       'type': type.toString().split('.').last,

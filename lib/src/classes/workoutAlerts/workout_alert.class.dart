@@ -8,6 +8,11 @@ class WorkoutAlert {
   /// Creates a new workout alert
   WorkoutAlert({required this.type});
 
+  /// Returns a string representation of the workout alert
+  String toDisplayString() {
+    return type.label;
+  }
+
   /// Converts the workout alert to a JSON object
   Map<String, dynamic> toJson() {
     return {

@@ -16,6 +16,11 @@ class PowerZoneAlert extends WorkoutAlert {
   }) : super(type: WorkoutAlertType.powerZone);
 
   @override
+  String toDisplayString() {
+    return 'Power Zone $zone';
+  }
+
+  @override
   Map<String, dynamic> toJson() {
     return {
       'type': type.toString().split('.').last,

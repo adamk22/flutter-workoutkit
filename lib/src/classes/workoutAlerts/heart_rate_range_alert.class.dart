@@ -13,6 +13,11 @@ class HeartRateRangeAlert extends WorkoutAlert {
       : super(type: WorkoutAlertType.heartRateRange);
 
   @override
+  String toDisplayString() {
+    return '$lowerBound - $upperBound bpm';
+  }
+
+  @override
   Map<String, dynamic> toJson() {
     return {
       'type': type.toString().split('.').last,

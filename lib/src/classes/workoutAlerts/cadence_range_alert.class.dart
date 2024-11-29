@@ -13,6 +13,11 @@ class CadenceRangeAlert extends WorkoutAlert {
       : super(type: WorkoutAlertType.cadenceRange);
 
   @override
+  String toDisplayString() {
+    return 'Cadence Range: $lowerBound - $upperBound rpm';
+  }
+
+  @override
   Map<String, dynamic> toJson() {
     return {
       'type': type.toString().split('.').last,

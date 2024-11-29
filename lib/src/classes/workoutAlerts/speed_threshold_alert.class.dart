@@ -19,6 +19,11 @@ class SpeedThresholdAlert extends WorkoutAlert {
   }) : super(type: WorkoutAlertType.speedThreshold);
 
   @override
+  String toDisplayString() {
+    return '$threshold ${unitSpeed.symbol}';
+  }
+
+  @override
   Map<String, dynamic> toJson() {
     return {
       'type': type.toString().split('.').last,

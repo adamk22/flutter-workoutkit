@@ -23,6 +23,11 @@ class PaceThresholdAlert extends WorkoutAlert {
   }) : super(type: WorkoutAlertType.paceRange);
 
   @override
+  String toDisplayString() {
+    return '$thresholdMinute:$thresholdSecond ${unitSpeed.symbol}';
+  }
+
+  @override
   Map<String, dynamic> toJson() {
     return {
       'type': type.toString().split('.').last,

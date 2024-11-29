@@ -23,6 +23,11 @@ class SpeedRangeAlert extends WorkoutAlert {
   }) : super(type: WorkoutAlertType.speedRange);
 
   @override
+  String toDisplayString() {
+    return '$lowerBound - $upperBound ${unitSpeed.symbol}';
+  }
+
+  @override
   Map<String, dynamic> toJson() {
     return {
       'type': type.toString().split('.').last,

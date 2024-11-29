@@ -15,6 +15,11 @@ class PowerThresholdAlert extends WorkoutAlert {
   }) : super(type: WorkoutAlertType.powerThreshold);
 
   @override
+  String toDisplayString() {
+    return '$threshold watts';
+  }
+
+  @override
   Map<String, dynamic> toJson() {
     return {
       'type': type.toString().split('.').last,

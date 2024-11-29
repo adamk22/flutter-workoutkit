@@ -31,6 +31,11 @@ class PaceRangeAlert extends WorkoutAlert {
   }) : super(type: WorkoutAlertType.paceRange);
 
   @override
+  String toDisplayString() {
+    return '$lowerBoundMinute:$lowerBoundSecond - $upperBoundMinute:$upperBoundSecond ${unitSpeed.symbol}';
+  }
+
+  @override
   Map<String, dynamic> toJson() {
     return {
       'type': type.toString().split('.').last,
