@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.0.11]
+
+- Added display string methods to all workout alert classes and enums
+
 ## [0.0.10]
 
 - Added `toJson` and `fromJson` methods to all workout classes
