@@ -14,7 +14,7 @@ class HeartRateRangeAlert extends WorkoutAlert {
 
   @override
   String toDisplayString() {
-    return '$lowerBound - $upperBound bpm';
+    return '${lowerBound.toInt()} - ${upperBound.toInt()} bpm';
   }
 
   @override
