@@ -53,6 +53,11 @@ final class RegressionTests: XCTestCase {
         let samples = try dictionary("samples.json")
         XCTAssertGreaterThanOrEqual(samples.count, 13)
         for (name, json) in samples {
+            if name == "samplePoolSwimIntervals", #unavailable(iOS 18.0) {
+                // Pool swim goals need iOS 18; older runtimes must report it.
+                XCTAssertEqual(WorkoutValidator.issues(for: json).map(\.code), [.unsupportedOS], name)
+                continue
+            }
             let built = try plan(json)
             XCTAssertEqual(WorkoutValidator.issues(for: json), [], name)
             XCTAssertEqual(try plan(WorkoutPlanSerializer.json(built)), built, name)
@@ -100,20 +105,14 @@ final class RegressionTests: XCTestCase {
 
     // MARK: Older iOS versions (simulated)
 
-    override func tearDown() {
-        PlatformFeatures.current = .system
-        super.tearDown()
-    }
-
     func testOnIOS17StepNamesAreDropped() throws {
-        PlatformFeatures.current = .iOS17_0
-        guard case let .custom(workout) = try plan(Fixtures.object("custom_workout.json")).workout else {
+        let onIOS17 = try onIOS17_0 { try plan(Fixtures.object("custom_workout.json")).workout }
+        guard case let .custom(workout) = onIOS17 else {
             return XCTFail("expected a custom workout")
         }
         if #available(iOS 18.0, *) {
             XCTAssertNil(workout.warmup?.displayName)
         }
-        PlatformFeatures.current = .system
         guard case let .custom(current) = try plan(Fixtures.object("custom_workout.json")).workout else {
             return XCTFail("expected a custom workout")
         }
@@ -123,37 +122,41 @@ final class RegressionTests: XCTestCase {
     }
 
     func testOnIOS17PoolSwimGoalsAreReportedNotCrashed() throws {
-        PlatformFeatures.current = .iOS17_0
         let json = try Fixtures.object("pool_swim_workout.json")
-        XCTAssertThrowsError(try plan(json)) { error in
-            XCTAssertEqual((error as? WorkoutkitError)?.code, "UNSUPPORTED_OS")
-        }
-        XCTAssertEqual(WorkoutValidator.issues(for: json).count, 1)
+        try onIOS17_0 {
+            XCTAssertThrowsError(try plan(json)) { error in
+                XCTAssertEqual((error as? WorkoutkitError)?.code, "UNSUPPORTED_OS")
+            }
+            XCTAssertEqual(WorkoutValidator.issues(for: json).count, 1)
 
-        let messenger = MockBinaryMessenger()
-        let bridge = WorkoutPreviewBridge(
-            frame: .zero, viewIdentifier: 7, arguments: ["workoutJson": json], messenger: messenger
-        )
-        withExtendedLifetime(bridge) {
-            let error = messenger.invoke("workout_preview_button_7", "getBuildError") as? [String: String]
-            XCTAssertEqual(error?["code"], "UNSUPPORTED_OS")
+            let messenger = MockBinaryMessenger()
+            let bridge = WorkoutPreviewBridge(
+                frame: .zero, viewIdentifier: 7, arguments: ["workoutJson": json], messenger: messenger
+            )
+            withExtendedLifetime(bridge) {
+                let error = messenger.invoke("workout_preview_button_7", "getBuildError") as? [String: String]
+                XCTAssertEqual(error?["code"], "UNSUPPORTED_OS")
+            }
         }
+        // Outside the scope the real OS features apply again.
+        if #available(iOS 18.0, *) { XCTAssertNoThrow(try plan(json)) }
     }
 
     func testOnIOS17_0PowerAlertsFallBackToCurrentMetric() throws {
-        PlatformFeatures.current = .iOS17_0
         let json: [String: Any] = ["type": "powerRange", "lowerBound": 200, "upperBound": 250, "metric": "average"]
-        let alert = try WorkoutBuilder.workoutAlert(JSONReader(json))
+        let alert = try onIOS17_0 { try WorkoutBuilder.workoutAlert(JSONReader(json)) }
         XCTAssertEqual(AnyHashable(alert), AnyHashable(PowerRangeAlert.power(200...250, unit: .watts)))
     }
 
     func testOnIOS17EverySampleExceptPoolSwimBuilds() throws {
-        PlatformFeatures.current = .iOS17_0
-        for (name, json) in try dictionary("samples.json") {
-            if name == "samplePoolSwimIntervals" {
-                XCTAssertThrowsError(try plan(json), name)
-            } else {
-                XCTAssertNoThrow(try plan(json), name)
+        let samples = try dictionary("samples.json")
+        try onIOS17_0 {
+            for (name, json) in samples {
+                if name == "samplePoolSwimIntervals" {
+                    XCTAssertThrowsError(try plan(json), name)
+                } else {
+                    XCTAssertNoThrow(try plan(json), name)
+                }
             }
         }
     }

@@ -1,4 +1,4 @@
-import 'dart:typed_data';
+import 'package:flutter/foundation.dart';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_workoutkit/flutter_workoutkit.dart';
@@ -30,6 +30,11 @@ class MockWorkoutkitPlatform
 
   @override
   Future<Workout> importWorkout(Uint8List data) async => sampleCustomWorkout;
+
+  final presented = <Workout>[];
+
+  @override
+  Future<void> presentPreview(Workout workout) async => presented.add(workout);
 
   @override
   Future<bool> schedulerIsSupported() async => true;
@@ -92,6 +97,22 @@ void main() {
       expect(await Workoutkit.exportWorkout(sampleCustomWorkout), [7]);
       expect(
           await Workoutkit.importWorkout(Uint8List(0)), isA<CustomWorkout>());
+    });
+
+    test('presentPreview forwards on iOS and rejects other platforms',
+        () async {
+      debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
+      await WorkoutKit.presentPreview(sampleTempoPaceRun);
+      expect(fake.presented, [sampleTempoPaceRun]);
+
+      debugDefaultTargetPlatformOverride = TargetPlatform.android;
+      await expectLater(
+        WorkoutKit.presentPreview(sampleTempoPaceRun),
+        throwsA(isA<WorkoutkitException>().having(
+            (e) => e.code, 'code', WorkoutkitErrorCode.unsupportedPlatform)),
+      );
+      expect(fake.presented, hasLength(1));
+      debugDefaultTargetPlatformOverride = null;
     });
 
     test('WorkoutScheduler schedules, lists and removes', () async {

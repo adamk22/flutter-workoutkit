@@ -70,6 +70,34 @@ void main() {
     expect(imported, isA<SwimBikeRunWorkout>());
   });
 
+  test('presentPreview sends the workout and waits for dismissal', () async {
+    respond = (_) => null;
+    await platform.presentPreview(workout);
+    expect(calls.single.method, 'presentPreview');
+    expect(
+        normalize(calls.single.arguments), loadFixture('custom_workout.json'));
+  });
+
+  test('presentPreview maps native errors', () async {
+    respond = (_) => throw PlatformException(code: 'ALREADY_PRESENTING');
+    await expectLater(
+      platform.presentPreview(workout),
+      throwsA(isA<WorkoutkitException>().having(
+          (e) => e.code, 'code', WorkoutkitErrorCode.alreadyPresenting)),
+    );
+  });
+
+  test('presentPreview without a native implementation is unsupported',
+      () async {
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(channel, null);
+    await expectLater(
+      platform.presentPreview(workout),
+      throwsA(isA<WorkoutkitException>().having(
+          (e) => e.code, 'code', WorkoutkitErrorCode.unsupportedPlatform)),
+    );
+  });
+
   group('scheduler', () {
     test('isSupported / authorization / max count', () async {
       respond = (call) => switch (call.method) {

@@ -24,8 +24,14 @@ jobs:
       - run: flutter pub publish --dry-run
 
   ios:
-    name: Swift tests & integration tests
+    name: iOS ${{ matrix.ios }}
     runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # 17.5 exercises the iOS 17 fallbacks (no step names or pool swim
+        # goals) on a real runtime; 18.6 is the oldest with every feature.
+        ios: ['17.5', '18.6', 'latest']
     defaults:
       run:
         # Flutter's SwiftPM integration for plugin example apps requires the
@@ -39,15 +45,36 @@ jobs:
         with:
           channel: stable
           cache: true
-      - name: Swift unit tests (RunnerTests)
-        run: tool/ios_test.sh
-      - name: Boot simulator
+      - name: Create an iOS ${{ matrix.ios }} simulator
+        env:
+          IOS: ${{ matrix.ios }}
         run: |
-          SIM=$(xcrun simctl list devices available | grep -oE 'iPhone [^(]+\(([0-9A-F-]{36})\)' | head -1 | grep -oE '[0-9A-F-]{36}')
-          xcrun simctl boot "$SIM" || true
+          runtime() {
+            xcrun simctl list -j runtimes | python3 -c '
+          import json, sys
+          want = sys.argv[1]
+          rts = [r for r in json.load(sys.stdin)["runtimes"]
+                 if r["isAvailable"] and ".iOS-" in r["identifier"]]
+          key = lambda r: [int(p) for p in r["version"].split(".")]
+          rts = rts if want == "latest" else [r for r in rts if r["version"] == want or r["version"].startswith(want + ".")]
+          print(sorted(rts, key=key)[-1]["identifier"] if rts else "")
+          ' "$IOS"
+          }
+          RUNTIME=$(runtime)
+          if [ -z "$RUNTIME" ]; then
+            sudo xcodebuild -downloadPlatform iOS -buildVersion "$IOS"
+            RUNTIME=$(runtime)
+          fi
+          echo "Runtime: $RUNTIME"
+          SIM=$(xcrun simctl create "CI iPhone" "iPhone 15" "$RUNTIME")
+          xcrun simctl boot "$SIM"
           echo "SIM=$SIM" >> "$GITHUB_ENV"
+      - name: Swift unit tests (RunnerTests)
+        run: tool/ios_test.sh "$SIM"
       - name: Integration tests
+        if: matrix.ios == 'latest'
         working-directory: flutter_workoutkit/example
         run: flutter test integration_test -d "$SIM"
       - name: CocoaPods podspec lint
+        if: matrix.ios == 'latest'
         run: pod lib lint ios/flutter_workoutkit.podspec --configuration=Debug --skip-tests --use-modular-headers --use-libraries

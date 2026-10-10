@@ -1,13 +1,16 @@
-import Flutter
+@preconcurrency import Flutter
 import HealthKit
 import UIKit
 import WorkoutKit
 
-public class WorkoutkitPlugin: NSObject, FlutterPlugin {
+/// All state is only touched on the main thread (Flutter calls `handle` there
+/// and async work hops back with `@MainActor` tasks), hence `@unchecked`.
+public final class WorkoutkitPlugin: NSObject, FlutterPlugin, @unchecked Sendable {
     private let healthStore = HKHealthStore()
     private let scheduler: WorkoutScheduling
     private let schedulerIsSupported: () -> Bool
     private let maxAllowedScheduledWorkoutCount: Int
+    private var previewPresenter: WorkoutPreviewPresenter?
 
     override public convenience init() {
         self.init(
@@ -42,14 +45,18 @@ public class WorkoutkitPlugin: NSObject, FlutterPlugin {
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
         switch call.method {
         case "getPlatformVersion":
-            result("iOS " + UIDevice.current.systemVersion)
+            result("iOS " + MainActor.assumeIsolated { UIDevice.current.systemVersion })
         case "requestHealthPermissions":
             requestHealthPermissions(result: result)
         case "hasHealthPermissions":
             result(healthStore.authorizationStatus(for: HKObjectType.workoutType()) == .sharingAuthorized)
         case "validate":
             let issues = WorkoutValidator.issues(for: call.arguments)
-            result(["isValid": issues.isEmpty, "issues": issues])
+            result([
+                "isValid": issues.isEmpty,
+                "issues": issues.map(\.message),
+                "details": issues.map(\.dictionary),
+            ])
         case "exportPlan":
             respond(result) {
                 let plan = try WorkoutPlanBuilder.plan(from: call.arguments)
@@ -72,6 +79,8 @@ public class WorkoutkitPlugin: NSObject, FlutterPlugin {
                 }
                 return try WorkoutPlanSerializer.json(plan)
             }
+        case "presentPreview":
+            presentPreview(call.arguments, result)
         case let method where method.hasPrefix("scheduler."):
             handleScheduler(String(method.dropFirst("scheduler.".count)), call.arguments, result)
         default:
@@ -91,9 +100,40 @@ public class WorkoutkitPlugin: NSObject, FlutterPlugin {
     }
 
     private func respondAsync(_ result: @escaping FlutterResult, _ body: @escaping () async throws -> Any?) {
+        let box = UncheckedSendable((result: result, body: body))
         Task { @MainActor in
+            let (result, body) = box.value
             do {
-                result(try await body())
+                let value = try await body()
+                result(value)
+            } catch let error as WorkoutkitError {
+                result(error.flutterError)
+            } catch {
+                result(FlutterError(code: "UNKNOWN", message: "\(error)", details: nil))
+            }
+        }
+    }
+
+    // MARK: Preview
+
+    private func presentPreview(_ arguments: Any?, _ result: @escaping FlutterResult) {
+        let plan: WorkoutPlan
+        do {
+            plan = try WorkoutPlanBuilder.plan(from: arguments)
+        } catch let error as WorkoutkitError {
+            result(error.flutterError)
+            return
+        } catch {
+            result(FlutterError(code: "UNKNOWN", message: "\(error)", details: nil))
+            return
+        }
+        let box = UncheckedSendable((plan: plan, result: result))
+        MainActor.assumeIsolated {
+            let (plan, result) = box.value
+            let presenter = previewPresenter ?? WorkoutPreviewPresenter()
+            previewPresenter = presenter
+            do {
+                try presenter.present(plan) { result(nil) }
             } catch let error as WorkoutkitError {
                 result(error.flutterError)
             } catch {
@@ -178,8 +218,10 @@ public class WorkoutkitPlugin: NSObject, FlutterPlugin {
 
     private func requestHealthPermissions(result: @escaping FlutterResult) {
         let types: Set = [HKObjectType.workoutType()]
+        let box = UncheckedSendable(result)
         healthStore.requestAuthorization(toShare: types, read: types) { _, error in
             DispatchQueue.main.async {
+                let result = box.value
                 if let error {
                     result(FlutterError(
                         code: "HEALTH_PERMISSION_ERROR",

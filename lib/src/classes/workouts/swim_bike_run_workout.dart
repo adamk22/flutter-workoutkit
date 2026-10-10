@@ -26,6 +26,19 @@ class SwimBikeRunWorkout extends Workout {
     return json;
   }
 
+  /// Returns a copy with the given fields replaced.
+  SwimBikeRunWorkout copyWith({
+    List<MultisportActivity>? activities,
+    String? displayName,
+    String? id,
+  }) {
+    return SwimBikeRunWorkout(
+      activities: activities ?? this.activities,
+      displayName: displayName ?? this.displayName,
+      id: id ?? this.id,
+    );
+  }
+
   /// Creates a new swim bike run workout from a JSON object.
   static SwimBikeRunWorkout fromJson(Map<String, dynamic> json) {
     return SwimBikeRunWorkout(

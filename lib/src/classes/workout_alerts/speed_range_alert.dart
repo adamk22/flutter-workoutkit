@@ -40,6 +40,20 @@ class SpeedRangeAlert extends WorkoutAlert {
     };
   }
 
+  /// Returns a copy with the given fields replaced.
+  SpeedRangeAlert copyWith({
+    double? lowerBound,
+    double? upperBound,
+    UnitSpeed? unitSpeed,
+    WorkoutAlertMetric? metric,
+  }) =>
+      SpeedRangeAlert(
+        lowerBound: lowerBound ?? this.lowerBound,
+        upperBound: upperBound ?? this.upperBound,
+        unitSpeed: unitSpeed ?? this.unitSpeed,
+        metric: metric ?? this.metric,
+      );
+
   /// Creates a new speed range alert from a JSON object.
   static SpeedRangeAlert fromJson(Map<String, dynamic> json) {
     return SpeedRangeAlert(

@@ -1,5 +1,8 @@
 import 'package:flutter/services.dart';
 
+import 'classes/workout_validation_result.dart';
+import 'utils/json.dart';
+
 /// An error reported by the native WorkoutKit side.
 ///
 /// See [WorkoutkitErrorCode] for the possible [code] values.
@@ -20,6 +23,17 @@ class WorkoutkitException implements Exception {
   factory WorkoutkitException.fromPlatformException(PlatformException e) =>
       WorkoutkitException(e.code, e.message, e.details);
 
+  /// The structured problems behind an [WorkoutkitErrorCode.unsupportedWorkout]
+  /// or [WorkoutkitErrorCode.unsupportedOS] error; empty for other errors.
+  List<WorkoutValidationIssue> get validationIssues {
+    final details = this.details;
+    if (details is! List) return const [];
+    return [
+      for (final item in details)
+        if (item is Map) WorkoutValidationIssue.fromJson(asJsonMap(item)),
+    ];
+  }
+
   @override
   String toString() => 'WorkoutkitException($code, $message)';
 }
@@ -33,9 +47,18 @@ abstract final class WorkoutkitErrorCode {
   static const unsupportedOS = 'UNSUPPORTED_OS';
 
   /// WorkoutKit doesn't support this combination of activity, location,
-  /// goals or alerts. [WorkoutkitException.details] lists the issues. Use
-  /// `Workoutkit.validate` to check up front.
+  /// goals or alerts. See [WorkoutkitException.validationIssues]. Use
+  /// `WorkoutKit.validate` to check up front.
   static const unsupportedWorkout = 'UNSUPPORTED_WORKOUT';
+
+  /// `presentPreview` found no visible view controller to present from.
+  static const noPresenter = 'NO_PRESENTER';
+
+  /// `presentPreview` was called while a preview is already on screen.
+  static const alreadyPresenting = 'ALREADY_PRESENTING';
+
+  /// The call isn't available on this platform (WorkoutKit is iOS only).
+  static const unsupportedPlatform = 'UNSUPPORTED_PLATFORM';
 
   /// A scheduled workout with the given id and date was not found.
   static const notFound = 'NOT_FOUND';

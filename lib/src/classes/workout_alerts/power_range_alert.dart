@@ -37,6 +37,18 @@ class PowerRangeAlert extends WorkoutAlert {
     };
   }
 
+  /// Returns a copy with the given fields replaced.
+  PowerRangeAlert copyWith({
+    double? lowerBound,
+    double? upperBound,
+    WorkoutAlertMetric? metric,
+  }) =>
+      PowerRangeAlert(
+        lowerBound: lowerBound ?? this.lowerBound,
+        upperBound: upperBound ?? this.upperBound,
+        metric: metric ?? this.metric,
+      );
+
   /// Creates a new power range alert from a JSON object.
   static PowerRangeAlert fromJson(Map<String, dynamic> json) {
     return PowerRangeAlert(

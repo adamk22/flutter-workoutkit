@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 import 'classes/index.dart';
-import 'classes/scheduled_workout.class.dart' show dateToComponents;
+import 'classes/scheduled_workout.dart' show dateToComponents;
 import 'utils/json.dart';
 import 'workoutkit_exception.dart';
 import 'workoutkit_platform_interface.dart';
@@ -45,6 +45,18 @@ class MethodChannelWorkoutkit extends WorkoutkitPlatform {
   @override
   Future<Workout> importWorkout(Uint8List data) async =>
       Workout.fromJson(asJsonMap(await _invoke<Map>('importPlan', data)));
+
+  @override
+  Future<void> presentPreview(Workout workout) async {
+    try {
+      await _invoke<void>('presentPreview', workout.toJson());
+    } on MissingPluginException {
+      throw const WorkoutkitException(
+        WorkoutkitErrorCode.unsupportedPlatform,
+        'presentPreview is only available on iOS',
+      );
+    }
+  }
 
   @override
   Future<bool> schedulerIsSupported() async =>

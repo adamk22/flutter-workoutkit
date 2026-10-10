@@ -1,10 +1,11 @@
 import 'package:flutter_workoutkit/flutter_workoutkit.dart';
 import 'package:flutter_workoutkit/src/utils/json.dart';
+import 'package:flutter_workoutkit/src/utils/json_equality.dart';
 
 /// The goal of a workout or step.
 ///
 /// Prefer the named constructors, e.g. `WorkoutGoal.distance(5, WorkoutGoalUnit.kilometers)`.
-class WorkoutGoal {
+class WorkoutGoal with JsonValueEquality {
   /// The type of the goal.
   final WorkoutGoalType type;
 
@@ -80,6 +81,7 @@ class WorkoutGoal {
         );
 
   /// Converts the workout goal to a JSON object.
+  @override
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{'type': type.name};
     putIfNotNull(json, 'targetValue', targetValue);
@@ -91,6 +93,23 @@ class WorkoutGoal {
     putIfNotNull(json, 'unit', unit?.name);
     putIfNotNull(json, 'durationUnit', durationUnit?.name);
     return json;
+  }
+
+  /// Returns a copy with the given fields replaced.
+  WorkoutGoal copyWith({
+    WorkoutGoalType? type,
+    double? targetValue,
+    Duration? targetDuration,
+    WorkoutGoalUnit? unit,
+    WorkoutGoalUnit? durationUnit,
+  }) {
+    return WorkoutGoal(
+      type: type ?? this.type,
+      targetValue: targetValue ?? this.targetValue,
+      targetDuration: targetDuration ?? this.targetDuration,
+      unit: unit ?? this.unit,
+      durationUnit: durationUnit ?? this.durationUnit,
+    );
   }
 
   /// Creates a new workout goal from a JSON object.

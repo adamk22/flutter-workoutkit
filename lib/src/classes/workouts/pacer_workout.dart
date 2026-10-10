@@ -45,6 +45,27 @@ class PacerWorkout extends Workout {
     };
   }
 
+  /// Returns a copy with the given fields replaced.
+  PacerWorkout copyWith({
+    WorkoutActivityType? activityType,
+    WorkoutLocationType? location,
+    double? targetValue,
+    GoalDistanceUnits? targetValueUnit,
+    Duration? targetDuration,
+    GoalTimeUnits? targetDurationUnit,
+    String? id,
+  }) {
+    return PacerWorkout(
+      activityType: activityType ?? this.activityType,
+      location: location ?? this.location,
+      targetValue: targetValue ?? this.targetValue,
+      targetValueUnit: targetValueUnit ?? this.targetValueUnit,
+      targetDuration: targetDuration ?? this.targetDuration,
+      targetDurationUnit: targetDurationUnit ?? this.targetDurationUnit,
+      id: id ?? this.id,
+    );
+  }
+
   /// Creates a new pacer workout from a JSON object.
   static PacerWorkout fromJson(Map<String, dynamic> json) {
     return PacerWorkout(

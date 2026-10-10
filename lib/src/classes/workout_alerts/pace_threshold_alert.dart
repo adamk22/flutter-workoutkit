@@ -44,6 +44,18 @@ class PaceThresholdAlert extends WorkoutAlert {
     };
   }
 
+  /// Returns a copy with the given fields replaced.
+  PaceThresholdAlert copyWith({
+    Duration? pace,
+    PaceUnit? paceUnit,
+    WorkoutAlertMetric? metric,
+  }) =>
+      PaceThresholdAlert(
+        pace: pace ?? this.pace,
+        paceUnit: paceUnit ?? this.paceUnit,
+        metric: metric ?? this.metric,
+      );
+
   /// Creates a new pace threshold alert from a JSON object.
   static PaceThresholdAlert fromJson(Map<String, dynamic> json) {
     return PaceThresholdAlert(

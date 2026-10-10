@@ -51,6 +51,9 @@ The iOS code lives in `ios/flutter_workoutkit/Sources/flutter_workoutkit` and is
 - **Swift builders** (`ios/flutter_workoutkit/Sources/flutter_workoutkit/WorkoutPlanBuilder.swift`, `WorkoutBuilder.swift`) turn that JSON into a WorkoutKit `WorkoutPlan`. They throw a `WorkoutkitError` instead of crashing.
 - **`WorkoutValidator.swift`** runs WorkoutKit's `supports…` checks before anything is constructed, because WorkoutKit traps on unsupported combinations.
 - **`WorkoutPlanSerializer.swift`** turns a `WorkoutPlan` back into the same JSON, for scheduled and imported workouts.
+- **`WorkoutPreview/WorkoutPreviewPresenter.swift`** backs `WorkoutKit.presentPreview`: it presents a transparent hosting controller whose SwiftUI view opens Apple's sheet.
+- **Concurrency:** the native code builds with complete strict-concurrency checking. Keep it warning-free. UIKit work goes through `MainActor.assumeIsolated` (Flutter calls in on the main thread), and Flutter callbacks cross into `@MainActor` tasks via `UncheckedSendable`.
+- **Simulating older iOS versions:** `PlatformFeatures.current` is `@TaskLocal`. Wrap test code in `onIOS17_0 { ... }` (see `example/ios/RunnerTests/Fixtures.swift`) instead of mutating global state.
 
 ### The JSON contract
 
@@ -70,6 +73,10 @@ When you add or change a serialized field, update the fixture, the Dart model, t
 - **Swift `SchedulerTests`:** drives the scheduler method handler with a `FakeScheduler`. The real `WorkoutScheduler` needs user authorization.
 
 When you fix a bug, add a test that fails without the fix. These suites were checked by reintroducing the original 0.0.11 bugs one at a time. Each one makes the suites fail.
+
+### CI
+
+GitHub Actions runs the Dart checks on Linux and the Swift tests on iOS 17.5, 18.6 and the latest simulator runtime. A missing runtime is downloaded with `xcodebuild -downloadPlatform`. The iOS 17.5 job runs the real-OS versions of the fallbacks that `onIOS17_0` simulates locally. Integration tests and `pod lib lint` run on the latest runtime only.
 
 ### Manual checks that need a device
 

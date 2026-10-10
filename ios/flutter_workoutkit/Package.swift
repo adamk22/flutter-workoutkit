@@ -22,6 +22,10 @@ let package = Package(
             ],
             resources: [
                 .process("PrivacyInfo.xcprivacy"),
+            ],
+            swiftSettings: [
+                // Swift 6 readiness: complete data-race checking in Swift 5 mode.
+                .enableExperimentalFeature("StrictConcurrency"),
             ]
         ),
     ]

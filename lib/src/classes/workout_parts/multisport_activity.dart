@@ -1,7 +1,8 @@
 import 'package:flutter_workoutkit/flutter_workoutkit.dart';
+import 'package:flutter_workoutkit/src/utils/json_equality.dart';
 
 /// One leg of a [SwimBikeRunWorkout].
-class MultisportActivity {
+class MultisportActivity with JsonValueEquality {
   /// The type of the activity.
   final MultisportActivityType type;
 
@@ -23,12 +24,26 @@ class MultisportActivity {
             'swimmingLocation required for swimming, location required for other activities');
 
   /// Converts the multisport activity to a JSON object.
+  @override
   Map<String, dynamic> toJson() {
     return {
       'type': type.name,
       if (location != null) 'location': location!.name,
       if (swimmingLocation != null) 'swimmingLocation': swimmingLocation!.name,
     };
+  }
+
+  /// Returns a copy with the given fields replaced.
+  MultisportActivity copyWith({
+    MultisportActivityType? type,
+    WorkoutLocationType? location,
+    WorkoutSwimmingLocationType? swimmingLocation,
+  }) {
+    return MultisportActivity(
+      type: type ?? this.type,
+      location: location ?? this.location,
+      swimmingLocation: swimmingLocation ?? this.swimmingLocation,
+    );
   }
 
   /// Creates a new multisport activity from a JSON object.

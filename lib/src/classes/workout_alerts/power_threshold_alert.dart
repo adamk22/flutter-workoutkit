@@ -27,6 +27,14 @@ class PowerThresholdAlert extends WorkoutAlert {
     return {'type': type.name, 'threshold': threshold, 'metric': metric.name};
   }
 
+  /// Returns a copy with the given fields replaced.
+  PowerThresholdAlert copyWith(
+          {double? threshold, WorkoutAlertMetric? metric}) =>
+      PowerThresholdAlert(
+        threshold: threshold ?? this.threshold,
+        metric: metric ?? this.metric,
+      );
+
   /// Creates a new power threshold alert from a JSON object.
   static PowerThresholdAlert fromJson(Map<String, dynamic> json) {
     return PowerThresholdAlert(

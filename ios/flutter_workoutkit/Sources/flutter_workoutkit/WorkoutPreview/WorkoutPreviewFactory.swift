@@ -1,4 +1,4 @@
-import Flutter
+@preconcurrency import Flutter
 
 class WorkoutPreviewFactory: NSObject, FlutterPlatformViewFactory {
     private let messenger: FlutterBinaryMessenger

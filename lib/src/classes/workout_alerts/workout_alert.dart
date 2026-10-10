@@ -1,10 +1,11 @@
 import 'package:flutter_workoutkit/flutter_workoutkit.dart';
+import 'package:flutter_workoutkit/src/utils/json_equality.dart';
 
 /// Base class for alerts attached to a [WorkoutStep] or [IntervalStep].
 ///
 /// Use one of the concrete subclasses, e.g. [HeartRateZoneAlert] or
 /// [SpeedRangeAlert].
-abstract class WorkoutAlert {
+abstract class WorkoutAlert with JsonValueEquality {
   /// The type of the workout alert.
   final WorkoutAlertType type;
 
@@ -17,6 +18,7 @@ abstract class WorkoutAlert {
   }
 
   /// Converts the workout alert to a JSON object.
+  @override
   Map<String, dynamic> toJson() {
     return {'type': type.name};
   }

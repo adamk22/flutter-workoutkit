@@ -28,6 +28,13 @@ class HeartRateRangeAlert extends WorkoutAlert {
     };
   }
 
+  /// Returns a copy with the given fields replaced.
+  HeartRateRangeAlert copyWith({double? lowerBound, double? upperBound}) =>
+      HeartRateRangeAlert(
+        lowerBound: lowerBound ?? this.lowerBound,
+        upperBound: upperBound ?? this.upperBound,
+      );
+
   /// Creates a new heart rate range alert from a JSON object.
   static HeartRateRangeAlert fromJson(Map<String, dynamic> json) {
     return HeartRateRangeAlert(
