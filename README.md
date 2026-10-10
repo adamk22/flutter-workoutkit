@@ -266,6 +266,9 @@ Native failures are thrown as `WorkoutkitException`, which has a `code`, a `mess
 | `ALREADY_PRESENTING` | `presentPreview` was called while a preview is open. |
 | `NO_PRESENTER` | `presentPreview` found no visible screen to present from. |
 | `UNSUPPORTED_PLATFORM` | Called on a platform other than iOS. |
+| `WATCH_NOT_PAIRED` | WorkoutKit reported that no Apple Watch is paired. |
+| `WORKOUT_APP_NOT_INSTALLED` | WorkoutKit reported that the Workout app isn't installed on the Watch. |
+| `UNKNOWN` | Any other native error; see `message`. |
 
 ## 🔁 Migrating from 0.0.x to 0.1.0
 

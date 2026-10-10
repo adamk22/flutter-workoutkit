@@ -63,7 +63,9 @@ public final class WorkoutkitPlugin: NSObject, FlutterPlugin, @unchecked Sendabl
                 do {
                     return FlutterStandardTypedData(bytes: try plan.dataRepresentation)
                 } catch {
-                    throw WorkoutkitError.serialization("Could not export workout: \(error.localizedDescription)")
+                    throw WorkoutkitError.from(error) {
+                        .serialization("Could not export workout: \($0.localizedDescription)")
+                    }
                 }
             }
         case "importPlan":
@@ -75,7 +77,9 @@ public final class WorkoutkitPlugin: NSObject, FlutterPlugin, @unchecked Sendabl
                 do {
                     plan = try WorkoutPlan(from: data.data)
                 } catch {
-                    throw WorkoutkitError.serialization("Could not import workout: \(error.localizedDescription)")
+                    throw WorkoutkitError.from(error) {
+                        .serialization("Could not import workout: \($0.localizedDescription)")
+                    }
                 }
                 return try WorkoutPlanSerializer.json(plan)
             }
@@ -92,10 +96,8 @@ public final class WorkoutkitPlugin: NSObject, FlutterPlugin, @unchecked Sendabl
     private func respond(_ result: FlutterResult, _ body: () throws -> Any?) {
         do {
             result(try body())
-        } catch let error as WorkoutkitError {
-            result(error.flutterError)
         } catch {
-            result(FlutterError(code: "UNKNOWN", message: "\(error)", details: nil))
+            result(WorkoutkitError.from(error).flutterError)
         }
     }
 
@@ -106,10 +108,8 @@ public final class WorkoutkitPlugin: NSObject, FlutterPlugin, @unchecked Sendabl
             do {
                 let value = try await body()
                 result(value)
-            } catch let error as WorkoutkitError {
-                result(error.flutterError)
             } catch {
-                result(FlutterError(code: "UNKNOWN", message: "\(error)", details: nil))
+                result(WorkoutkitError.from(error).flutterError)
             }
         }
     }
@@ -120,11 +120,8 @@ public final class WorkoutkitPlugin: NSObject, FlutterPlugin, @unchecked Sendabl
         let plan: WorkoutPlan
         do {
             plan = try WorkoutPlanBuilder.plan(from: arguments)
-        } catch let error as WorkoutkitError {
-            result(error.flutterError)
-            return
         } catch {
-            result(FlutterError(code: "UNKNOWN", message: "\(error)", details: nil))
+            result(WorkoutkitError.from(error).flutterError)
             return
         }
         let box = UncheckedSendable((plan: plan, result: result))
@@ -134,10 +131,8 @@ public final class WorkoutkitPlugin: NSObject, FlutterPlugin, @unchecked Sendabl
             previewPresenter = presenter
             do {
                 try presenter.present(plan) { result(nil) }
-            } catch let error as WorkoutkitError {
-                result(error.flutterError)
             } catch {
-                result(FlutterError(code: "UNKNOWN", message: "\(error)", details: nil))
+                result(WorkoutkitError.from(error).flutterError)
             }
         }
     }

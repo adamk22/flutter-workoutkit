@@ -76,4 +76,20 @@ final class ValidationIssueTests: XCTestCase {
         XCTAssertEqual(error.code, "UNSUPPORTED_OS")
         XCTAssertEqual((error.details as? [[String: Any]])?.first?["path"] as? String, "goal")
     }
+
+    // MARK: Error mapping (#5)
+
+    func testStateErrorsGetDedicatedCodes() {
+        XCTAssertEqual(WorkoutkitError.from(StateError.watchNotPaired).code, "WATCH_NOT_PAIRED")
+        XCTAssertEqual(WorkoutkitError.from(StateError.workoutApplicationNotInstalled).code, "WORKOUT_APP_NOT_INSTALLED")
+    }
+
+    func testOtherErrorsMapToUnknownOrTheFallback() {
+        let error = NSError(domain: "test", code: 1)
+        XCTAssertEqual(WorkoutkitError.from(error).code, "UNKNOWN")
+        XCTAssertEqual(WorkoutkitError.from(error) { _ in .serialization("x") }.code, "SERIALIZATION_ERROR")
+        // StateError wins over the fallback, and WorkoutkitErrors pass through.
+        XCTAssertEqual(WorkoutkitError.from(StateError.watchNotPaired) { _ in .serialization("x") }.code, "WATCH_NOT_PAIRED")
+        XCTAssertEqual(WorkoutkitError.from(WorkoutkitError.noPresenter), .noPresenter)
+    }
 }
