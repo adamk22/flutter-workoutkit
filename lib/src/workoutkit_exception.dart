@@ -57,6 +57,16 @@ abstract final class WorkoutkitErrorCode {
   /// `presentPreview` was called while a preview is already on screen.
   static const alreadyPresenting = 'ALREADY_PRESENTING';
 
+  /// No Apple Watch is paired with this iPhone (WorkoutKit `StateError`).
+  static const watchNotPaired = 'WATCH_NOT_PAIRED';
+
+  /// The Workout app isn't installed on the paired Apple Watch (WorkoutKit
+  /// `StateError`).
+  static const workoutAppNotInstalled = 'WORKOUT_APP_NOT_INSTALLED';
+
+  /// An unexpected native error; see the message.
+  static const unknown = 'UNKNOWN';
+
   /// The call isn't available on this platform (WorkoutKit is iOS only).
   static const unsupportedPlatform = 'UNSUPPORTED_PLATFORM';
 

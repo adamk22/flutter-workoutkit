@@ -24,6 +24,7 @@ See the README's "Migrating from 0.0.x to 0.1.0" section.
 - `WorkoutKit.presentPreview(workout)` opens Apple's preview sheet from any Flutter UI and completes when it closes. `WorkoutPreviewButton` is unchanged.
 - Structured validation issues: `WorkoutValidationResult.details` and `WorkoutkitException.validationIssues` give each problem a `WorkoutValidationIssueCode` and a path such as `blocks[0].steps[1]`.
 - `==`, `hashCode` and `copyWith` on all workouts, steps, goals, intervals, alerts and scheduled workouts.
+- WorkoutKit's `StateError` is reported as `WATCH_NOT_PAIRED` / `WORKOUT_APP_NOT_INSTALLED` (`WorkoutkitErrorCode`).
 - `WorkoutKit` as the entry point name. `Workoutkit` keeps working as an alias.
 - Swift Package Manager support, which Flutter now uses by default. CocoaPods is still supported.
 - `WorkoutActivityType.cardioDance` and `socialDance`.

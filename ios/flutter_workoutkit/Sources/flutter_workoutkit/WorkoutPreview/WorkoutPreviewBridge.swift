@@ -20,10 +20,8 @@ class WorkoutPreviewBridge: NSObject, FlutterPlatformView {
         var buildError: WorkoutkitError?
         do {
             plan = try WorkoutPlanBuilder.plan(from: args["workoutJson"])
-        } catch let error as WorkoutkitError {
-            buildError = error
         } catch {
-            buildError = .invalidArgument(path: "$", expected: "a workout (\(error))")
+            buildError = WorkoutkitError.from(error)
         }
         self.buildError = buildError
 

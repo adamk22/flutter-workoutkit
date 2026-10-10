@@ -1,5 +1,6 @@
 @preconcurrency import Flutter
 import Foundation
+import WorkoutKit
 
 /// Errors surfaced to Dart as `WorkoutkitException`.
 enum WorkoutkitError: Error, Equatable, Sendable, CustomStringConvertible {
@@ -19,6 +20,12 @@ enum WorkoutkitError: Error, Equatable, Sendable, CustomStringConvertible {
     case noPresenter
     /// `presentPreview` was called while a preview is already showing.
     case alreadyPresenting
+    /// WorkoutKit's `StateError.watchNotPaired`: no Apple Watch is paired.
+    case watchNotPaired
+    /// WorkoutKit's `StateError.workoutApplicationNotInstalled`.
+    case workoutAppNotInstalled
+    /// Any other error, with its description.
+    case unknown(String)
 
     var code: String {
         switch self {
@@ -29,6 +36,9 @@ enum WorkoutkitError: Error, Equatable, Sendable, CustomStringConvertible {
         case .unsupportedWorkout: return "UNSUPPORTED_WORKOUT"
         case .noPresenter: return "NO_PRESENTER"
         case .alreadyPresenting: return "ALREADY_PRESENTING"
+        case .watchNotPaired: return "WATCH_NOT_PAIRED"
+        case .workoutAppNotInstalled: return "WORKOUT_APP_NOT_INSTALLED"
+        case .unknown: return "UNKNOWN"
         }
     }
 
@@ -44,6 +54,12 @@ enum WorkoutkitError: Error, Equatable, Sendable, CustomStringConvertible {
             return "No visible view controller to present the workout preview from"
         case .alreadyPresenting:
             return "A workout preview is already being presented"
+        case .watchNotPaired:
+            return "No Apple Watch is paired with this iPhone"
+        case .workoutAppNotInstalled:
+            return "The Workout app is not installed on the paired Apple Watch"
+        case let .unknown(message):
+            return message
         case let .unsupportedWorkout(issues):
             return "Workout not supported by WorkoutKit: " + issues.map(\.message).joined(separator: "; ")
         }
@@ -67,9 +83,24 @@ enum WorkoutkitError: Error, Equatable, Sendable, CustomStringConvertible {
             return [ValidationIssue(code: .unsupportedOS, path: path, message: description)]
         case let .invalidArgument(path, _):
             return [ValidationIssue(code: .invalidWorkout, path: Self.relative(path), message: description)]
-        case .notFound, .serialization, .noPresenter, .alreadyPresenting:
+        case .notFound, .serialization, .noPresenter, .alreadyPresenting,
+             .watchNotPaired, .workoutAppNotInstalled, .unknown:
             return [ValidationIssue(code: .invalidWorkout, path: nil, message: description)]
         }
+    }
+
+    /// Maps any error to a `WorkoutkitError`: WorkoutKit's `StateError`
+    /// gets its own code, other errors become `fallback` (default `unknown`).
+    static func from(_ error: Error, fallback: ((Error) -> WorkoutkitError)? = nil) -> WorkoutkitError {
+        if let error = error as? WorkoutkitError { return error }
+        if let error = error as? StateError {
+            switch error {
+            case .watchNotPaired: return .watchNotPaired
+            case .workoutApplicationNotInstalled: return .workoutAppNotInstalled
+            @unknown default: return .unknown("\(error)")
+            }
+        }
+        return fallback?(error) ?? .unknown("\(error)")
     }
 
     /// Converts a JSON reader path (`$.blocks[0]`) to an issue path (`blocks[0]`).
