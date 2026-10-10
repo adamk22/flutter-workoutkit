@@ -9,9 +9,9 @@ A Flutter plugin for Apple's [WorkoutKit](https://developer.apple.com/documentat
 
 > **Requirements:** iOS 17.0+ and an Apple Watch paired with the iPhone to actually run workouts. Pool swim goals and step names need iOS 18.0+. Android is not supported: the widgets render nothing and the API calls throw.
 
-## 🚨 Active Development!
+## 📦 Stability
 
-This plugin is under active development, and breaking changes may land before 1.0.0. See the [CHANGELOG](CHANGELOG.md) and the [migration guide](#-migrating-from-00x-to-010). Please report issues and feature requests on [GitHub](https://github.com/adamk22/flutter-workoutkit).
+1.0.0 is the first stable release; the API follows [semantic versioning](https://semver.org). Upgrading from 0.0.x? See the [migration guide](#-migrating-from-00x-to-100) and the [CHANGELOG](CHANGELOG.md). Please report issues and feature requests on [GitHub](https://github.com/adamk22/flutter-workoutkit).
 
 ## 🔑 Key Features
 
@@ -41,7 +41,7 @@ This plugin is under active development, and breaking changes may land before 1.
 
 ```yaml
 dependencies:
-  flutter_workoutkit: ^0.1.0
+  flutter_workoutkit: ^1.0.0
 ```
 
 Set your iOS deployment target to **17.0** or higher in Xcode (Runner target → Minimum Deployments). If your app still uses CocoaPods, set it in `ios/Podfile` too:
@@ -270,7 +270,7 @@ Native failures are thrown as `WorkoutkitException`, which has a `code`, a `mess
 | `WORKOUT_APP_NOT_INSTALLED` | WorkoutKit reported that the Workout app isn't installed on the Watch. |
 | `UNKNOWN` | Any other native error; see `message`. |
 
-## 🔁 Migrating from 0.0.x to 0.1.0
+## 🔁 Migrating from 0.0.x to 1.0.0
 
 - **iOS 17.0 is now the minimum.** The podspec requires it, so CocoaPods rejects apps that target an older version. Previously the button crashed on iOS 16.
 - **The entry point is now `WorkoutKit`.** `Workoutkit` still works: it's an alias, not deprecated.

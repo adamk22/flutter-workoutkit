@@ -1,6 +1,6 @@
 name: flutter_workoutkit
 description: "Create, preview, validate and schedule custom workouts for the Apple Watch Workout app using Apple's WorkoutKit."
-version: 0.1.0
+version: 1.0.0
 homepage: https://adamkramer.dev
 repository: https://github.com/adamk22/flutter-workoutkit
 issue_tracker: https://github.com/adamk22/flutter-workoutkit/issues
