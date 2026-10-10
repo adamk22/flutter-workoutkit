@@ -1,0 +1,40 @@
+[
+  {
+    "type": "open"
+  },
+  {
+    "type": "distance",
+    "targetValue": 5,
+    "unit": "kilometers"
+  },
+  {
+    "type": "distance",
+    "targetValue": 400,
+    "unit": "yards"
+  },
+  {
+    "type": "time",
+    "targetDuration": 90,
+    "unit": "minutes"
+  },
+  {
+    "type": "time",
+    "targetDuration": 7200,
+    "unit": "hours"
+  },
+  {
+    "type": "time",
+    "targetDuration": 45,
+    "unit": "seconds"
+  },
+  {
+    "type": "energy",
+    "targetValue": 250,
+    "unit": "kilocalories"
+  },
+  {
+    "type": "energy",
+    "targetValue": 1000,
+    "unit": "calories"
+  }
+]

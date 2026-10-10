@@ -1,0 +1,10 @@
+{
+  "workoutType": "singleGoalWorkout",
+  "activityType": "cycling",
+  "goal": {
+    "type": "energy",
+    "targetValue": 500,
+    "unit": "kilocalories"
+  },
+  "location": "outdoor"
+}

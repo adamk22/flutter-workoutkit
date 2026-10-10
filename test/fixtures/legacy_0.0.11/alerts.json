@@ -1,0 +1,44 @@
+[
+  {
+    "type": "heartRateZone",
+    "zone": 2
+  },
+  {
+    "type": "heartRateRange",
+    "lowerBound": 120.0,
+    "upperBound": 140.0
+  },
+  {
+    "type": "cadenceThreshold",
+    "threshold": 90.0
+  },
+  {
+    "type": "powerZone",
+    "zone": 3,
+    "metric": "current"
+  },
+  {
+    "type": "powerRange",
+    "lowerBound": 200.0,
+    "upperBound": 250.0,
+    "metric": "average"
+  },
+  {
+    "type": "powerThreshold",
+    "threshold": 230.0,
+    "metric": "current"
+  },
+  {
+    "type": "speedRange",
+    "lowerBound": 28.0,
+    "upperBound": 32.0,
+    "unitSpeed": "kilometersPerHour",
+    "metric": "average"
+  },
+  {
+    "type": "speedThreshold",
+    "threshold": 12.0,
+    "unitSpeed": "milesPerHour",
+    "metric": "current"
+  }
+]

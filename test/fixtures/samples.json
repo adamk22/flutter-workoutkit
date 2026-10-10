@@ -1,0 +1,496 @@
+{
+  "sampleSingleGoalTimedWorkout": {
+    "workoutType": "singleGoalWorkout",
+    "activityType": "running",
+    "goal": {
+      "type": "time",
+      "targetDuration": 1800,
+      "unit": "minutes"
+    },
+    "location": "indoor"
+  },
+  "sampleSingleGoalEnergyWorkout": {
+    "workoutType": "singleGoalWorkout",
+    "activityType": "cycling",
+    "goal": {
+      "type": "energy",
+      "targetValue": 500.0,
+      "unit": "kilocalories"
+    },
+    "location": "outdoor"
+  },
+  "sampleSingleOpenWorkout": {
+    "workoutType": "singleGoalWorkout",
+    "activityType": "basketball",
+    "goal": {
+      "type": "open"
+    },
+    "location": "outdoor"
+  },
+  "sampleSingleGoalSwimmingWorkout": {
+    "workoutType": "singleGoalWorkout",
+    "activityType": "swimming",
+    "goal": {
+      "type": "distance",
+      "targetValue": 1000.0,
+      "unit": "meters"
+    },
+    "swimmingLocation": "pool"
+  },
+  "samplePacerMinutesWorkout": {
+    "workoutType": "pacerWorkout",
+    "activityType": "running",
+    "location": "outdoor",
+    "targetValue": 1000.0,
+    "targetValueUnit": "meters",
+    "targetDuration": 1800,
+    "targetDurationUnit": "minutes"
+  },
+  "samplePacerHoursWorkout": {
+    "workoutType": "pacerWorkout",
+    "activityType": "cycling",
+    "location": "outdoor",
+    "targetValue": 50.5,
+    "targetValueUnit": "kilometers",
+    "targetDuration": 7200,
+    "targetDurationUnit": "hours"
+  },
+  "sampleSpeedCyclingWorkout": {
+    "workoutType": "customWorkout",
+    "activityType": "cycling",
+    "location": "outdoor",
+    "displayName": "Test Speed Cycling",
+    "blocks": [
+      {
+        "iterations": 1,
+        "steps": [
+          {
+            "purpose": "work",
+            "goal": {
+              "type": "distance",
+              "targetValue": 24.0,
+              "unit": "kilometers"
+            },
+            "alert": {
+              "type": "speedRange",
+              "lowerBound": 28.0,
+              "upperBound": 32.0,
+              "unitSpeed": "kilometersPerHour",
+              "metric": "average"
+            }
+          }
+        ]
+      }
+    ],
+    "warmup": {
+      "goal": {
+        "type": "time",
+        "targetDuration": 600,
+        "unit": "minutes"
+      },
+      "alert": {
+        "type": "heartRateZone",
+        "zone": 1
+      }
+    },
+    "cooldown": {
+      "goal": {
+        "type": "time",
+        "targetDuration": 600,
+        "unit": "minutes"
+      },
+      "alert": {
+        "type": "heartRateZone",
+        "zone": 1
+      }
+    }
+  },
+  "sampleCustomWorkout": {
+    "workoutType": "customWorkout",
+    "activityType": "running",
+    "location": "outdoor",
+    "displayName": "Test Timed Run",
+    "blocks": [
+      {
+        "iterations": 4,
+        "steps": [
+          {
+            "purpose": "work",
+            "goal": {
+              "type": "time",
+              "targetDuration": 300,
+              "unit": "minutes"
+            },
+            "alert": {
+              "type": "heartRateZone",
+              "zone": 2
+            }
+          }
+        ]
+      },
+      {
+        "iterations": 4,
+        "steps": [
+          {
+            "purpose": "work",
+            "goal": {
+              "type": "time",
+              "targetDuration": 120,
+              "unit": "minutes"
+            },
+            "alert": {
+              "type": "heartRateZone",
+              "zone": 3
+            }
+          },
+          {
+            "purpose": "recovery",
+            "goal": {
+              "type": "time",
+              "targetDuration": 120,
+              "unit": "minutes"
+            },
+            "alert": {
+              "type": "heartRateZone",
+              "zone": 1
+            }
+          }
+        ]
+      },
+      {
+        "iterations": 1,
+        "steps": [
+          {
+            "purpose": "recovery",
+            "goal": {
+              "type": "time",
+              "targetDuration": 300,
+              "unit": "minutes"
+            },
+            "alert": {
+              "type": "heartRateZone",
+              "zone": 2
+            }
+          }
+        ]
+      }
+    ],
+    "warmup": {
+      "goal": {
+        "type": "time",
+        "targetDuration": 300,
+        "unit": "minutes"
+      },
+      "alert": {
+        "type": "heartRateZone",
+        "zone": 1
+      }
+    },
+    "cooldown": {
+      "goal": {
+        "type": "time",
+        "targetDuration": 300,
+        "unit": "minutes"
+      },
+      "alert": {
+        "type": "heartRateZone",
+        "zone": 1
+      }
+    }
+  },
+  "sample10kTrainingRun": {
+    "workoutType": "customWorkout",
+    "activityType": "running",
+    "location": "outdoor",
+    "displayName": "10K Training Run",
+    "blocks": [
+      {
+        "iterations": 1,
+        "steps": [
+          {
+            "purpose": "work",
+            "goal": {
+              "type": "distance",
+              "targetValue": 5000.0,
+              "unit": "meters"
+            },
+            "alert": {
+              "type": "heartRateRange",
+              "lowerBound": 136.0,
+              "upperBound": 156.0
+            }
+          }
+        ]
+      },
+      {
+        "iterations": 1,
+        "steps": [
+          {
+            "purpose": "recovery",
+            "goal": {
+              "type": "time",
+              "targetDuration": 300,
+              "unit": "minutes"
+            },
+            "alert": {
+              "type": "heartRateRange",
+              "lowerBound": 90.0,
+              "upperBound": 120.0
+            }
+          }
+        ]
+      },
+      {
+        "iterations": 1,
+        "steps": [
+          {
+            "purpose": "work",
+            "goal": {
+              "type": "distance",
+              "targetValue": 5.0,
+              "unit": "kilometers"
+            },
+            "alert": {
+              "type": "heartRateRange",
+              "lowerBound": 136.0,
+              "upperBound": 156.0
+            }
+          }
+        ]
+      }
+    ],
+    "warmup": {
+      "goal": {
+        "type": "time",
+        "targetDuration": 600,
+        "unit": "minutes"
+      },
+      "alert": {
+        "type": "heartRateRange",
+        "lowerBound": 86.0,
+        "upperBound": 120.0
+      }
+    },
+    "cooldown": {
+      "goal": {
+        "type": "time",
+        "targetDuration": 300,
+        "unit": "minutes"
+      },
+      "alert": {
+        "type": "heartRateRange",
+        "lowerBound": 86.0,
+        "upperBound": 120.0
+      }
+    }
+  },
+  "sample21kmTrainingRun": {
+    "workoutType": "customWorkout",
+    "activityType": "running",
+    "location": "outdoor",
+    "displayName": "21k Stepped Run",
+    "blocks": [
+      {
+        "iterations": 1,
+        "steps": [
+          {
+            "purpose": "work",
+            "step": {
+              "goal": {
+                "type": "distance",
+                "targetValue": 16.0,
+                "unit": "kilometers"
+              },
+              "alert": {
+                "type": "heartRateZone",
+                "zone": 2
+              },
+              "displayName": "16k Zone 2"
+            }
+          }
+        ]
+      },
+      {
+        "iterations": 1,
+        "steps": [
+          {
+            "purpose": "work",
+            "step": {
+              "goal": {
+                "type": "distance",
+                "targetValue": 3.0,
+                "unit": "kilometers"
+              },
+              "alert": {
+                "type": "heartRateZone",
+                "zone": 3
+              },
+              "displayName": "3k Zone 3"
+            }
+          }
+        ]
+      },
+      {
+        "iterations": 1,
+        "steps": [
+          {
+            "purpose": "work",
+            "goal": {
+              "type": "distance",
+              "targetValue": 2.0,
+              "unit": "kilometers"
+            },
+            "alert": {
+              "type": "heartRateZone",
+              "zone": 1
+            }
+          }
+        ]
+      }
+    ],
+    "warmup": {
+      "goal": {
+        "type": "time",
+        "targetDuration": 300,
+        "unit": "minutes"
+      },
+      "alert": {
+        "type": "heartRateZone",
+        "zone": 1
+      },
+      "displayName": "5 min warmup"
+    },
+    "cooldown": {
+      "goal": {
+        "type": "time",
+        "targetDuration": 300,
+        "unit": "minutes"
+      },
+      "alert": {
+        "type": "heartRateZone",
+        "zone": 1
+      },
+      "displayName": "5 min cooldown"
+    }
+  },
+  "sampleTempoPaceRun": {
+    "workoutType": "customWorkout",
+    "activityType": "running",
+    "location": "outdoor",
+    "displayName": "Tempo Run",
+    "blocks": [
+      {
+        "iterations": 3,
+        "steps": [
+          {
+            "purpose": "work",
+            "goal": {
+              "type": "distance",
+              "targetValue": 2.0,
+              "unit": "kilometers"
+            },
+            "alert": {
+              "type": "paceRange",
+              "fastestPace": 300,
+              "slowestPace": 330,
+              "paceUnit": "perKilometer",
+              "metric": "current",
+              "lowerBound": 3.0303030303030303,
+              "upperBound": 3.3333333333333335,
+              "unitSpeed": "metersPerSecond"
+            }
+          },
+          {
+            "purpose": "recovery",
+            "goal": {
+              "type": "time",
+              "targetDuration": 90,
+              "unit": "seconds"
+            }
+          }
+        ]
+      }
+    ],
+    "warmup": {
+      "goal": {
+        "type": "time",
+        "targetDuration": 600,
+        "unit": "minutes"
+      },
+      "alert": {
+        "type": "heartRateZone",
+        "zone": 2
+      }
+    },
+    "cooldown": {
+      "goal": {
+        "type": "time",
+        "targetDuration": 300,
+        "unit": "minutes"
+      }
+    }
+  },
+  "samplePoolSwimIntervals": {
+    "workoutType": "customWorkout",
+    "activityType": "swimming",
+    "location": "indoor",
+    "displayName": "Pool Intervals",
+    "blocks": [
+      {
+        "iterations": 8,
+        "steps": [
+          {
+            "purpose": "work",
+            "goal": {
+              "type": "poolSwimDistanceWithTime",
+              "targetValue": 100.0,
+              "targetDuration": 120,
+              "unit": "meters",
+              "durationUnit": "minutes"
+            }
+          },
+          {
+            "purpose": "recovery",
+            "goal": {
+              "type": "time",
+              "targetDuration": 30,
+              "unit": "seconds"
+            }
+          }
+        ]
+      }
+    ],
+    "warmup": {
+      "goal": {
+        "type": "distance",
+        "targetValue": 200.0,
+        "unit": "meters"
+      }
+    },
+    "cooldown": {
+      "goal": {
+        "type": "distance",
+        "targetValue": 200.0,
+        "unit": "meters"
+      }
+    }
+  },
+  "sampleSwimBikeRunWorkout": {
+    "workoutType": "swimBikeRunWorkout",
+    "activities": [
+      {
+        "type": "swimming",
+        "swimmingLocation": "pool"
+      },
+      {
+        "type": "cycling",
+        "location": "outdoor"
+      },
+      {
+        "type": "running",
+        "location": "outdoor"
+      }
+    ],
+    "displayName": "Triathlon Training"
+  }
+}

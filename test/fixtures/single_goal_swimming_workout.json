@@ -1,0 +1,10 @@
+{
+  "workoutType": "singleGoalWorkout",
+  "activityType": "swimming",
+  "goal": {
+    "type": "distance",
+    "targetValue": 1000,
+    "unit": "meters"
+  },
+  "swimmingLocation": "pool"
+}

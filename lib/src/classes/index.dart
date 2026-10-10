@@ -1,8 +1,12 @@
 // Export Workout Alerts
-export 'workoutAlerts/index.dart';
+export 'workout_alerts/index.dart';
 
 // Export Workout Parts
-export 'workoutParts/index.dart';
+export 'workout_parts/index.dart';
 
 // Export Workouts
 export 'workouts/index.dart';
+
+export 'scheduled_workout.dart'
+    show ScheduledWorkout, SchedulerAuthorizationState;
+export 'workout_validation_result.dart';
