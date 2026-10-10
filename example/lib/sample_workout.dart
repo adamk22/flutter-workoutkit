@@ -1,5 +1,6 @@
 import 'package:flutter_workoutkit/flutter_workoutkit.dart';
 
+/// The sample workout from the README.
 final CustomWorkout sampleWorkout = CustomWorkout(
   activityType: WorkoutActivityType.running,
   location: WorkoutLocationType.outdoor,
@@ -14,7 +15,6 @@ final CustomWorkout sampleWorkout = CustomWorkout(
   ),
   blocks: [
     IntervalBlock(
-      type: IntervalBlockType.work,
       iterations: 4,
       steps: [
         IntervalStep(
@@ -29,7 +29,6 @@ final CustomWorkout sampleWorkout = CustomWorkout(
       ],
     ),
     IntervalBlock(
-      type: IntervalBlockType.workRecovery,
       iterations: 4,
       steps: [
         IntervalStep(
@@ -53,7 +52,6 @@ final CustomWorkout sampleWorkout = CustomWorkout(
       ],
     ),
     IntervalBlock(
-      type: IntervalBlockType.recovery,
       iterations: 1,
       steps: [
         IntervalStep(
