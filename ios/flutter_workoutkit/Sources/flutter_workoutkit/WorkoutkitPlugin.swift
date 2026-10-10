@@ -49,7 +49,11 @@ public class WorkoutkitPlugin: NSObject, FlutterPlugin {
             result(healthStore.authorizationStatus(for: HKObjectType.workoutType()) == .sharingAuthorized)
         case "validate":
             let issues = WorkoutValidator.issues(for: call.arguments)
-            result(["isValid": issues.isEmpty, "issues": issues])
+            result([
+                "isValid": issues.isEmpty,
+                "issues": issues.map(\.message),
+                "details": issues.map(\.dictionary),
+            ])
         case "exportPlan":
             respond(result) {
                 let plan = try WorkoutPlanBuilder.plan(from: call.arguments)

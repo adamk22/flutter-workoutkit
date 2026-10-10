@@ -136,7 +136,10 @@ final class SchedulerTests: XCTestCase {
         unsupported["activityType"] = "archery"
         let rejected = invoke(plugin, "scheduler.schedule", ["workout": unsupported, "date": date]) as? FlutterError
         XCTAssertEqual(rejected?.code, "UNSUPPORTED_WORKOUT")
-        XCTAssertEqual((rejected?.details as? [String])?.count, 1)
+        let details = try XCTUnwrap(rejected?.details as? [[String: Any]])
+        XCTAssertEqual(details.count, 1)
+        XCTAssertEqual(details.first?["code"] as? String, "unsupportedActivity")
+        XCTAssertEqual(details.first?["path"] as? String, "activityType")
 
         XCTAssertTrue(fake.plans.isEmpty)
     }

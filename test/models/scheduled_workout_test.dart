@@ -47,8 +47,43 @@ void main() {
     final result = WorkoutValidationResult.fromJson({
       'isValid': false,
       'issues': <Object?>['a', 'b'],
+      'details': <Object?>[
+        <Object?, Object?>{
+          'code': 'unsupportedGoal',
+          'path': 'blocks[0].steps[1]',
+          'message': 'a',
+        },
+        <Object?, Object?>{'code': 'somethingNew', 'message': 'b'},
+      ],
     });
     expect(result.issues, ['a', 'b']);
     expect(result.toString(), contains('a; b'));
+    expect(result.details, [
+      const WorkoutValidationIssue(
+        code: WorkoutValidationIssueCode.unsupportedGoal,
+        path: 'blocks[0].steps[1]',
+        message: 'a',
+      ),
+      // Unknown codes from newer native versions don't break parsing.
+      const WorkoutValidationIssue(
+          code: WorkoutValidationIssueCode.invalidWorkout, message: 'b'),
+    ]);
+    expect(WorkoutValidationResult.fromJson(result.toJson()), result);
+  });
+
+  test('payloads without details (older native side) still parse', () {
+    final result =
+        WorkoutValidationResult.fromJson({'isValid': true, 'issues': []});
+    expect(result.details, isEmpty);
+  });
+
+  test('WorkoutkitException exposes validation issues', () {
+    const e = WorkoutkitException('UNSUPPORTED_WORKOUT', 'nope', [
+      {'code': 'unsupportedActivity', 'path': 'activityType', 'message': 'x'},
+    ]);
+    expect(e.validationIssues.single.code,
+        WorkoutValidationIssueCode.unsupportedActivity);
+    expect(e.validationIssues.single.path, 'activityType');
+    expect(const WorkoutkitException('NOT_FOUND').validationIssues, isEmpty);
   });
 }

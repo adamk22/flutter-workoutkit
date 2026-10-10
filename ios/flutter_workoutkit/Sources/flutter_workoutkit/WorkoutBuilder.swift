@@ -58,7 +58,11 @@ enum WorkoutBuilder {
             return .time(try duration(json.double("targetDuration"), in: unit).value, unit)
         case "poolSwimDistanceWithTime":
             guard PlatformFeatures.current.poolSwimGoal, #available(iOS 18.0, *) else {
-                throw WorkoutkitError.unsupportedOS(feature: "Pool swim distance with time goals", minimum: "18.0")
+                throw WorkoutkitError.unsupportedOS(
+                    feature: "Pool swim distance with time goals",
+                    minimum: "18.0",
+                    path: WorkoutkitError.relative(json.path)
+                )
             }
             let distance = Measurement(
                 value: try json.double("targetValue"),
