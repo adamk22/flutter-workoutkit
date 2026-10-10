@@ -3,7 +3,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'flutter_workoutkit'
-  s.version          = '0.1.0'
+  s.version          = '1.0.0'
   s.summary          = "Create, preview and schedule Apple Watch workouts with Apple's WorkoutKit."
   s.description      = <<-DESC
 A Flutter plugin that uses Apple's WorkoutKit to create, preview, validate,

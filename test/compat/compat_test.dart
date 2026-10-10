@@ -198,7 +198,7 @@ void main() {
 
     test('legacy samples describe the same workouts as the current samples',
         () {
-      // Samples whose definition intentionally changed in 0.1.0.
+      // Samples whose definition intentionally changed in 1.0.0.
       const changed = {'sampleSingleGoalEnergyWorkout'};
       for (final entry in legacySamples.entries) {
         if (changed.contains(entry.key)) continue;

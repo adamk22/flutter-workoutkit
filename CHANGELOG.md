@@ -1,8 +1,8 @@
 # Changelog
 
-## [0.1.0]
+## [1.0.0]
 
-See the README's "Migrating from 0.0.x to 0.1.0" section.
+First stable release. The public API now follows semantic versioning: breaking changes only in a new major version. Upgrading from 0.0.x? See the README's "Migrating from 0.0.x to 1.0.0" section.
 
 ### Breaking
 
