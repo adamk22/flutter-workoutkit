@@ -16,10 +16,15 @@ See the README's "Migrating from 0.0.x to 0.1.0" section.
 - `sampleSingleGoalEnergyWorkout` now uses 500 kcal instead of 1000 small calories.
 - Requires Flutter 3.27+. Tested with Flutter 3.47.7 (Dart 3.13).
 - iOS sources moved from `ios/Classes` to `ios/flutter_workoutkit/Sources/flutter_workoutkit` for Swift Package Manager support.
+- Dart sources moved to snake_case files and directories (`workout_alerts/`, `workout_parts/`, no `.class.dart`/`.enum.dart` suffixes). Only affects imports of `src/` files; the public import is unchanged.
 - `WorkoutActivityType.dance` is deprecated (Apple deprecated `HKWorkoutActivityType.dance` in iOS 14) and is sent as `cardioDance`.
 
 ### Added
 
+- `WorkoutKit.presentPreview(workout)` opens Apple's preview sheet from any Flutter UI and completes when it closes. `WorkoutPreviewButton` is unchanged.
+- Structured validation issues: `WorkoutValidationResult.details` and `WorkoutkitException.validationIssues` give each problem a `WorkoutValidationIssueCode` and a path such as `blocks[0].steps[1]`.
+- `==`, `hashCode` and `copyWith` on all workouts, steps, goals, intervals, alerts and scheduled workouts.
+- `WorkoutKit` as the entry point name. `Workoutkit` keeps working as an alias.
 - Swift Package Manager support, which Flutter now uses by default. CocoaPods is still supported.
 - `WorkoutActivityType.cardioDance` and `socialDance`.
 - `WorkoutScheduler`: `isSupported`, `authorizationState`, `requestAuthorization`, `schedule`, `scheduledWorkouts`, `remove`, `markComplete`, `removeAll`, `maxAllowedScheduledWorkoutCount`, plus the `ScheduledWorkout` model.
@@ -54,6 +59,7 @@ See the README's "Migrating from 0.0.x to 0.1.0" section.
 - `dart:io` is no longer imported, so the package compiles for web.
 - `Color.value` deprecation warnings.
 - `pod lib lint` warnings: missing license type and missing source.
+- Native code compiles without warnings under complete strict-concurrency checking (Swift 6 readiness).
 
 ### Deprecated
 

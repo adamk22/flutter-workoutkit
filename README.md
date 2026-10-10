@@ -18,9 +18,10 @@ This plugin is under active development, and breaking changes may land before 1.
 - **Four workout types:** custom interval workouts, single goal, pacer and swim-bike-run.
 - **Goals:** distance, time, energy, open, and pool swim distance-within-time.
 - **Alerts:** heart rate, cadence, power, speed and pace.
-- **Preview** a workout in Apple's native sheet, from which the user adds it to their Watch.
+- **Preview** a workout in Apple's native sheet, from which the user adds it to their Watch, either from your own Flutter UI (`WorkoutKit.presentPreview`) or with a ready-made native button.
 - **Schedule** workouts directly onto the Watch with `WorkoutScheduler`.
-- **Validate** a workout against WorkoutKit's own rules before showing it.
+- **Validate** a workout against WorkoutKit's own rules before showing it, with structured issues (code and path) you can localize.
+- **Value semantics:** all models support `==`, `hashCode` and `copyWith`.
 - **Export and import** workouts in WorkoutKit's binary format.
 
 ## 🎥 Preview
@@ -51,7 +52,7 @@ platform :ios, '17.0'
 
 The plugin supports Swift Package Manager, which Flutter uses by default, and CocoaPods.
 
-You don't need a HealthKit entitlement or HealthKit usage descriptions for previewing or scheduling. You only need them if you still call the deprecated `Workoutkit.requestHealthPermissions`.
+You don't need a HealthKit entitlement or HealthKit usage descriptions for previewing or scheduling. You only need them if you still call the deprecated `WorkoutKit.requestHealthPermissions`.
 
 ## 🚀 Quick start
 
@@ -86,17 +87,24 @@ final tempoRun = CustomWorkout(
   cooldown: WorkoutStep(goal: const WorkoutGoal.time(Duration(minutes: 5))),
 );
 
-// 1. Let the user preview the workout and add it to their Watch:
+// 1. Let the user preview the workout and add it to their Watch from any
+//    Flutter button:
+FilledButton(
+  onPressed: () => WorkoutKit.presentPreview(tempoRun),
+  child: const Text('Add to Apple Watch'),
+);
+
+// 2. Or use the ready-made native button:
 WorkoutPreviewButton(workout: tempoRun);
 
-// 2. Or schedule it directly:
+// 3. Or schedule it directly:
 if (await WorkoutScheduler.requestAuthorization() ==
     SchedulerAuthorizationState.authorized) {
   await WorkoutScheduler.schedule(tempoRun, DateTime(2026, 10, 12, 7, 0));
 }
 ```
 
-There are more workouts in [`lib/src/samples`](lib/src/samples) and in the [example app](example/lib/main.dart).
+There are more workouts in [`lib/src/samples`](lib/src/samples). The [example app](example/lib/main.dart) shows every feature: the native button and `presentPreview`, validation with structured issues, customizing a workout with `copyWith`, export/import and scheduling.
 
 ## 🏋️ Workouts
 
@@ -107,7 +115,7 @@ There are more workouts in [`lib/src/samples`](lib/src/samples) and in the [exam
 | `PacerWorkout` | Cover a distance in a target time. |
 | `SwimBikeRunWorkout` | Ordered multisport legs (`MultisportActivity`). |
 
-Not every activity supports every workout type, goal or alert; for example, a pacer workout only supports a few activities. Check up front with [`Workoutkit.validate`](#-validation).
+Not every activity supports every workout type, goal or alert; for example, a pacer workout only supports a few activities. Check up front with [`WorkoutKit.validate`](#-validation).
 
 **Pool swimming:** use a `CustomWorkout` with `activityType: swimming` and `location: indoor`. WorkoutKit does not accept pool swim goals in a `SingleGoalWorkout`.
 
@@ -142,7 +150,30 @@ WorkoutKit has no separate pace alert. Pace alerts are sent to the Watch as spee
 
 ## 👀 Previewing workouts
 
-WorkoutKit only presents its preview sheet from a native SwiftUI view. `WorkoutPreviewButton` embeds a native button that opens that sheet:
+Apple's preview sheet shows the workout and lets the user add it to the Workout app on their Apple Watch. There are two ways to open it.
+
+### From your own UI: `WorkoutKit.presentPreview`
+
+```dart
+FilledButton(
+  onPressed: () async {
+    try {
+      await WorkoutKit.presentPreview(tempoRun); // completes when the sheet closes
+    } on WorkoutkitException catch (e) {
+      // UNSUPPORTED_WORKOUT, UNSUPPORTED_OS, ALREADY_PRESENTING, NO_PRESENTER,
+      // or UNSUPPORTED_PLATFORM when not on iOS.
+      debugPrint('${e.code}: ${e.message}');
+    }
+  },
+  child: const Text('Add to Apple Watch'),
+)
+```
+
+Use any widget, gesture or flow, for example right after the user saves a workout in your app. Only one preview can be open at a time.
+
+### Ready-made native button: `WorkoutPreviewButton`
+
+`WorkoutPreviewButton` embeds a native button that opens the same sheet, with no extra code:
 
 ```dart
 WorkoutPreviewButton(
@@ -184,15 +215,41 @@ Dates are local time with minute precision. Each scheduled workout has a plan `i
 WorkoutKit **crashes the app** when it is given an unsupported combination, such as an activity a pacer workout doesn't support or a goal that isn't valid for the activity. The plugin runs WorkoutKit's `supports…` checks before building every workout and turns failures into errors. You can also run the checks yourself:
 
 ```dart
-final result = await Workoutkit.validate(workout);
-if (!result.isValid) print(result.issues); // e.g. ["archery is not supported for pacer workouts"]
+final result = await WorkoutKit.validate(workout);
+if (!result.isValid) {
+  for (final issue in result.details) {
+    // e.g. unsupportedGoal at blocks[0].steps[1]
+    print('${issue.code.name} at ${issue.path}: ${issue.message}');
+  }
+}
 ```
+
+Each `WorkoutValidationIssue` has a `code` (`unsupportedActivity`, `unsupportedGoal`, `unsupportedAlert`, `unsupportedActivityOrdering`, `missingBlocks`, `missingActivities`, `unsupportedOS` or `invalidWorkout`) and a `path` into the workout, such as `activityType`, `goal` or `blocks[0].steps[1]`. Use them to show your own (localized) messages or to highlight the step that's wrong. `result.issues` holds the English messages.
+
+The same issues are available on errors: `WorkoutkitException.validationIssues`.
+
+## 🧩 Working with workouts
+
+All models compare by value and can be copied with changes:
+
+```dart
+final longer = tempoRun.copyWith(
+  displayName: 'Long Tempo Run',
+  blocks: [tempoRun.blocks.first.copyWith(iterations: 5)],
+);
+
+longer == tempoRun;                                         // false
+Workout.fromJson(tempoRun.toJson()) == tempoRun;            // true
+{HeartRateZoneAlert(zone: 2), HeartRateZoneAlert(zone: 2)}; // a set of one
+```
+
+`copyWith` can't set a nullable field back to `null`; create a new object for that.
 
 ## 📦 Export / import
 
 ```dart
-final Uint8List data = await Workoutkit.exportWorkout(workout); // WorkoutKit's dataRepresentation
-final Workout copy = await Workoutkit.importWorkout(data);
+final Uint8List data = await WorkoutKit.exportWorkout(workout); // WorkoutKit's dataRepresentation
+final Workout copy = await WorkoutKit.importWorkout(data);
 ```
 
 ## ⚠️ Error handling
@@ -202,15 +259,19 @@ Native failures are thrown as `WorkoutkitException`, which has a `code`, a `mess
 | `code` | Meaning |
 |---|---|
 | `INVALID_ARGUMENT` | The workout JSON was malformed (a bug: please report it). |
-| `UNSUPPORTED_WORKOUT` | WorkoutKit doesn't support this activity/goal/alert combination. `details` lists the issues. |
-| `UNSUPPORTED_OS` | The feature needs a newer iOS version. |
+| `UNSUPPORTED_WORKOUT` | WorkoutKit doesn't support this activity/goal/alert combination. See `validationIssues`. |
+| `UNSUPPORTED_OS` | The feature needs a newer iOS version. See `validationIssues`. |
 | `NOT_FOUND` | No scheduled workout matched the given id and date. |
 | `SERIALIZATION_ERROR` | Export or import failed. |
+| `ALREADY_PRESENTING` | `presentPreview` was called while a preview is open. |
+| `NO_PRESENTER` | `presentPreview` found no visible screen to present from. |
+| `UNSUPPORTED_PLATFORM` | Called on a platform other than iOS. |
 
 ## 🔁 Migrating from 0.0.x to 0.1.0
 
 - **iOS 17.0 is now the minimum.** The podspec requires it, so CocoaPods rejects apps that target an older version. Previously the button crashed on iOS 16.
-- **HealthKit is no longer required.** `Workoutkit.requestHealthPermissions` and `hasHealthPermissions` are deprecated. Use `WorkoutScheduler.requestAuthorization` instead, and remove the HealthKit capability if nothing else in your app uses it.
+- **The entry point is now `WorkoutKit`.** `Workoutkit` still works: it's an alias, not deprecated.
+- **HealthKit is no longer required.** `WorkoutKit.requestHealthPermissions` and `hasHealthPermissions` are deprecated. Use `WorkoutScheduler.requestAuthorization` instead, and remove the HealthKit capability if nothing else in your app uses it.
 - **`IntervalBlock.type` is deprecated and optional.** WorkoutKit never used it; set `IntervalStep.purpose` instead.
 - **`WorkoutAlert` is now abstract.** `WorkoutAlert.fromJson` returns the concrete subclass.
 - **`WorkoutService` was removed.** It called a native method that never existed.
@@ -227,6 +288,9 @@ See [CONTRIBUTING.md](CONTRIBUTING.md). Running `just check` runs the analyzer, 
 ## 🚧 Roadmap
 
 - ✅ `WorkoutPreviewButton` for previewing workouts, with customization
+- ✅ `WorkoutKit.presentPreview` to open the preview from any Flutter UI
+- ✅ Structured validation issues
+- ✅ Value equality and `copyWith` on all models
 - ✅ `WorkoutScheduler` and scheduled workout plans
 - ✅ `poolSwimDistanceWithTime` goals
 - ✅ Pace alerts
@@ -234,6 +298,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md). Running `just check` runs the analyzer, 
 - ✅ Graceful errors instead of native crashes
 - ✅ Tests (Dart, Swift and integration)
 - ✅ Swift Package Manager support (CocoaPods still works)
+- ❌ macOS support (WorkoutKit's scheduler and preview exist on macOS 15)
 - ❌ (Long term) Explore options for supporting Android
 
 ## 📝 License
