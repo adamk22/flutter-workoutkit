@@ -74,6 +74,10 @@ When you add or change a serialized field, update the fixture, the Dart model, t
 
 When you fix a bug, add a test that fails without the fix. These suites were checked by reintroducing the original 0.0.11 bugs one at a time. Each one makes the suites fail.
 
+### CI
+
+GitHub Actions runs the Dart checks on Linux and the Swift tests on iOS 17.5, 18.6 and the latest simulator runtime. A missing runtime is downloaded with `xcodebuild -downloadPlatform`. The iOS 17.5 job runs the real-OS versions of the fallbacks that `onIOS17_0` simulates locally. Integration tests and `pod lib lint` run on the latest runtime only.
+
 ### Manual checks that need a device
 
 Scheduling only reaches a real Watch when a paired Apple Watch is present:

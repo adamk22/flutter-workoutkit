@@ -53,6 +53,11 @@ final class RegressionTests: XCTestCase {
         let samples = try dictionary("samples.json")
         XCTAssertGreaterThanOrEqual(samples.count, 13)
         for (name, json) in samples {
+            if name == "samplePoolSwimIntervals", #unavailable(iOS 18.0) {
+                // Pool swim goals need iOS 18; older runtimes must report it.
+                XCTAssertEqual(WorkoutValidator.issues(for: json).map(\.code), [.unsupportedOS], name)
+                continue
+            }
             let built = try plan(json)
             XCTAssertEqual(WorkoutValidator.issues(for: json), [], name)
             XCTAssertEqual(try plan(WorkoutPlanSerializer.json(built)), built, name)
