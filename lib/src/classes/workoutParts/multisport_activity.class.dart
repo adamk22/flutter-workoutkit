@@ -1,19 +1,17 @@
 import 'package:flutter_workoutkit/flutter_workoutkit.dart';
 
-/// Represents a multisport activity
+/// One leg of a [SwimBikeRunWorkout].
 class MultisportActivity {
-  /// The type of the activity
+  /// The type of the activity.
   final MultisportActivityType type;
 
-  /// The location of the activity
-  /// location is required if the activity type is not swimming
+  /// The location of the activity. Required unless [type] is swimming.
   final WorkoutLocationType? location;
 
-  /// The swimming location of the activity (optional)
-  /// swimmingLocation is required if the activity type is swimming
+  /// The swimming location. Required if [type] is swimming.
   final WorkoutSwimmingLocationType? swimmingLocation;
 
-  /// Creates a new multisport activity
+  /// Creates a new multisport activity.
   MultisportActivity({
     required this.type,
     this.location,
@@ -24,27 +22,25 @@ class MultisportActivity {
                 (type != MultisportActivityType.swimming && location != null),
             'swimmingLocation required for swimming, location required for other activities');
 
-  /// Converts the multisport activity to a JSON object
+  /// Converts the multisport activity to a JSON object.
   Map<String, dynamic> toJson() {
     return {
-      'type': type.toString().split('.').last,
-      'location': location?.toString().split('.').last,
-      'swimmingLocation': swimmingLocation?.toString().split('.').last,
+      'type': type.name,
+      if (location != null) 'location': location!.name,
+      if (swimmingLocation != null) 'swimmingLocation': swimmingLocation!.name,
     };
   }
 
-  /// Creates a new multisport activity from a JSON object
+  /// Creates a new multisport activity from a JSON object.
   static MultisportActivity fromJson(Map<String, dynamic> json) {
     return MultisportActivity(
-      type: MultisportActivityType.values
-          .firstWhere((e) => e.toString().split('.').last == json['type']),
+      type: MultisportActivityType.fromString(json['type'] as String),
       location: json['location'] != null
-          ? WorkoutLocationType.values.firstWhere(
-              (e) => e.toString().split('.').last == json['location'])
+          ? WorkoutLocationType.values.byName(json['location'] as String)
           : null,
       swimmingLocation: json['swimmingLocation'] != null
-          ? WorkoutSwimmingLocationType.values.firstWhere(
-              (e) => e.toString().split('.').last == json['swimmingLocation'])
+          ? WorkoutSwimmingLocationType.values
+              .byName(json['swimmingLocation'] as String)
           : null,
     );
   }

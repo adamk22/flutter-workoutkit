@@ -1,11 +1,12 @@
 import 'package:flutter_workoutkit/flutter_workoutkit.dart';
+import 'package:flutter_workoutkit/src/utils/json.dart';
 
-/// Represents a cadence threshold alert
+/// Alerts relative to a target cadence, in steps or revolutions per minute.
 class CadenceThresholdAlert extends WorkoutAlert {
-  /// The threshold of the cadence
+  /// The threshold of the cadence.
   final double threshold;
 
-  /// Creates a new cadence threshold alert
+  /// Creates a new cadence threshold alert.
   CadenceThresholdAlert({required this.threshold})
       : super(type: WorkoutAlertType.cadenceThreshold);
 
@@ -16,14 +17,11 @@ class CadenceThresholdAlert extends WorkoutAlert {
 
   @override
   Map<String, dynamic> toJson() {
-    return {
-      'type': type.toString().split('.').last,
-      'threshold': threshold,
-    };
+    return {'type': type.name, 'threshold': threshold};
   }
 
-  /// Creates a new cadence threshold alert from a JSON object
+  /// Creates a new cadence threshold alert from a JSON object.
   static CadenceThresholdAlert fromJson(Map<String, dynamic> json) {
-    return CadenceThresholdAlert(threshold: json['threshold'] as double);
+    return CadenceThresholdAlert(threshold: asDouble(json['threshold']));
   }
 }

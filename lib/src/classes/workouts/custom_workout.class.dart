@@ -1,26 +1,28 @@
 import 'package:flutter_workoutkit/flutter_workoutkit.dart';
+import 'package:flutter_workoutkit/src/utils/json.dart';
 
-/// Represents a custom workout
+/// A workout with an optional warmup, interval blocks and an optional
+/// cooldown.
 class CustomWorkout extends Workout {
-  /// The activity type of the workout
+  /// The activity type of the workout.
   final WorkoutActivityType activityType;
 
-  /// The display name of the workout
+  /// The display name of the workout.
   final String displayName;
 
-  /// The warmup step of the workout (optional)
+  /// The warmup step of the workout (optional).
   final WorkoutStep? warmup;
 
-  /// The blocks of the workout
+  /// The blocks of the workout.
   final List<IntervalBlock> blocks;
 
-  /// The cooldown step of the workout (optional)
+  /// The cooldown step of the workout (optional).
   final WorkoutStep? cooldown;
 
-  /// The location type of the workout
+  /// The location type of the workout.
   final WorkoutLocationType location;
 
-  /// Creates a new custom workout
+  /// Creates a new custom workout.
   CustomWorkout({
     required this.activityType,
     required this.location,
@@ -28,37 +30,36 @@ class CustomWorkout extends Workout {
     this.warmup,
     required this.blocks,
     this.cooldown,
+    super.id,
   }) : super(workoutType: WorkoutType.customWorkout);
 
   @override
   Map<String, dynamic> toJson() {
-    return {
-      'activityType': activityType.toString().split('.').last,
-      'workoutType': workoutType.toString().split('.').last,
-      'location': location.toString().split('.').last,
-      'displayName': displayName,
-      'warmup': warmup?.toJson(),
-      'blocks': blocks.map((block) => block.toJson()).toList(),
-      'cooldown': cooldown?.toJson(),
-    };
+    final json = super.toJson()
+      ..addAll({
+        'activityType': activityType.name,
+        'location': location.name,
+        'displayName': displayName,
+        'blocks': blocks.map((block) => block.toJson()).toList(),
+      });
+    putIfNotNull(json, 'warmup', warmup?.toJson());
+    putIfNotNull(json, 'cooldown', cooldown?.toJson());
+    return json;
   }
 
-  /// Creates a new custom workout from a JSON object
+  /// Creates a new custom workout from a JSON object.
   static CustomWorkout fromJson(Map<String, dynamic> json) {
     return CustomWorkout(
-      activityType: WorkoutActivityType.values
-          .firstWhere((e) => e.name == json['activityType']),
-      location: WorkoutLocationType.values
-          .firstWhere((e) => e.name == json['location']),
-      displayName: json['displayName'],
+      id: json['id'] as String?,
+      activityType: WorkoutActivityType.fromString(json['activityType']),
+      location: WorkoutLocationType.values.byName(json['location'] as String),
+      displayName: json['displayName'] as String,
       warmup: json['warmup'] != null
-          ? WorkoutStep.fromJson(json['warmup'] as Map<String, dynamic>)
+          ? WorkoutStep.fromJson(asJsonMap(json['warmup']))
           : null,
-      blocks: json['blocks']
-          .map((block) => IntervalBlock.fromJson(block as Map<String, dynamic>))
-          .toList(),
+      blocks: asJsonList(json['blocks']).map(IntervalBlock.fromJson).toList(),
       cooldown: json['cooldown'] != null
-          ? WorkoutStep.fromJson(json['cooldown'] as Map<String, dynamic>)
+          ? WorkoutStep.fromJson(asJsonMap(json['cooldown']))
           : null,
     );
   }

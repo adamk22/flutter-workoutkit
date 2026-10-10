@@ -1,22 +1,26 @@
 import 'package:flutter_workoutkit/flutter_workoutkit.dart';
+import 'package:flutter_workoutkit/src/utils/json.dart';
 
-/// Represents a power range alert
+/// Alerts when power leaves a range, in watts.
+///
+/// [metric] `average` requires iOS 17.4+; earlier versions use `current`.
 class PowerRangeAlert extends WorkoutAlert {
-  /// The lower bound of the power range
+  /// The lower bound of the power range.
   final double lowerBound;
 
-  /// The upper bound of the power range
+  /// The upper bound of the power range.
   final double upperBound;
 
-  /// The metric of the power
+  /// The metric of the power.
   final WorkoutAlertMetric metric;
 
-  /// Creates a new power range alert
+  /// Creates a new power range alert.
   PowerRangeAlert({
     required this.lowerBound,
     required this.upperBound,
     required this.metric,
-  }) : super(type: WorkoutAlertType.powerRange);
+  })  : assert(lowerBound <= upperBound, 'lowerBound must be <= upperBound'),
+        super(type: WorkoutAlertType.powerRange);
 
   @override
   String toDisplayString() {
@@ -26,18 +30,18 @@ class PowerRangeAlert extends WorkoutAlert {
   @override
   Map<String, dynamic> toJson() {
     return {
-      'type': type.toString().split('.').last,
+      'type': type.name,
       'lowerBound': lowerBound,
       'upperBound': upperBound,
-      'metric': metric.toString().split('.').last,
+      'metric': metric.name,
     };
   }
 
-  /// Creates a new power range alert from a JSON object
+  /// Creates a new power range alert from a JSON object.
   static PowerRangeAlert fromJson(Map<String, dynamic> json) {
     return PowerRangeAlert(
-      lowerBound: json['lowerBound'] as double,
-      upperBound: json['upperBound'] as double,
+      lowerBound: asDouble(json['lowerBound']),
+      upperBound: asDouble(json['upperBound']),
       metric: WorkoutAlertMetric.fromString(json['metric'] as String),
     );
   }

@@ -1,14 +1,15 @@
 import 'package:flutter_workoutkit/flutter_workoutkit.dart';
 
-/// Represents a heart rate zone alert
+/// Alerts when the user leaves a heart rate zone (1–5) as configured in the
+/// Workout app.
 class HeartRateZoneAlert extends WorkoutAlert {
-  /// The zone of the heart rate
-  /// min zone is 1, max zone is 5
+  /// The heart rate zone, 1 through 5.
   final int zone;
 
-  /// Creates a new heart rate zone alert
+  /// Creates a new heart rate zone alert.
   HeartRateZoneAlert({required this.zone})
-      : super(type: WorkoutAlertType.heartRateZone);
+      : assert(zone >= 1 && zone <= 5, 'zone must be between 1 and 5'),
+        super(type: WorkoutAlertType.heartRateZone);
 
   @override
   String toDisplayString() {
@@ -17,14 +18,11 @@ class HeartRateZoneAlert extends WorkoutAlert {
 
   @override
   Map<String, dynamic> toJson() {
-    return {
-      'type': type.toString().split('.').last,
-      'zone': zone,
-    };
+    return {'type': type.name, 'zone': zone};
   }
 
-  /// Creates a new heart rate zone alert from a JSON object
+  /// Creates a new heart rate zone alert from a JSON object.
   static HeartRateZoneAlert fromJson(Map<String, dynamic> json) {
-    return HeartRateZoneAlert(zone: json['zone'] as int);
+    return HeartRateZoneAlert(zone: (json['zone'] as num).toInt());
   }
 }

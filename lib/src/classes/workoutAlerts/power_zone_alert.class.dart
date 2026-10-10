@@ -1,19 +1,20 @@
 import 'package:flutter_workoutkit/flutter_workoutkit.dart';
 
-/// Represents a power zone alert
+/// Alerts when the user leaves a power zone as configured in the Workout app.
 class PowerZoneAlert extends WorkoutAlert {
-  /// The zone of the power
-  /// min zone is 1, max zone is 5
+  /// The power zone, starting at 1.
   final int zone;
 
-  /// The metric of the power
+  /// Kept for backwards compatibility. WorkoutKit power zone alerts always use
+  /// the current value, so this is ignored on the native side.
   final WorkoutAlertMetric metric;
 
-  /// Creates a new power zone alert
+  /// Creates a new power zone alert.
   PowerZoneAlert({
     required this.zone,
-    required this.metric,
-  }) : super(type: WorkoutAlertType.powerZone);
+    this.metric = WorkoutAlertMetric.current,
+  })  : assert(zone >= 1, 'zone must be >= 1'),
+        super(type: WorkoutAlertType.powerZone);
 
   @override
   String toDisplayString() {
@@ -22,18 +23,16 @@ class PowerZoneAlert extends WorkoutAlert {
 
   @override
   Map<String, dynamic> toJson() {
-    return {
-      'type': type.toString().split('.').last,
-      'zone': zone,
-      'metric': metric.toString().split('.').last,
-    };
+    return {'type': type.name, 'zone': zone, 'metric': metric.name};
   }
 
-  /// Creates a new power zone alert from a JSON object
+  /// Creates a new power zone alert from a JSON object.
   static PowerZoneAlert fromJson(Map<String, dynamic> json) {
     return PowerZoneAlert(
-      zone: json['zone'] as int,
-      metric: WorkoutAlertMetric.fromString(json['metric'] as String),
+      zone: (json['zone'] as num).toInt(),
+      metric: json['metric'] != null
+          ? WorkoutAlertMetric.fromString(json['metric'] as String)
+          : WorkoutAlertMetric.current,
     );
   }
 }

@@ -1,0 +1,31 @@
+{
+  "workoutType": "customWorkout",
+  "activityType": "swimming",
+  "location": "indoor",
+  "displayName": "Pool Intervals",
+  "blocks": [
+    {
+      "iterations": 4,
+      "steps": [
+        {
+          "purpose": "work",
+          "goal": {
+            "type": "poolSwimDistanceWithTime",
+            "targetValue": 100,
+            "targetDuration": 120,
+            "unit": "meters",
+            "durationUnit": "minutes"
+          }
+        },
+        {
+          "purpose": "recovery",
+          "goal": {
+            "type": "time",
+            "targetDuration": 30,
+            "unit": "seconds"
+          }
+        }
+      ]
+    }
+  ]
+}

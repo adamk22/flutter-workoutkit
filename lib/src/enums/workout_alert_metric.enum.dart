@@ -1,19 +1,20 @@
-// ignore_for_file: public_member_api_docs
-
+/// Whether an alert compares against the current or the average value.
 enum WorkoutAlertMetric {
+  /// Average over the step.
   average(label: 'Average', symbol: 'average'),
+
+  /// Current (instantaneous) value.
   current(label: 'Current', symbol: 'current');
 
+  /// Human readable label.
   final String label;
+
+  /// Serialized symbol (same as [name]).
   final String symbol;
 
-  const WorkoutAlertMetric({
-    required this.label,
-    required this.symbol,
-  });
+  const WorkoutAlertMetric({required this.label, required this.symbol});
 
-  /// Creates a new workout alert metric from a string
-  static WorkoutAlertMetric fromString(String metric) {
-    return WorkoutAlertMetric.values.firstWhere((e) => e.symbol == metric);
-  }
+  /// Looks up a metric by its [name].
+  static WorkoutAlertMetric fromString(String metric) =>
+      WorkoutAlertMetric.values.byName(metric);
 }

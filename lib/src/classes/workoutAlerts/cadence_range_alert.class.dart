@@ -1,16 +1,18 @@
 import 'package:flutter_workoutkit/flutter_workoutkit.dart';
+import 'package:flutter_workoutkit/src/utils/json.dart';
 
-/// Represents a cadence range alert
+/// Alerts when cadence leaves a range, in steps or revolutions per minute.
 class CadenceRangeAlert extends WorkoutAlert {
-  /// The lower bound of the cadence range
+  /// The lower bound of the cadence range.
   final double lowerBound;
 
-  /// The upper bound of the cadence range
+  /// The upper bound of the cadence range.
   final double upperBound;
 
-  /// Creates a new cadence range alert
+  /// Creates a new cadence range alert.
   CadenceRangeAlert({required this.lowerBound, required this.upperBound})
-      : super(type: WorkoutAlertType.cadenceRange);
+      : assert(lowerBound <= upperBound, 'lowerBound must be <= upperBound'),
+        super(type: WorkoutAlertType.cadenceRange);
 
   @override
   String toDisplayString() {
@@ -20,15 +22,17 @@ class CadenceRangeAlert extends WorkoutAlert {
   @override
   Map<String, dynamic> toJson() {
     return {
-      'type': type.toString().split('.').last,
+      'type': type.name,
+      'lowerBound': lowerBound,
+      'upperBound': upperBound,
     };
   }
 
-  /// Creates a new cadence range alert from a JSON object
+  /// Creates a new cadence range alert from a JSON object.
   static CadenceRangeAlert fromJson(Map<String, dynamic> json) {
     return CadenceRangeAlert(
-      lowerBound: json['lowerBound'] as double,
-      upperBound: json['upperBound'] as double,
+      lowerBound: asDouble(json['lowerBound']),
+      upperBound: asDouble(json['upperBound']),
     );
   }
 }

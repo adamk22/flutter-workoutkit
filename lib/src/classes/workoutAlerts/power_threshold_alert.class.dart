@@ -1,14 +1,17 @@
 import 'package:flutter_workoutkit/flutter_workoutkit.dart';
+import 'package:flutter_workoutkit/src/utils/json.dart';
 
-/// Represents a power threshold alert
+/// Alerts relative to a target power, in watts.
+///
+/// [metric] `average` requires iOS 17.4+; earlier versions use `current`.
 class PowerThresholdAlert extends WorkoutAlert {
-  /// The threshold of the power
+  /// The threshold of the power.
   final double threshold;
 
-  /// The metric of the power
+  /// The metric of the power.
   final WorkoutAlertMetric metric;
 
-  /// Creates a new power threshold alert
+  /// Creates a new power threshold alert.
   PowerThresholdAlert({
     required this.threshold,
     required this.metric,
@@ -21,17 +24,13 @@ class PowerThresholdAlert extends WorkoutAlert {
 
   @override
   Map<String, dynamic> toJson() {
-    return {
-      'type': type.toString().split('.').last,
-      'threshold': threshold,
-      'metric': metric.toString().split('.').last,
-    };
+    return {'type': type.name, 'threshold': threshold, 'metric': metric.name};
   }
 
-  /// Creates a new power threshold alert from a JSON object
+  /// Creates a new power threshold alert from a JSON object.
   static PowerThresholdAlert fromJson(Map<String, dynamic> json) {
     return PowerThresholdAlert(
-      threshold: json['threshold'] as double,
+      threshold: asDouble(json['threshold']),
       metric: WorkoutAlertMetric.fromString(json['metric'] as String),
     );
   }

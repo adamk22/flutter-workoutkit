@@ -1,62 +1,78 @@
 import 'package:flutter_workoutkit/flutter_workoutkit.dart';
+import 'package:flutter_workoutkit/src/utils/json.dart';
 
-/// Represents a pace range alert
+/// Alerts when running pace leaves a range, e.g. between 5:00 and 5:30 per km.
+///
+/// WorkoutKit has no dedicated pace alert: this is sent to the Watch as a
+/// speed range alert. The Workout app shows it as pace or speed depending on
+/// the user's settings. Plans read back from WorkoutKit (scheduled or
+/// imported) therefore come back as a [SpeedRangeAlert] in m/s.
 class PaceRangeAlert extends WorkoutAlert {
-  /// The lower bound of the pace range
-  final double lowerBoundMinute;
+  /// The fastest acceptable pace (shortest time per [paceUnit]).
+  final Duration fastestPace;
 
-  /// The lower bound of the pace range
-  final double lowerBoundSecond;
+  /// The slowest acceptable pace (longest time per [paceUnit]).
+  final Duration slowestPace;
 
-  /// The upper bound of the pace range
-  final double upperBoundMinute;
+  /// The distance the paces are measured over.
+  final PaceUnit paceUnit;
 
-  /// The upper bound of the pace range
-  final double upperBoundSecond;
-
-  /// The unit of the pace
-  final UnitSpeed unitSpeed;
-
-  /// The metric of the pace
+  /// The metric of the pace.
   final WorkoutAlertMetric metric;
 
-  /// Creates a new pace range alert
+  /// Creates a new pace range alert.
   PaceRangeAlert({
-    required this.lowerBoundMinute,
-    required this.lowerBoundSecond,
-    required this.upperBoundMinute,
-    required this.upperBoundSecond,
-    required this.unitSpeed,
-    required this.metric,
-  }) : super(type: WorkoutAlertType.paceRange);
+    required this.fastestPace,
+    required this.slowestPace,
+    this.paceUnit = PaceUnit.perKilometer,
+    this.metric = WorkoutAlertMetric.current,
+  })  : assert(fastestPace > Duration.zero, 'fastestPace must be positive'),
+        assert(fastestPace <= slowestPace,
+            'fastestPace must be shorter than or equal to slowestPace'),
+        super(type: WorkoutAlertType.paceRange);
+
+  /// The lower speed bound (from [slowestPace]) in meters per second.
+  double get lowerBoundMetersPerSecond =>
+      paceUnit.toMetersPerSecond(slowestPace);
+
+  /// The upper speed bound (from [fastestPace]) in meters per second.
+  double get upperBoundMetersPerSecond =>
+      paceUnit.toMetersPerSecond(fastestPace);
 
   @override
   String toDisplayString() {
-    return '$lowerBoundMinute:$lowerBoundSecond - $upperBoundMinute:$upperBoundSecond ${unitSpeed.symbol}';
+    return '${formatPace(fastestPace)} - ${formatPace(slowestPace)} '
+        '${paceUnit.symbol}';
   }
 
   @override
   Map<String, dynamic> toJson() {
     return {
-      'type': type.toString().split('.').last,
-      'lowerBoundMinute': lowerBoundMinute,
-      'lowerBoundSecond': lowerBoundSecond,
-      'upperBoundMinute': upperBoundMinute,
-      'upperBoundSecond': upperBoundSecond,
-      'unitSpeed': unitSpeed.toString().split('.').last,
-      'metric': metric.toString().split('.').last,
+      'type': type.name,
+      'fastestPace': durationToSeconds(fastestPace),
+      'slowestPace': durationToSeconds(slowestPace),
+      'paceUnit': paceUnit.name,
+      'metric': metric.name,
+      // Precomputed speed bounds consumed by the native side.
+      'lowerBound': lowerBoundMetersPerSecond,
+      'upperBound': upperBoundMetersPerSecond,
+      'unitSpeed': UnitSpeed.metersPerSecond.name,
     };
   }
 
-  /// Creates a new pace range alert from a JSON object
+  /// Creates a new pace range alert from a JSON object.
   static PaceRangeAlert fromJson(Map<String, dynamic> json) {
     return PaceRangeAlert(
-      lowerBoundMinute: json['lowerBoundMinute'] as double,
-      lowerBoundSecond: json['lowerBoundSecond'] as double,
-      upperBoundMinute: json['upperBoundMinute'] as double,
-      upperBoundSecond: json['upperBoundSecond'] as double,
-      unitSpeed: UnitSpeed.fromString(json['unitSpeed'] as String),
+      fastestPace: asSecondsDuration(json['fastestPace']),
+      slowestPace: asSecondsDuration(json['slowestPace']),
+      paceUnit: PaceUnit.fromString(json['paceUnit'] as String),
       metric: WorkoutAlertMetric.fromString(json['metric'] as String),
     );
   }
+}
+
+/// Formats a pace as `m:ss`.
+String formatPace(Duration pace) {
+  final seconds = pace.inSeconds % 60;
+  return '${pace.inMinutes}:${seconds.toString().padLeft(2, '0')}';
 }

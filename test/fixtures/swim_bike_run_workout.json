@@ -1,0 +1,18 @@
+{
+  "workoutType": "swimBikeRunWorkout",
+  "activities": [
+    {
+      "type": "swimming",
+      "swimmingLocation": "openWater"
+    },
+    {
+      "type": "cycling",
+      "location": "outdoor"
+    },
+    {
+      "type": "running",
+      "location": "outdoor"
+    }
+  ],
+  "displayName": "Sprint Triathlon"
+}

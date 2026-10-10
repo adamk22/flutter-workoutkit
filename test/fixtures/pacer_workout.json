@@ -1,0 +1,9 @@
+{
+  "workoutType": "pacerWorkout",
+  "activityType": "running",
+  "location": "outdoor",
+  "targetValue": 5,
+  "targetValueUnit": "kilometers",
+  "targetDuration": 1500,
+  "targetDurationUnit": "minutes"
+}

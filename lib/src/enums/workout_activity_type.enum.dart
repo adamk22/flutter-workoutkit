@@ -1,49 +1,138 @@
-// ignore_for_file: public_member_api_docs
-
 import 'package:flutter/material.dart';
 
+/// The activity of a workout. Maps to HealthKit's `HKWorkoutActivityType`.
+///
+/// Not every activity is supported by every workout kind; use
+/// `Workoutkit.validate` to check a workout before presenting it.
 enum WorkoutActivityType {
+  /// Archery.
   archery(label: 'Archery'),
+
+  /// Badminton.
   badminton(label: 'Badminton'),
+
+  /// Baseball.
   baseball(label: 'Baseball'),
+
+  /// Basketball.
   basketball(label: 'Basketball'),
+
+  /// Bowling.
   bowling(label: 'Bowling'),
+
+  /// Boxing.
   boxing(label: 'Boxing'),
+
+  /// Climbing.
   climbing(label: 'Climbing'),
+
+  /// Cross Training.
   crossTraining(label: 'Cross Training'),
+
+  /// Cycling.
   cycling(label: 'Cycling'),
+
+  /// Dance. Sent to WorkoutKit as [cardioDance].
+  @Deprecated('Use cardioDance or socialDance')
   dance(label: 'Dance'),
+
+  /// Cardio Dance.
+  cardioDance(label: 'Cardio Dance'),
+
+  /// Social Dance.
+  socialDance(label: 'Social Dance'),
+
+  /// Elliptical.
   elliptical(label: 'Elliptical'),
+
+  /// Fitness Gaming.
   fitnessGaming(label: 'Fitness Gaming'),
+
+  /// Strength Training.
   functionalStrengthTraining(label: 'Strength Training'),
+
+  /// Golf.
   golf(label: 'Golf'),
+
+  /// Hiking.
   hiking(label: 'Hiking'),
+
+  /// Hockey.
   hockey(label: 'Hockey'),
+
+  /// Jump Rope.
   jumpRope(label: 'Jump Rope'),
+
+  /// Kickboxing.
   kickboxing(label: 'Kickboxing'),
+
+  /// Martial Arts.
   martialArts(label: 'Martial Arts'),
+
+  /// Pilates.
   pilates(label: 'Pilates'),
+
+  /// Rowing.
   rowing(label: 'Rowing'),
+
+  /// Rugby.
   rugby(label: 'Rugby'),
+
+  /// Running.
   running(label: 'Running'),
+
+  /// Sailing.
   sailing(label: 'Sailing'),
+
+  /// Skating.
   skatingSports(label: 'Skating'),
+
+  /// Soccer.
   soccer(label: 'Soccer'),
+
+  /// Stairs.
   stairs(label: 'Stairs'),
+
+  /// Swimming.
   swimming(label: 'Swimming'),
+
+  /// Table Tennis.
   tableTennis(label: 'Table Tennis'),
+
+  /// Tennis.
   tennis(label: 'Tennis'),
+
+  /// Volleyball.
   volleyball(label: 'Volleyball'),
+
+  /// Walking.
   walking(label: 'Walking'),
+
+  /// Water Fitness.
   waterFitness(label: 'Water Fitness'),
+
+  /// Water Polo.
   waterPolo(label: 'Water Polo'),
+
+  /// Water Sports.
   waterSports(label: 'Water Sports'),
+
+  /// Wrestling.
   wrestling(label: 'Wrestling'),
+
+  /// Yoga.
   yoga(label: 'Yoga');
 
+  /// Human readable label.
   final String label;
+
   const WorkoutActivityType({required this.label});
 
+  /// Looks up an activity by its [name].
+  static WorkoutActivityType fromString(String name) =>
+      WorkoutActivityType.values.byName(name);
+
+  /// A Material icon representing the activity.
   IconData get iconData {
     switch (this) {
       case WorkoutActivityType.archery:
@@ -64,7 +153,10 @@ enum WorkoutActivityType {
         return Icons.fitness_center;
       case WorkoutActivityType.cycling:
         return Icons.directions_bike;
+      // ignore: deprecated_member_use_from_same_package
       case WorkoutActivityType.dance:
+      case WorkoutActivityType.cardioDance:
+      case WorkoutActivityType.socialDance:
         return Icons.music_note;
       case WorkoutActivityType.elliptical:
         return Icons.fitness_center;

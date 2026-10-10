@@ -17,8 +17,8 @@ final SingleGoalWorkout sampleSingleGoalEnergyWorkout = SingleGoalWorkout(
   location: WorkoutLocationType.outdoor,
   goal: const WorkoutGoal(
     type: WorkoutGoalType.energy,
-    targetValue: 1000,
-    unit: WorkoutGoalUnit.calories,
+    targetValue: 500,
+    unit: WorkoutGoalUnit.kilocalories,
   ),
 );
 

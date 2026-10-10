@@ -1,23 +1,23 @@
 import 'package:flutter_workoutkit/flutter_workoutkit.dart';
+import 'package:flutter_workoutkit/src/utils/json.dart';
 
-/// Represents an interval step
+/// A work or recovery step inside an [IntervalBlock].
 class IntervalStep {
-  /// The purpose of the step
+  /// The purpose of the step.
   final IntervalStepPurpose purpose;
 
-  /// The goal of the step (optional)
+  /// The goal of the step. Either [goal] or [step] must be provided, but not
+  /// both.
   final WorkoutGoal? goal;
 
-  /// The alert of the step (optional)
-  /// Either goal or alert must be provided, but not both
+  /// The alert of the step (optional). When used together with [step] it
+  /// replaces the step's alert.
   final WorkoutAlert? alert;
 
-  /// The step of the workout (optional)
-  /// Either goal or step must be provided, but not both
-  /// step is useful for adding a custom display name to the step
+  /// The full step. Useful for adding a display name to the step.
   final WorkoutStep? step;
 
-  /// Creates a new interval step
+  /// Creates a new interval step.
   IntervalStep({
     required this.purpose,
     this.goal,
@@ -28,39 +28,37 @@ class IntervalStep {
           'Either goal or step must be provided, but not both',
         );
 
-  /// Converts the interval step to a JSON object
+  /// Converts the interval step to a JSON object.
   Map<String, dynamic> toJson() {
-    return {
-      'purpose': purpose.toString().split('.').last,
-      'goal': goal?.toJson(),
-      'step': step?.toJson(),
-      'alert': alert?.toJson(),
-    };
+    final json = <String, dynamic>{'purpose': purpose.name};
+    putIfNotNull(json, 'goal', goal?.toJson());
+    putIfNotNull(json, 'step', step?.toJson());
+    putIfNotNull(json, 'alert', alert?.toJson());
+    return json;
   }
 
-  /// Creates a new interval step from a JSON object
+  /// Creates a new interval step from a JSON object.
   static IntervalStep fromJson(Map<String, dynamic> json) {
     return IntervalStep(
-      purpose: IntervalStepPurpose.values
-          .firstWhere((e) => e.toString().split('.').last == json['purpose']),
+      purpose: IntervalStepPurpose.values.byName(json['purpose'] as String),
       goal: json['goal'] != null
-          ? WorkoutGoal.fromJson(json['goal'] as Map<String, dynamic>)
+          ? WorkoutGoal.fromJson(asJsonMap(json['goal']))
           : null,
       step: json['step'] != null
-          ? WorkoutStep.fromJson(json['step'] as Map<String, dynamic>)
+          ? WorkoutStep.fromJson(asJsonMap(json['step']))
           : null,
       alert: json['alert'] != null
-          ? WorkoutAlert.fromJson(json['alert'] as Map<String, dynamic>)
+          ? WorkoutAlert.fromJson(asJsonMap(json['alert']))
           : null,
     );
   }
 }
 
-/// The purpose of the interval step
+/// The purpose of an [IntervalStep].
 enum IntervalStepPurpose {
-  /// The step is a workout step
+  /// A work step.
   work,
 
-  /// The step is a recovery step
+  /// A recovery step.
   recovery,
 }

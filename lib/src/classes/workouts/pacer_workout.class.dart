@@ -1,26 +1,27 @@
 import 'package:flutter_workoutkit/flutter_workoutkit.dart';
+import 'package:flutter_workoutkit/src/utils/json.dart';
 
-/// Represents a pacer workout
+/// Cover a distance in a target time; the Watch paces the user.
 class PacerWorkout extends Workout {
-  /// The activity type of the workout
+  /// The activity type of the workout.
   final WorkoutActivityType activityType;
 
-  /// The location type of the workout
+  /// The location type of the workout.
   final WorkoutLocationType location;
 
-  /// The target value of the workout
+  /// The distance to cover.
   final double targetValue;
 
-  /// The unit of the target value
+  /// The unit of [targetValue].
   final GoalDistanceUnits targetValueUnit;
 
-  /// The target duration of the workout
+  /// The time to cover the distance in.
   final Duration targetDuration;
 
-  /// The unit of the target duration
+  /// The unit [targetDuration] is displayed in.
   final GoalTimeUnits targetDurationUnit;
 
-  /// Creates a new pacer workout
+  /// Creates a new pacer workout.
   PacerWorkout({
     required this.activityType,
     required this.location,
@@ -28,34 +29,32 @@ class PacerWorkout extends Workout {
     required this.targetValueUnit,
     required this.targetDuration,
     required this.targetDurationUnit,
+    super.id,
   }) : super(workoutType: WorkoutType.pacerWorkout);
 
   @override
   Map<String, dynamic> toJson() {
     return {
       ...super.toJson(),
-      'activityType': activityType.toString().split('.').last,
-      'location': location.toString().split('.').last,
+      'activityType': activityType.name,
+      'location': location.name,
       'targetValue': targetValue,
-      'targetValueUnit': targetValueUnit.toString().split('.').last,
-      'targetDuration': targetDuration.inSeconds,
-      'targetDurationUnit': targetDurationUnit.toString().split('.').last,
+      'targetValueUnit': targetValueUnit.name,
+      'targetDuration': durationToSeconds(targetDuration),
+      'targetDurationUnit': targetDurationUnit.name,
     };
   }
 
-  /// Creates a new pacer workout from a JSON object
+  /// Creates a new pacer workout from a JSON object.
   static PacerWorkout fromJson(Map<String, dynamic> json) {
     return PacerWorkout(
-      activityType: WorkoutActivityType.values
-          .firstWhere((e) => e.name == json['activityType']),
-      location: WorkoutLocationType.values
-          .firstWhere((e) => e.name == json['location']),
-      targetValue: json['targetValue'],
-      targetValueUnit: GoalDistanceUnits.values
-          .firstWhere((e) => e.name == json['targetValueUnit']),
-      targetDuration: Duration(seconds: json['targetDuration']),
-      targetDurationUnit: GoalTimeUnits.values
-          .firstWhere((e) => e.name == json['targetDurationUnit']),
+      id: json['id'] as String?,
+      activityType: WorkoutActivityType.fromString(json['activityType']),
+      location: WorkoutLocationType.values.byName(json['location'] as String),
+      targetValue: asDouble(json['targetValue']),
+      targetValueUnit: GoalDistanceUnits.fromString(json['targetValueUnit']),
+      targetDuration: asSecondsDuration(json['targetDuration']),
+      targetDurationUnit: GoalTimeUnits.fromString(json['targetDurationUnit']),
     );
   }
 }

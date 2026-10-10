@@ -1,58 +1,111 @@
 import 'package:flutter_workoutkit/flutter_workoutkit.dart';
+import 'package:flutter_workoutkit/src/utils/json.dart';
 
-/// Represents a workout goal
+/// The goal of a workout or step.
+///
+/// Prefer the named constructors, e.g. `WorkoutGoal.distance(5, WorkoutGoalUnit.kilometers)`.
 class WorkoutGoal {
-  /// The type of the goal
+  /// The type of the goal.
   final WorkoutGoalType type;
 
-  /// The target value of the goal
-  /// targetValue is required if the goal type is distance or energy
+  /// The target value. Required for distance, energy and
+  /// pool swim distance with time goals.
   final double? targetValue;
 
-  /// The target duration of the goal
-  /// targetDuration is required if the goal type is time
+  /// The target duration. Required for time and pool swim distance with time
+  /// goals.
   final Duration? targetDuration;
 
-  /// The unit of the goal
-  /// unit is required if the goal type is distance or energy
+  /// The unit of [targetValue] (distance or energy), or the display unit of
+  /// [targetDuration] for time goals (defaults to minutes).
   final WorkoutGoalUnit? unit;
 
-  /// Creates a new workout goal
+  /// The display unit of [targetDuration] for pool swim distance with time
+  /// goals (defaults to minutes).
+  final WorkoutGoalUnit? durationUnit;
+
+  /// Creates a new workout goal.
   const WorkoutGoal({
     required this.type,
     this.targetValue,
     this.targetDuration,
     this.unit,
+    this.durationUnit,
   }) : assert(
           (type == WorkoutGoalType.distance && targetValue != null) ||
               (type == WorkoutGoalType.time && targetDuration != null) ||
               (type == WorkoutGoalType.energy && targetValue != null) ||
+              (type == WorkoutGoalType.poolSwimDistanceWithTime &&
+                  targetValue != null &&
+                  targetDuration != null &&
+                  unit != null) ||
               type == WorkoutGoalType.open,
-          'targetValue is required for distance type, targetDuration is required for time type, targetValue is required for energy type',
+          'targetValue is required for distance and energy goals, '
+          'targetDuration for time goals, and targetValue, unit and '
+          'targetDuration for pool swim distance with time goals',
         );
 
-  /// Converts the workout goal to a JSON object
+  /// A goal-less (open) workout or step.
+  const WorkoutGoal.open() : this(type: WorkoutGoalType.open);
+
+  /// Complete [value] in [unit] (meters, kilometers, miles or yards).
+  const WorkoutGoal.distance(double value, WorkoutGoalUnit unit)
+      : this(type: WorkoutGoalType.distance, targetValue: value, unit: unit);
+
+  /// Complete [duration], displayed in [unit] (seconds, minutes or hours).
+  const WorkoutGoal.time(
+    Duration duration, {
+    WorkoutGoalUnit unit = WorkoutGoalUnit.minutes,
+  }) : this(type: WorkoutGoalType.time, targetDuration: duration, unit: unit);
+
+  /// Burn [value] of active energy. Note that [WorkoutGoalUnit.calories] are
+  /// small calories; most apps mean [WorkoutGoalUnit.kilocalories].
+  const WorkoutGoal.energy(
+    double value, {
+    WorkoutGoalUnit unit = WorkoutGoalUnit.kilocalories,
+  }) : this(type: WorkoutGoalType.energy, targetValue: value, unit: unit);
+
+  /// Swim [distance] in a pool within [duration]. Requires iOS 18.0+.
+  const WorkoutGoal.poolSwimDistanceWithTime({
+    required double distance,
+    required WorkoutGoalUnit distanceUnit,
+    required Duration duration,
+    WorkoutGoalUnit durationUnit = WorkoutGoalUnit.minutes,
+  }) : this(
+          type: WorkoutGoalType.poolSwimDistanceWithTime,
+          targetValue: distance,
+          unit: distanceUnit,
+          targetDuration: duration,
+          durationUnit: durationUnit,
+        );
+
+  /// Converts the workout goal to a JSON object.
   Map<String, dynamic> toJson() {
-    return {
-      'type': type.toString().split('.').last,
-      'targetValue': targetValue,
-      'targetDuration': targetDuration?.inSeconds,
-      'unit': unit?.toString().split('.').last,
-    };
+    final json = <String, dynamic>{'type': type.name};
+    putIfNotNull(json, 'targetValue', targetValue);
+    putIfNotNull(
+      json,
+      'targetDuration',
+      targetDuration == null ? null : durationToSeconds(targetDuration!),
+    );
+    putIfNotNull(json, 'unit', unit?.name);
+    putIfNotNull(json, 'durationUnit', durationUnit?.name);
+    return json;
   }
 
-  /// Creates a new workout goal from a JSON object
+  /// Creates a new workout goal from a JSON object.
   static WorkoutGoal fromJson(Map<String, dynamic> json) {
     return WorkoutGoal(
-      type: WorkoutGoalType.values
-          .firstWhere((e) => e.toString().split('.').last == json['type']),
-      targetValue: json['targetValue'] as double?,
+      type: WorkoutGoalType.fromString(json['type'] as String),
+      targetValue: asDoubleOrNull(json['targetValue']),
       targetDuration: json['targetDuration'] != null
-          ? Duration(seconds: json['targetDuration'] as int)
+          ? asSecondsDuration(json['targetDuration'])
           : null,
       unit: json['unit'] != null
-          ? WorkoutGoalUnit.values
-              .firstWhere((e) => e.toString().split('.').last == json['unit'])
+          ? WorkoutGoalUnit.fromString(json['unit'] as String)
+          : null,
+      durationUnit: json['durationUnit'] != null
+          ? WorkoutGoalUnit.fromString(json['durationUnit'] as String)
           : null,
     );
   }

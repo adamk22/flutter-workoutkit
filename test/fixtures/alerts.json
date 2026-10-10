@@ -1,0 +1,67 @@
+[
+  {
+    "type": "heartRateZone",
+    "zone": 2
+  },
+  {
+    "type": "heartRateRange",
+    "lowerBound": 120,
+    "upperBound": 140
+  },
+  {
+    "type": "cadenceRange",
+    "lowerBound": 80,
+    "upperBound": 95
+  },
+  {
+    "type": "cadenceThreshold",
+    "threshold": 90
+  },
+  {
+    "type": "powerZone",
+    "zone": 3,
+    "metric": "current"
+  },
+  {
+    "type": "powerRange",
+    "lowerBound": 200,
+    "upperBound": 250,
+    "metric": "average"
+  },
+  {
+    "type": "powerThreshold",
+    "threshold": 230,
+    "metric": "current"
+  },
+  {
+    "type": "speedRange",
+    "lowerBound": 28,
+    "upperBound": 32,
+    "unitSpeed": "kilometersPerHour",
+    "metric": "average"
+  },
+  {
+    "type": "speedThreshold",
+    "threshold": 12,
+    "unitSpeed": "milesPerHour",
+    "metric": "current"
+  },
+  {
+    "type": "paceRange",
+    "fastestPace": 300,
+    "slowestPace": 330,
+    "paceUnit": "perKilometer",
+    "metric": "current",
+    "lowerBound": 3.0303030303030303,
+    "upperBound": 3.3333333333333335,
+    "unitSpeed": "metersPerSecond"
+  },
+  {
+    "type": "paceThreshold",
+    "pace": 450,
+    "paceUnit": "perMile",
+    "metric": "average",
+    "threshold": 3.57632,
+    "unitSpeed": "metersPerSecond"
+  }
+]

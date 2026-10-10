@@ -1,27 +1,30 @@
 import 'package:flutter_workoutkit/flutter_workoutkit.dart';
+import 'package:flutter_workoutkit/src/utils/json.dart';
 
-/// Represents a single goal workout
+/// A workout with a single goal, e.g. run 5 km or swim 30 minutes.
 class SingleGoalWorkout extends Workout {
-  /// The goal of the workout
+  /// The goal of the workout.
   final WorkoutGoal goal;
 
-  /// The swimming location of the workout (optional)
-  /// swimmingLocation is required if the activity type is swimming
+  /// The swimming location. Required if [activityType] is swimming.
   final WorkoutSwimmingLocationType? swimmingLocation;
 
-  /// The location of the workout (optional)
-  /// location is required if the activity type is not swimming
+  /// The location. Required unless [activityType] is swimming.
   final WorkoutLocationType? location;
 
-  /// The activity type of the workout
+  /// The activity type of the workout.
   final WorkoutActivityType activityType;
 
-  /// Creates a new single goal workout
+  /// Creates a new single goal workout.
+  ///
+  /// Throws an [ArgumentError] when [location]/[swimmingLocation] don't match
+  /// [activityType].
   SingleGoalWorkout({
     required this.activityType,
     required this.goal,
     this.location,
     this.swimmingLocation,
+    super.id,
   }) : super(workoutType: WorkoutType.singleGoalWorkout) {
     if (activityType == WorkoutActivityType.swimming) {
       if (swimmingLocation == null || location != null) {
@@ -40,32 +43,28 @@ class SingleGoalWorkout extends Workout {
 
   @override
   Map<String, dynamic> toJson() {
-    final json = super.toJson();
-    json['activityType'] = activityType.toString().split('.').last;
-    json['workoutType'] = workoutType.toString().split('.').last;
-    json['goal'] = goal.toJson();
-    if (location != null) {
-      json['location'] = location.toString().split('.').last;
-    }
-    if (swimmingLocation != null) {
-      json['swimmingLocation'] = swimmingLocation.toString().split('.').last;
-    }
+    final json = super.toJson()
+      ..addAll({
+        'activityType': activityType.name,
+        'goal': goal.toJson(),
+      });
+    putIfNotNull(json, 'location', location?.name);
+    putIfNotNull(json, 'swimmingLocation', swimmingLocation?.name);
     return json;
   }
 
-  /// Creates a new single goal workout from a JSON object
+  /// Creates a new single goal workout from a JSON object.
   static SingleGoalWorkout fromJson(Map<String, dynamic> json) {
     return SingleGoalWorkout(
-      activityType: WorkoutActivityType.values
-          .firstWhere((e) => e.name == json['activityType']),
-      goal: WorkoutGoal.fromJson(json['goal'] as Map<String, dynamic>),
+      id: json['id'] as String?,
+      activityType: WorkoutActivityType.fromString(json['activityType']),
+      goal: WorkoutGoal.fromJson(asJsonMap(json['goal'])),
       location: json['location'] != null
-          ? WorkoutLocationType.values
-              .firstWhere((e) => e.name == json['location'])
+          ? WorkoutLocationType.values.byName(json['location'] as String)
           : null,
       swimmingLocation: json['swimmingLocation'] != null
           ? WorkoutSwimmingLocationType.values
-              .firstWhere((e) => e.name == json['swimmingLocation'])
+              .byName(json['swimmingLocation'] as String)
           : null,
     );
   }

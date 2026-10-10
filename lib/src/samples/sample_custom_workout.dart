@@ -15,7 +15,6 @@ final CustomWorkout sampleSpeedCyclingWorkout = CustomWorkout(
   ),
   blocks: [
     IntervalBlock(
-      type: IntervalBlockType.work,
       iterations: 1,
       steps: [
         IntervalStep(
@@ -62,7 +61,6 @@ final CustomWorkout sampleCustomWorkout = CustomWorkout(
   ),
   blocks: [
     IntervalBlock(
-      type: IntervalBlockType.work,
       iterations: 4,
       steps: [
         IntervalStep(
@@ -77,7 +75,6 @@ final CustomWorkout sampleCustomWorkout = CustomWorkout(
       ],
     ),
     IntervalBlock(
-      type: IntervalBlockType.workRecovery,
       iterations: 4,
       steps: [
         IntervalStep(
@@ -101,7 +98,6 @@ final CustomWorkout sampleCustomWorkout = CustomWorkout(
       ],
     ),
     IntervalBlock(
-      type: IntervalBlockType.recovery,
       iterations: 1,
       steps: [
         IntervalStep(
@@ -141,7 +137,6 @@ final CustomWorkout sample10kTrainingRun = CustomWorkout(
   ),
   blocks: [
     IntervalBlock(
-      type: IntervalBlockType.work,
       iterations: 1,
       steps: [
         IntervalStep(
@@ -156,7 +151,6 @@ final CustomWorkout sample10kTrainingRun = CustomWorkout(
       ],
     ),
     IntervalBlock(
-      type: IntervalBlockType.recovery,
       iterations: 1,
       steps: [
         IntervalStep(
@@ -171,7 +165,6 @@ final CustomWorkout sample10kTrainingRun = CustomWorkout(
       ],
     ),
     IntervalBlock(
-      type: IntervalBlockType.work,
       iterations: 1,
       steps: [
         IntervalStep(
@@ -212,7 +205,6 @@ final CustomWorkout sample21kmTrainingRun = CustomWorkout(
   ),
   blocks: [
     IntervalBlock(
-      type: IntervalBlockType.work,
       iterations: 1,
       steps: [
         IntervalStep(
@@ -230,7 +222,6 @@ final CustomWorkout sample21kmTrainingRun = CustomWorkout(
       ],
     ),
     IntervalBlock(
-      type: IntervalBlockType.work,
       iterations: 1,
       steps: [
         IntervalStep(
@@ -248,7 +239,6 @@ final CustomWorkout sample21kmTrainingRun = CustomWorkout(
       ],
     ),
     IntervalBlock(
-      type: IntervalBlockType.work,
       iterations: 1,
       steps: [
         IntervalStep(
@@ -271,5 +261,71 @@ final CustomWorkout sample21kmTrainingRun = CustomWorkout(
       targetDuration: Duration(minutes: 5),
       unit: WorkoutGoalUnit.minutes,
     ),
+  ),
+);
+
+/// A sample tempo run with pace alerts (5:00–5:30 per km).
+final CustomWorkout sampleTempoPaceRun = CustomWorkout(
+  activityType: WorkoutActivityType.running,
+  location: WorkoutLocationType.outdoor,
+  displayName: "Tempo Run",
+  warmup: WorkoutStep(
+    goal: const WorkoutGoal.time(Duration(minutes: 10)),
+    alert: HeartRateZoneAlert(zone: 2),
+  ),
+  blocks: [
+    IntervalBlock(
+      iterations: 3,
+      steps: [
+        IntervalStep(
+          purpose: IntervalStepPurpose.work,
+          goal: const WorkoutGoal.distance(2, WorkoutGoalUnit.kilometers),
+          alert: PaceRangeAlert(
+            fastestPace: const Duration(minutes: 5),
+            slowestPace: const Duration(minutes: 5, seconds: 30),
+          ),
+        ),
+        IntervalStep(
+          purpose: IntervalStepPurpose.recovery,
+          goal: const WorkoutGoal.time(Duration(seconds: 90),
+              unit: WorkoutGoalUnit.seconds),
+        ),
+      ],
+    ),
+  ],
+  cooldown: WorkoutStep(goal: const WorkoutGoal.time(Duration(minutes: 5))),
+);
+
+/// A sample pool swim interval workout: 8 × 100 m, each within 2 minutes.
+/// Pool swim goals require iOS 18.0+.
+final CustomWorkout samplePoolSwimIntervals = CustomWorkout(
+  activityType: WorkoutActivityType.swimming,
+  location: WorkoutLocationType.indoor,
+  displayName: "Pool Intervals",
+  warmup: WorkoutStep(
+    goal: const WorkoutGoal.distance(200, WorkoutGoalUnit.meters),
+  ),
+  blocks: [
+    IntervalBlock(
+      iterations: 8,
+      steps: [
+        IntervalStep(
+          purpose: IntervalStepPurpose.work,
+          goal: const WorkoutGoal.poolSwimDistanceWithTime(
+            distance: 100,
+            distanceUnit: WorkoutGoalUnit.meters,
+            duration: Duration(minutes: 2),
+          ),
+        ),
+        IntervalStep(
+          purpose: IntervalStepPurpose.recovery,
+          goal: const WorkoutGoal.time(Duration(seconds: 30),
+              unit: WorkoutGoalUnit.seconds),
+        ),
+      ],
+    ),
+  ],
+  cooldown: WorkoutStep(
+    goal: const WorkoutGoal.distance(200, WorkoutGoalUnit.meters),
   ),
 );
