@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  dart:
+    name: Analyze & Dart tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      - run: dart format --output=none --set-exit-if-changed lib test example/lib
+      - run: flutter analyze --fatal-infos
+      - run: flutter test
+      - run: flutter test
+        working-directory: example
+      - run: flutter pub publish --dry-run
+
+  ios:
+    name: Swift tests & integration tests
+    runs-on: macos-latest
+    defaults:
+      run:
+        # Flutter's SwiftPM integration for plugin example apps requires the
+        # plugin directory to be named like the plugin.
+        working-directory: flutter_workoutkit
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: flutter_workoutkit
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - name: Swift unit tests (RunnerTests)
+        run: tool/ios_test.sh
+      - name: Boot simulator
+        run: |
+          SIM=$(xcrun simctl list devices available | grep -oE 'iPhone [^(]+\(([0-9A-F-]{36})\)' | head -1 | grep -oE '[0-9A-F-]{36}')
+          xcrun simctl boot "$SIM" || true
+          echo "SIM=$SIM" >> "$GITHUB_ENV"
+      - name: Integration tests
+        working-directory: flutter_workoutkit/example
+        run: flutter test integration_test -d "$SIM"
+      - name: CocoaPods podspec lint
+        run: pod lib lint ios/flutter_workoutkit.podspec --configuration=Debug --skip-tests --use-modular-headers --use-libraries

@@ -1,0 +1,73 @@
+{
+  "workoutType": "customWorkout",
+  "id": "6F1D5A3E-2B7C-4E8A-9D10-3C5B7A9E1F24",
+  "activityType": "running",
+  "location": "outdoor",
+  "displayName": "Intervals",
+  "blocks": [
+    {
+      "iterations": 4,
+      "steps": [
+        {
+          "purpose": "work",
+          "goal": {
+            "type": "distance",
+            "targetValue": 1,
+            "unit": "kilometers"
+          },
+          "alert": {
+            "type": "heartRateRange",
+            "lowerBound": 150,
+            "upperBound": 170
+          }
+        },
+        {
+          "purpose": "recovery",
+          "goal": {
+            "type": "time",
+            "targetDuration": 90,
+            "unit": "seconds"
+          }
+        }
+      ]
+    },
+    {
+      "iterations": 1,
+      "steps": [
+        {
+          "purpose": "work",
+          "step": {
+            "goal": {
+              "type": "open"
+            },
+            "alert": {
+              "type": "cadenceRange",
+              "lowerBound": 170,
+              "upperBound": 185
+            },
+            "displayName": "Strides"
+          }
+        }
+      ]
+    }
+  ],
+  "warmup": {
+    "goal": {
+      "type": "time",
+      "targetDuration": 300,
+      "unit": "minutes"
+    },
+    "alert": {
+      "type": "heartRateZone",
+      "zone": 1
+    },
+    "displayName": "Easy warmup"
+  },
+  "cooldown": {
+    "goal": {
+      "type": "time",
+      "targetDuration": 300,
+      "unit": "minutes"
+    }
+  }
+}

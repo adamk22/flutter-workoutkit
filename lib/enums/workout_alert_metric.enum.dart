@@ -1,1 +1,0 @@
-enum WorkoutAlertMetric { average, current }
