@@ -32,19 +32,21 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: DefaultTabController(
-        length: 3,
+        length: 4,
         child: Scaffold(
           appBar: AppBar(
             title: const Text('Flutter WorkoutKit Example'),
-            bottom: const TabBar(tabs: [
+            bottom: const TabBar(isScrollable: true, tabs: [
               Tab(text: 'Preview'),
               Tab(text: 'Validate'),
+              Tab(text: 'Customize'),
               Tab(text: 'Schedule'),
             ]),
           ),
           body: const TabBarView(children: [
             PreviewTab(),
             ValidateTab(),
+            CustomizeTab(),
             ScheduleTab(),
           ]),
         ),
@@ -131,7 +133,7 @@ class ValidateTab extends StatefulWidget {
 class _ValidateTabState extends State<ValidateTab> {
   late final Future<Map<String, WorkoutValidationResult>> _results = () async {
     return {
-      for (final entry in samples.entries)
+      for (final entry in {...samples, ...unsupportedExamples}.entries)
         entry.key: await WorkoutKit.validate(entry.value),
     };
   }();
@@ -154,13 +156,168 @@ class _ValidateTabState extends State<ValidateTab> {
                   color: entry.value.isValid ? Colors.green : Colors.red,
                 ),
                 title: Text(entry.key),
+                // Structured issues: a code and a path you can use to
+                // localize the message or highlight the offending step.
                 subtitle: entry.value.isValid
                     ? null
-                    : Text(entry.value.issues.join('\n')),
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          for (final issue in entry.value.details)
+                            Text('${issue.code.name}'
+                                '${issue.path == null ? '' : ' @ ${issue.path}'}'
+                                '\n${issue.message}'),
+                        ],
+                      ),
               ),
           ],
         );
       },
+    );
+  }
+}
+
+/// Workouts WorkoutKit rejects, to show structured validation issues.
+final Map<String, Workout> unsupportedExamples = {
+  '[Invalid] Archery pacer': samplePacerMinutesWorkout.copyWith(
+    activityType: WorkoutActivityType.archery,
+  ),
+  '[Invalid] Pool swim goal on a run': sampleTempoPaceRun.copyWith(
+    displayName: 'Run with a pool swim step',
+    blocks: [
+      IntervalBlock(iterations: 1, steps: [
+        IntervalStep(
+          purpose: IntervalStepPurpose.work,
+          goal: const WorkoutGoal.distance(1, WorkoutGoalUnit.kilometers),
+        ),
+        IntervalStep(
+          purpose: IntervalStepPurpose.work,
+          goal: const WorkoutGoal.poolSwimDistanceWithTime(
+            distance: 100,
+            distanceUnit: WorkoutGoalUnit.meters,
+            duration: Duration(minutes: 2),
+          ),
+        ),
+      ]),
+    ],
+  ),
+};
+
+/// Builds a variant of the tempo run with `copyWith`, compares it with `==`,
+/// round-trips it through WorkoutKit's export format and opens it with
+/// `WorkoutKit.presentPreview`.
+class CustomizeTab extends StatefulWidget {
+  const CustomizeTab({super.key});
+
+  @override
+  State<CustomizeTab> createState() => _CustomizeTabState();
+}
+
+class _CustomizeTabState extends State<CustomizeTab> {
+  int _repeats = 3;
+  int _fastestPaceSeconds = 300;
+  String? _status;
+
+  CustomWorkout get _workout {
+    final base = sampleTempoPaceRun;
+    final block = base.blocks.first;
+    final work = block.steps.first;
+    final pace = work.alert! as PaceRangeAlert;
+    return base.copyWith(
+      displayName: 'Tempo Run ($_repeats×2 km)',
+      blocks: [
+        block.copyWith(
+          iterations: _repeats,
+          steps: [
+            work.copyWith(
+              alert: pace.copyWith(
+                fastestPace: Duration(seconds: _fastestPaceSeconds),
+                slowestPace: Duration(seconds: _fastestPaceSeconds + 30),
+              ),
+            ),
+            ...block.steps.skip(1),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Future<void> _run(Future<String> Function() action) async {
+    try {
+      final status = await action();
+      if (mounted) setState(() => _status = status);
+    } on WorkoutkitException catch (e) {
+      if (mounted) setState(() => _status = '${e.code}: ${e.message}');
+    }
+  }
+
+  String _formatPace(int seconds) =>
+      '${seconds ~/ 60}:${(seconds % 60).toString().padLeft(2, '0')} /km';
+
+  @override
+  Widget build(BuildContext context) {
+    final workout = _workout;
+    final unchanged = workout.copyWith(displayName: 'Tempo Run') ==
+        sampleTempoPaceRun.copyWith(displayName: 'Tempo Run');
+    return ListView(
+      padding: const EdgeInsets.all(16),
+      children: [
+        Text(workout.displayName,
+            style: Theme.of(context).textTheme.titleLarge),
+        const SizedBox(height: 8),
+        Text('Repeats: $_repeats'),
+        Slider(
+          value: _repeats.toDouble(),
+          min: 1,
+          max: 8,
+          divisions: 7,
+          onChanged: (v) => setState(() => _repeats = v.round()),
+        ),
+        Text('Pace: ${_formatPace(_fastestPaceSeconds)} – '
+            '${_formatPace(_fastestPaceSeconds + 30)}'),
+        Slider(
+          value: _fastestPaceSeconds.toDouble(),
+          min: 210,
+          max: 420,
+          divisions: 14,
+          onChanged: (v) => setState(() => _fastestPaceSeconds = v.round()),
+        ),
+        ListTile(
+          contentPadding: EdgeInsets.zero,
+          leading: Icon(unchanged ? Icons.drag_handle : Icons.edit),
+          title: Text(unchanged
+              ? 'Same steps as the sample (==)'
+              : 'Different from the sample (==)'),
+        ),
+        const SizedBox(height: 8),
+        FilledButton.icon(
+          icon: const Icon(Icons.watch),
+          label: const Text('Preview with presentPreview'),
+          onPressed: () => _run(() async {
+            await WorkoutKit.presentPreview(workout);
+            return 'Preview closed';
+          }),
+        ),
+        const SizedBox(height: 8),
+        OutlinedButton.icon(
+          icon: const Icon(Icons.swap_vert),
+          label: const Text('Export & import'),
+          onPressed: () => _run(() async {
+            final data = await WorkoutKit.exportWorkout(workout);
+            final imported = await WorkoutKit.importWorkout(data);
+            // Pace alerts come back as speed alerts, so compare the rest.
+            final sameShape = imported is CustomWorkout &&
+                imported.displayName == workout.displayName &&
+                imported.blocks.first.iterations == _repeats;
+            return 'Exported ${data.length} bytes; imported '
+                '${sameShape ? 'the same workout' : 'a different workout'}';
+          }),
+        ),
+        if (_status != null) ...[
+          const SizedBox(height: 16),
+          Text(_status!),
+        ],
+      ],
     );
   }
 }
