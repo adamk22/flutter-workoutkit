@@ -21,6 +21,10 @@ class HeartRateZoneAlert extends WorkoutAlert {
     return {'type': type.name, 'zone': zone};
   }
 
+  /// Returns a copy with the given fields replaced.
+  HeartRateZoneAlert copyWith({int? zone}) =>
+      HeartRateZoneAlert(zone: zone ?? this.zone);
+
   /// Creates a new heart rate zone alert from a JSON object.
   static HeartRateZoneAlert fromJson(Map<String, dynamic> json) {
     return HeartRateZoneAlert(zone: (json['zone'] as num).toInt());

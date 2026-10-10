@@ -1,6 +1,7 @@
 import 'package:flutter_workoutkit/src/utils/json.dart';
 
 import 'workouts/base_workout.dart';
+import 'package:flutter_workoutkit/src/utils/json_equality.dart';
 
 /// Whether the app may schedule workouts on the user's Apple Watch.
 enum SchedulerAuthorizationState {
@@ -18,7 +19,7 @@ enum SchedulerAuthorizationState {
 }
 
 /// A workout scheduled on the user's Apple Watch.
-class ScheduledWorkout {
+class ScheduledWorkout with JsonValueEquality {
   /// The scheduled workout. Its [Workout.id] identifies the plan.
   final Workout workout;
 
@@ -38,6 +39,15 @@ class ScheduledWorkout {
   /// The plan id of [workout].
   String get id => workout.id!;
 
+  /// Returns a copy with the given fields replaced.
+  ScheduledWorkout copyWith(
+          {Workout? workout, DateTime? date, bool? complete}) =>
+      ScheduledWorkout(
+        workout: workout ?? this.workout,
+        date: date ?? this.date,
+        complete: complete ?? this.complete,
+      );
+
   /// Creates a scheduled workout from the native response.
   factory ScheduledWorkout.fromJson(Map<String, dynamic> json) =>
       ScheduledWorkout(
@@ -47,6 +57,7 @@ class ScheduledWorkout {
       );
 
   /// Converts the scheduled workout to a JSON object.
+  @override
   Map<String, dynamic> toJson() => {
         'workout': workout.toJson(),
         'date': dateToComponents(date),

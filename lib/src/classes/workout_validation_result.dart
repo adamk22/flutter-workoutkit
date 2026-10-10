@@ -1,5 +1,7 @@
+import 'package:flutter_workoutkit/src/utils/json_equality.dart';
+
 /// The result of `Workoutkit.validate`.
-class WorkoutValidationResult {
+class WorkoutValidationResult with JsonValueEquality {
   /// Whether WorkoutKit supports the workout on this device.
   final bool isValid;
 
@@ -15,6 +17,10 @@ class WorkoutValidationResult {
         isValid: json['isValid'] as bool,
         issues: (json['issues'] as List).cast<String>(),
       );
+
+  /// Converts the result to a JSON object.
+  @override
+  Map<String, dynamic> toJson() => {'isValid': isValid, 'issues': issues};
 
   @override
   String toString() => isValid

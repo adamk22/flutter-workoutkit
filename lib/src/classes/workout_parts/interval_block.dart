@@ -1,9 +1,10 @@
 import 'package:flutter_workoutkit/src/utils/json.dart';
+import 'package:flutter_workoutkit/src/utils/json_equality.dart';
 
 import '../index.dart';
 
 /// A group of [IntervalStep]s repeated [iterations] times.
-class IntervalBlock {
+class IntervalBlock with JsonValueEquality {
   /// The number of iterations of the block.
   final int iterations;
 
@@ -23,6 +24,7 @@ class IntervalBlock {
   }) : assert(iterations >= 1, 'iterations must be at least 1');
 
   /// Converts the interval block to a JSON object.
+  @override
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{
       'iterations': iterations,
@@ -31,6 +33,16 @@ class IntervalBlock {
     // ignore: deprecated_member_use_from_same_package
     putIfNotNull(json, 'type', type?.name);
     return json;
+  }
+
+  /// Returns a copy with the given fields replaced.
+  IntervalBlock copyWith({int? iterations, List<IntervalStep>? steps}) {
+    return IntervalBlock(
+      iterations: iterations ?? this.iterations,
+      steps: steps ?? this.steps,
+      // ignore: deprecated_member_use_from_same_package
+      type: type,
+    );
   }
 
   /// Creates a new interval block from a JSON object.

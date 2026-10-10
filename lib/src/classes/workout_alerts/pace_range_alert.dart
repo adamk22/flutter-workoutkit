@@ -60,6 +60,20 @@ class PaceRangeAlert extends WorkoutAlert {
     };
   }
 
+  /// Returns a copy with the given fields replaced.
+  PaceRangeAlert copyWith({
+    Duration? fastestPace,
+    Duration? slowestPace,
+    PaceUnit? paceUnit,
+    WorkoutAlertMetric? metric,
+  }) =>
+      PaceRangeAlert(
+        fastestPace: fastestPace ?? this.fastestPace,
+        slowestPace: slowestPace ?? this.slowestPace,
+        paceUnit: paceUnit ?? this.paceUnit,
+        metric: metric ?? this.metric,
+      );
+
   /// Creates a new pace range alert from a JSON object.
   static PaceRangeAlert fromJson(Map<String, dynamic> json) {
     return PaceRangeAlert(

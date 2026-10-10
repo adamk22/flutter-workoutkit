@@ -3,9 +3,10 @@ import 'custom_workout.dart';
 import 'pacer_workout.dart';
 import 'single_goal_workout.dart';
 import 'swim_bike_run_workout.dart';
+import '../../utils/json_equality.dart';
 
 /// Base class for all workout types.
-abstract class Workout {
+abstract class Workout with JsonValueEquality {
   /// The type of workout this represents.
   final WorkoutType workoutType;
 
@@ -22,6 +23,7 @@ abstract class Workout {
   });
 
   /// Converts the workout to a JSON object.
+  @override
   Map<String, dynamic> toJson() {
     return {
       'workoutType': workoutType.name,

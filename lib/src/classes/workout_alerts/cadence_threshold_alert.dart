@@ -20,6 +20,10 @@ class CadenceThresholdAlert extends WorkoutAlert {
     return {'type': type.name, 'threshold': threshold};
   }
 
+  /// Returns a copy with the given fields replaced.
+  CadenceThresholdAlert copyWith({double? threshold}) =>
+      CadenceThresholdAlert(threshold: threshold ?? this.threshold);
+
   /// Creates a new cadence threshold alert from a JSON object.
   static CadenceThresholdAlert fromJson(Map<String, dynamic> json) {
     return CadenceThresholdAlert(threshold: asDouble(json['threshold']));

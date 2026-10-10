@@ -1,8 +1,9 @@
 import 'package:flutter_workoutkit/flutter_workoutkit.dart';
 import 'package:flutter_workoutkit/src/utils/json.dart';
+import 'package:flutter_workoutkit/src/utils/json_equality.dart';
 
 /// A single step: a goal, an optional alert and an optional display name.
-class WorkoutStep {
+class WorkoutStep with JsonValueEquality {
   /// The goal of the step.
   final WorkoutGoal goal;
 
@@ -21,11 +22,25 @@ class WorkoutStep {
   });
 
   /// Converts the workout step to a JSON object.
+  @override
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{'goal': goal.toJson()};
     putIfNotNull(json, 'alert', alert?.toJson());
     putIfNotNull(json, 'displayName', displayName);
     return json;
+  }
+
+  /// Returns a copy with the given fields replaced.
+  WorkoutStep copyWith({
+    WorkoutGoal? goal,
+    WorkoutAlert? alert,
+    String? displayName,
+  }) {
+    return WorkoutStep(
+      goal: goal ?? this.goal,
+      alert: alert ?? this.alert,
+      displayName: displayName ?? this.displayName,
+    );
   }
 
   /// Creates a new workout step from a JSON object.

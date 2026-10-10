@@ -53,6 +53,23 @@ class SingleGoalWorkout extends Workout {
     return json;
   }
 
+  /// Returns a copy with the given fields replaced.
+  SingleGoalWorkout copyWith({
+    WorkoutActivityType? activityType,
+    WorkoutGoal? goal,
+    WorkoutLocationType? location,
+    WorkoutSwimmingLocationType? swimmingLocation,
+    String? id,
+  }) {
+    return SingleGoalWorkout(
+      activityType: activityType ?? this.activityType,
+      goal: goal ?? this.goal,
+      location: location ?? this.location,
+      swimmingLocation: swimmingLocation ?? this.swimmingLocation,
+      id: id ?? this.id,
+    );
+  }
+
   /// Creates a new single goal workout from a JSON object.
   static SingleGoalWorkout fromJson(Map<String, dynamic> json) {
     return SingleGoalWorkout(

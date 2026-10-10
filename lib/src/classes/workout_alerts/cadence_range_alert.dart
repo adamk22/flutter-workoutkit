@@ -28,6 +28,13 @@ class CadenceRangeAlert extends WorkoutAlert {
     };
   }
 
+  /// Returns a copy with the given fields replaced.
+  CadenceRangeAlert copyWith({double? lowerBound, double? upperBound}) =>
+      CadenceRangeAlert(
+        lowerBound: lowerBound ?? this.lowerBound,
+        upperBound: upperBound ?? this.upperBound,
+      );
+
   /// Creates a new cadence range alert from a JSON object.
   static CadenceRangeAlert fromJson(Map<String, dynamic> json) {
     return CadenceRangeAlert(

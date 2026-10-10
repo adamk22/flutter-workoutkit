@@ -26,6 +26,10 @@ class PowerZoneAlert extends WorkoutAlert {
     return {'type': type.name, 'zone': zone, 'metric': metric.name};
   }
 
+  /// Returns a copy with the given fields replaced.
+  PowerZoneAlert copyWith({int? zone, WorkoutAlertMetric? metric}) =>
+      PowerZoneAlert(zone: zone ?? this.zone, metric: metric ?? this.metric);
+
   /// Creates a new power zone alert from a JSON object.
   static PowerZoneAlert fromJson(Map<String, dynamic> json) {
     return PowerZoneAlert(

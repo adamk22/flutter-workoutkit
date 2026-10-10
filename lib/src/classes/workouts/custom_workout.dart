@@ -47,6 +47,27 @@ class CustomWorkout extends Workout {
     return json;
   }
 
+  /// Returns a copy with the given fields replaced.
+  CustomWorkout copyWith({
+    WorkoutActivityType? activityType,
+    WorkoutLocationType? location,
+    String? displayName,
+    WorkoutStep? warmup,
+    List<IntervalBlock>? blocks,
+    WorkoutStep? cooldown,
+    String? id,
+  }) {
+    return CustomWorkout(
+      activityType: activityType ?? this.activityType,
+      location: location ?? this.location,
+      displayName: displayName ?? this.displayName,
+      warmup: warmup ?? this.warmup,
+      blocks: blocks ?? this.blocks,
+      cooldown: cooldown ?? this.cooldown,
+      id: id ?? this.id,
+    );
+  }
+
   /// Creates a new custom workout from a JSON object.
   static CustomWorkout fromJson(Map<String, dynamic> json) {
     return CustomWorkout(

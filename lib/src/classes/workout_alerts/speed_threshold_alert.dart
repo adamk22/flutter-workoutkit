@@ -35,6 +35,18 @@ class SpeedThresholdAlert extends WorkoutAlert {
     };
   }
 
+  /// Returns a copy with the given fields replaced.
+  SpeedThresholdAlert copyWith({
+    double? threshold,
+    UnitSpeed? unitSpeed,
+    WorkoutAlertMetric? metric,
+  }) =>
+      SpeedThresholdAlert(
+        threshold: threshold ?? this.threshold,
+        unitSpeed: unitSpeed ?? this.unitSpeed,
+        metric: metric ?? this.metric,
+      );
+
   /// Creates a new speed threshold alert from a JSON object.
   static SpeedThresholdAlert fromJson(Map<String, dynamic> json) {
     return SpeedThresholdAlert(
