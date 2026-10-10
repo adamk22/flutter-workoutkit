@@ -15,6 +15,10 @@ enum WorkoutkitError: Error, Equatable, CustomStringConvertible {
     /// WorkoutKit's `supports…` checks rejected the workout. WorkoutKit traps
     /// (crashes) when such a workout is constructed, so we check first.
     case unsupportedWorkout([ValidationIssue])
+    /// `presentPreview` found no visible view controller to present from.
+    case noPresenter
+    /// `presentPreview` was called while a preview is already showing.
+    case alreadyPresenting
 
     var code: String {
         switch self {
@@ -23,6 +27,8 @@ enum WorkoutkitError: Error, Equatable, CustomStringConvertible {
         case .notFound: return "NOT_FOUND"
         case .serialization: return "SERIALIZATION_ERROR"
         case .unsupportedWorkout: return "UNSUPPORTED_WORKOUT"
+        case .noPresenter: return "NO_PRESENTER"
+        case .alreadyPresenting: return "ALREADY_PRESENTING"
         }
     }
 
@@ -34,6 +40,10 @@ enum WorkoutkitError: Error, Equatable, CustomStringConvertible {
             return "\(feature) requires iOS \(minimum) or later"
         case let .notFound(message), let .serialization(message):
             return message
+        case .noPresenter:
+            return "No visible view controller to present the workout preview from"
+        case .alreadyPresenting:
+            return "A workout preview is already being presented"
         case let .unsupportedWorkout(issues):
             return "Workout not supported by WorkoutKit: " + issues.map(\.message).joined(separator: "; ")
         }
@@ -57,7 +67,7 @@ enum WorkoutkitError: Error, Equatable, CustomStringConvertible {
             return [ValidationIssue(code: .unsupportedOS, path: path, message: description)]
         case let .invalidArgument(path, _):
             return [ValidationIssue(code: .invalidWorkout, path: Self.relative(path), message: description)]
-        case .notFound, .serialization:
+        case .notFound, .serialization, .noPresenter, .alreadyPresenting:
             return [ValidationIssue(code: .invalidWorkout, path: nil, message: description)]
         }
     }

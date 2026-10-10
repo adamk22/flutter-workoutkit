@@ -47,6 +47,18 @@ class MethodChannelWorkoutkit extends WorkoutkitPlatform {
       Workout.fromJson(asJsonMap(await _invoke<Map>('importPlan', data)));
 
   @override
+  Future<void> presentPreview(Workout workout) async {
+    try {
+      await _invoke<void>('presentPreview', workout.toJson());
+    } on MissingPluginException {
+      throw const WorkoutkitException(
+        WorkoutkitErrorCode.unsupportedPlatform,
+        'presentPreview is only available on iOS',
+      );
+    }
+  }
+
+  @override
   Future<bool> schedulerIsSupported() async =>
       await _invoke<bool>('scheduler.isSupported') ?? false;
 

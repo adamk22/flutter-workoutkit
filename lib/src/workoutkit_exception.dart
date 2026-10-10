@@ -51,6 +51,15 @@ abstract final class WorkoutkitErrorCode {
   /// `WorkoutKit.validate` to check up front.
   static const unsupportedWorkout = 'UNSUPPORTED_WORKOUT';
 
+  /// `presentPreview` found no visible view controller to present from.
+  static const noPresenter = 'NO_PRESENTER';
+
+  /// `presentPreview` was called while a preview is already on screen.
+  static const alreadyPresenting = 'ALREADY_PRESENTING';
+
+  /// The call isn't available on this platform (WorkoutKit is iOS only).
+  static const unsupportedPlatform = 'UNSUPPORTED_PLATFORM';
+
   /// A scheduled workout with the given id and date was not found.
   static const notFound = 'NOT_FOUND';
 

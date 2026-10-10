@@ -53,33 +53,74 @@ class MyApp extends StatelessWidget {
   }
 }
 
-/// One native preview button per sample.
-class PreviewTab extends StatelessWidget {
+/// One preview entry per sample, either as the native `WorkoutPreviewButton`
+/// or as a Flutter button calling `WorkoutKit.presentPreview`.
+class PreviewTab extends StatefulWidget {
   const PreviewTab({super.key});
+
+  @override
+  State<PreviewTab> createState() => _PreviewTabState();
+}
+
+class _PreviewTabState extends State<PreviewTab> {
+  bool _useNativeButton = true;
+
+  void _showError(String name, WorkoutkitException error) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('$name: ${error.message}')),
+    );
+  }
+
+  Future<void> _present(String name, Workout workout) async {
+    try {
+      await WorkoutKit.presentPreview(workout);
+    } on WorkoutkitException catch (e) {
+      if (mounted) _showError(name, e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return ListView(
       padding: const EdgeInsets.symmetric(vertical: 8),
       children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          child: SegmentedButton<bool>(
+            segments: const [
+              ButtonSegment(value: true, label: Text('Native button')),
+              ButtonSegment(value: false, label: Text('presentPreview')),
+            ],
+            selected: {_useNativeButton},
+            onSelectionChanged: (v) =>
+                setState(() => _useNativeButton = v.first),
+          ),
+        ),
         for (final entry in samples.entries)
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: WorkoutPreviewButton(
-              workout: entry.value,
-              buttonTitle: entry.key,
-              sfSymbol: 'applewatch',
-              onError: (error) => ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('${entry.key}: ${error.message}')),
-              ),
-            ),
+            child: _useNativeButton
+                ? WorkoutPreviewButton(
+                    workout: entry.value,
+                    buttonTitle: entry.key,
+                    sfSymbol: 'applewatch',
+                    onError: (error) => _showError(entry.key, error),
+                  )
+                : SizedBox(
+                    height: 54,
+                    child: FilledButton.icon(
+                      icon: const Icon(Icons.watch),
+                      label: Text(entry.key),
+                      onPressed: () => _present(entry.key, entry.value),
+                    ),
+                  ),
           ),
       ],
     );
   }
 }
 
-/// Runs `Workoutkit.validate` on every sample.
+/// Runs `WorkoutKit.validate` on every sample.
 class ValidateTab extends StatefulWidget {
   const ValidateTab({super.key});
 
@@ -91,7 +132,7 @@ class _ValidateTabState extends State<ValidateTab> {
   late final Future<Map<String, WorkoutValidationResult>> _results = () async {
     return {
       for (final entry in samples.entries)
-        entry.key: await Workoutkit.validate(entry.value),
+        entry.key: await WorkoutKit.validate(entry.value),
     };
   }();
 

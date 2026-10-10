@@ -62,6 +62,12 @@ abstract class WorkoutkitPlatform extends PlatformInterface {
     throw UnimplementedError('importWorkout() has not been implemented.');
   }
 
+  /// Presents WorkoutKit's preview sheet for [workout]; completes when the
+  /// user dismisses it.
+  Future<void> presentPreview(Workout workout) {
+    throw UnimplementedError('presentPreview() has not been implemented.');
+  }
+
   /// Whether the device supports scheduling workouts.
   Future<bool> schedulerIsSupported() {
     throw UnimplementedError(

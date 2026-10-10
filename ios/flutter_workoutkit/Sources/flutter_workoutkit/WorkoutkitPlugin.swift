@@ -8,6 +8,7 @@ public class WorkoutkitPlugin: NSObject, FlutterPlugin {
     private let scheduler: WorkoutScheduling
     private let schedulerIsSupported: () -> Bool
     private let maxAllowedScheduledWorkoutCount: Int
+    private var previewPresenter: WorkoutPreviewPresenter?
 
     override public convenience init() {
         self.init(
@@ -76,6 +77,8 @@ public class WorkoutkitPlugin: NSObject, FlutterPlugin {
                 }
                 return try WorkoutPlanSerializer.json(plan)
             }
+        case "presentPreview":
+            presentPreview(call.arguments, result)
         case let method where method.hasPrefix("scheduler."):
             handleScheduler(String(method.dropFirst("scheduler.".count)), call.arguments, result)
         default:
@@ -98,6 +101,32 @@ public class WorkoutkitPlugin: NSObject, FlutterPlugin {
         Task { @MainActor in
             do {
                 result(try await body())
+            } catch let error as WorkoutkitError {
+                result(error.flutterError)
+            } catch {
+                result(FlutterError(code: "UNKNOWN", message: "\(error)", details: nil))
+            }
+        }
+    }
+
+    // MARK: Preview
+
+    private func presentPreview(_ arguments: Any?, _ result: @escaping FlutterResult) {
+        let plan: WorkoutPlan
+        do {
+            plan = try WorkoutPlanBuilder.plan(from: arguments)
+        } catch let error as WorkoutkitError {
+            result(error.flutterError)
+            return
+        } catch {
+            result(FlutterError(code: "UNKNOWN", message: "\(error)", details: nil))
+            return
+        }
+        MainActor.assumeIsolated {
+            let presenter = previewPresenter ?? WorkoutPreviewPresenter()
+            previewPresenter = presenter
+            do {
+                try presenter.present(plan) { result(nil) }
             } catch let error as WorkoutkitError {
                 result(error.flutterError)
             } catch {

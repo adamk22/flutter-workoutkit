@@ -65,6 +65,21 @@ void main() {
         greaterThan(0));
   });
 
+  testWidgets('presentPreview rejects unsupported workouts', (tester) async {
+    await expectLater(
+      WorkoutKit.presentPreview(PacerWorkout(
+        activityType: WorkoutActivityType.archery,
+        location: WorkoutLocationType.outdoor,
+        targetValue: 1,
+        targetValueUnit: GoalDistanceUnits.kilometers,
+        targetDuration: const Duration(minutes: 10),
+        targetDurationUnit: GoalTimeUnits.minutes,
+      )),
+      throwsA(isA<WorkoutkitException>().having(
+          (e) => e.code, 'code', WorkoutkitErrorCode.unsupportedWorkout)),
+    );
+  });
+
   testWidgets('preview button renders a native view', (tester) async {
     WorkoutkitException? error;
     await tester.pumpWidget(MaterialApp(
@@ -96,5 +111,23 @@ void main() {
     ));
     await tester.pumpAndSettle();
     expect(error?.code, WorkoutkitErrorCode.unsupportedWorkout);
+  });
+
+  testWidgets('presentPreview shows the sheet until it is dismissed',
+      (tester) async {
+    var completed = false;
+    final presented = WorkoutKit.presentPreview(sampleTempoPaceRun)
+      ..then((_) => completed = true);
+    await Future<void>.delayed(const Duration(seconds: 2));
+    expect(completed, isFalse);
+    // A second call while the sheet is up is rejected.
+    await expectLater(
+      WorkoutKit.presentPreview(sampleTempoPaceRun),
+      throwsA(isA<WorkoutkitException>().having(
+          (e) => e.code, 'code', WorkoutkitErrorCode.alreadyPresenting)),
+    );
+    // Runs last: the sheet stays up and the future is intentionally not
+    // awaited.
+    expect(presented, isA<Future<void>>());
   });
 }

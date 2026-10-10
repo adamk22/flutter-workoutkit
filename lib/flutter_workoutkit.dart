@@ -5,9 +5,10 @@ export 'src/workout_preview_button.dart';
 export 'src/workout_scheduler.dart';
 export 'src/workoutkit_exception.dart';
 
-import 'dart:typed_data';
+import 'package:flutter/foundation.dart';
 
 import 'src/classes/index.dart';
+import 'src/workoutkit_exception.dart';
 import 'src/workoutkit_platform_interface.dart';
 
 /// The original name of [WorkoutKit]. Kept so existing code keeps working;
@@ -42,6 +43,26 @@ abstract final class WorkoutKit {
   /// such as iOS 18 for pool swim goals.
   static Future<WorkoutValidationResult> validate(Workout workout) {
     return WorkoutkitPlatform.instance.validateWorkout(workout);
+  }
+
+  /// Opens Apple's workout preview sheet for [workout] from your own UI, e.g.
+  /// a Flutter button. The user can add the workout to their Apple Watch
+  /// from the sheet. Completes when the sheet is dismissed.
+  ///
+  /// Throws a [WorkoutkitException] with code
+  /// [WorkoutkitErrorCode.unsupportedWorkout], [WorkoutkitErrorCode.unsupportedOS],
+  /// [WorkoutkitErrorCode.alreadyPresenting], [WorkoutkitErrorCode.noPresenter]
+  /// or, on other platforms, [WorkoutkitErrorCode.unsupportedPlatform].
+  ///
+  /// `WorkoutPreviewButton` remains available as a ready-made native button.
+  static Future<void> presentPreview(Workout workout) {
+    if (kIsWeb || defaultTargetPlatform != TargetPlatform.iOS) {
+      return Future.error(const WorkoutkitException(
+        WorkoutkitErrorCode.unsupportedPlatform,
+        'presentPreview is only available on iOS',
+      ));
+    }
+    return WorkoutkitPlatform.instance.presentPreview(workout);
   }
 
   /// Serializes [workout] using WorkoutKit's own binary format, e.g. to share
