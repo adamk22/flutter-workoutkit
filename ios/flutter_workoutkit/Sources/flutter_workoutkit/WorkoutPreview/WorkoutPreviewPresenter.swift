@@ -10,7 +10,7 @@ import WorkoutKit
 /// the sheet immediately and dismisses itself when the sheet closes.
 @MainActor
 final class WorkoutPreviewPresenter {
-    private let topViewController: () -> UIViewController?
+    private let topViewController: @MainActor () -> UIViewController?
     private var host: UIViewController?
     private var hostIsOnScreen = false
     private var finishRequested = false
@@ -19,7 +19,7 @@ final class WorkoutPreviewPresenter {
     /// Whether a preview is currently on screen.
     var isPresenting: Bool { host != nil }
 
-    init(topViewController: @escaping () -> UIViewController? = WorkoutPreviewPresenter.findTopViewController) {
+    init(topViewController: @escaping @MainActor () -> UIViewController? = WorkoutPreviewPresenter.findTopViewController) {
         self.topViewController = topViewController
     }
 

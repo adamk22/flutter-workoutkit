@@ -1,5 +1,6 @@
 import Flutter
 import Foundation
+@testable import flutter_workoutkit
 import XCTest
 
 /// Loads the shared JSON contract fixtures from `<repo>/test/fixtures`.
@@ -45,5 +46,14 @@ extension XCTestCase {
         }
         wait(for: [done], timeout: 5)
         return value
+    }
+}
+
+extension XCTestCase {
+    /// Runs `body` as if on iOS 17.0 (no step names, pool swim goals or
+    /// power alert metrics). `PlatformFeatures.current` is task-local, so the
+    /// override ends with the scope.
+    func onIOS17_0<T>(_ body: () throws -> T) rethrows -> T {
+        try PlatformFeatures.$current.withValue(.iOS17_0, operation: body)
     }
 }

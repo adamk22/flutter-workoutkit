@@ -6,11 +6,6 @@ import XCTest
 
 /// Structured validation issues: codes and paths reported to Dart.
 final class ValidationIssueTests: XCTestCase {
-    override func tearDown() {
-        PlatformFeatures.current = .system
-        super.tearDown()
-    }
-
     private func customRun(steps: [[String: Any]]) -> [String: Any] {
         [
             "workoutType": "customWorkout",
@@ -53,8 +48,8 @@ final class ValidationIssueTests: XCTestCase {
     }
 
     func testUnsupportedOSPointsAtTheGoal() throws {
-        PlatformFeatures.current = .iOS17_0
-        let issues = WorkoutValidator.issues(for: try Fixtures.object("pool_swim_workout.json"))
+        let json = try Fixtures.object("pool_swim_workout.json")
+        let issues = onIOS17_0 { WorkoutValidator.issues(for: json) }
         XCTAssertEqual(issues.map(\.code), [.unsupportedOS])
         XCTAssertEqual(issues.first?.path, "blocks[0].steps[0].goal")
     }

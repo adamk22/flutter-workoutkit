@@ -1,4 +1,4 @@
-import Flutter
+@preconcurrency import Flutter
 import SwiftUI
 import UIKit
 import WorkoutKit
@@ -27,18 +27,22 @@ class WorkoutPreviewBridge: NSObject, FlutterPlatformView {
         }
         self.buildError = buildError
 
-        let root: AnyView
-        if let plan {
-            root = AnyView(
-                WorkoutPreviewButton(workoutPlan: plan, style: style)
-                    .frame(maxWidth: .infinity, maxHeight: style.buttonHeight)
-            )
-        } else {
-            root = AnyView(EmptyView())
+        // Flutter creates platform views on the main thread.
+        let planBox = UncheckedSendable(plan)
+        hostingController = MainActor.assumeIsolated {
+            let root: AnyView
+            if let plan = planBox.value {
+                root = AnyView(
+                    WorkoutPreviewButton(workoutPlan: plan, style: style)
+                        .frame(maxWidth: .infinity, maxHeight: style.buttonHeight)
+                )
+            } else {
+                root = AnyView(EmptyView())
+            }
+            let controller = UIHostingController(rootView: root)
+            controller.view.backgroundColor = .clear
+            return controller
         }
-        let hostingController = UIHostingController(rootView: root)
-        hostingController.view.backgroundColor = .clear
-        self.hostingController = hostingController
 
         channel = FlutterMethodChannel(name: "workout_preview_button_\(viewId)", binaryMessenger: messenger)
         super.init()
@@ -57,12 +61,13 @@ class WorkoutPreviewBridge: NSObject, FlutterPlatformView {
     }
 
     func view() -> UIView {
-        hostingController.view
+        let controller = UncheckedSendable(hostingController)
+        return MainActor.assumeIsolated { controller.value.view }
     }
 }
 
 /// Styling options passed from the Dart widget.
-struct WorkoutPreviewButtonStyle {
+struct WorkoutPreviewButtonStyle: Sendable {
     var buttonTitle = "Preview & Start Workout"
     var paddingHorizontal: CGFloat = 10
     var paddingVertical: CGFloat = 10

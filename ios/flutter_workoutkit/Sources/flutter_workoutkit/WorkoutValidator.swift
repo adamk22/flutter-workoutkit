@@ -2,10 +2,10 @@ import HealthKit
 import WorkoutKit
 
 /// A problem that prevents WorkoutKit from accepting a workout.
-struct ValidationIssue: Equatable {
+struct ValidationIssue: Equatable, Sendable {
     /// Machine readable kind of problem; mirrors Dart's
     /// `WorkoutValidationIssueCode`.
-    enum Code: String {
+    enum Code: String, Sendable {
         case unsupportedActivity
         case unsupportedGoal
         case unsupportedAlert

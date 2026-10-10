@@ -19,7 +19,12 @@ export and schedule custom workouts for the Workout app on Apple Watch.
   s.frameworks       = 'WorkoutKit', 'HealthKit', 'SwiftUI'
 
   # Flutter.framework does not contain a i386 slice.
-  s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
+  s.pod_target_xcconfig = {
+    'DEFINES_MODULE' => 'YES',
+    'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386',
+    # Swift 6 readiness: complete data-race checking in Swift 5 mode.
+    'SWIFT_STRICT_CONCURRENCY' => 'complete',
+  }
   s.swift_version = '5.9'
 
   s.resource_bundles = { 'flutter_workoutkit_privacy' => ['flutter_workoutkit/Sources/flutter_workoutkit/PrivacyInfo.xcprivacy'] }

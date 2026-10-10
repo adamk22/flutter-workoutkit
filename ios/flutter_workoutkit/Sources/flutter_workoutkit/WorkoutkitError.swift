@@ -1,8 +1,8 @@
-import Flutter
+@preconcurrency import Flutter
 import Foundation
 
 /// Errors surfaced to Dart as `WorkoutkitException`.
-enum WorkoutkitError: Error, Equatable, CustomStringConvertible {
+enum WorkoutkitError: Error, Equatable, Sendable, CustomStringConvertible {
     /// A required field is missing or has the wrong type / value.
     case invalidArgument(path: String, expected: String)
     /// The feature needs a newer OS version. `path` points at the JSON
