@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_workoutkit/flutter_workoutkit.dart';
-import 'package:flutter_workoutkit/src/classes/scheduled_workout.class.dart'
+import 'package:flutter_workoutkit/src/classes/scheduled_workout.dart'
     show dateFromComponents, dateToComponents;
 
 void main() {

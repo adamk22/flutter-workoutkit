@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 import 'classes/index.dart';
-import 'classes/scheduled_workout.class.dart' show dateToComponents;
+import 'classes/scheduled_workout.dart' show dateToComponents;
 import 'utils/json.dart';
 import 'workoutkit_exception.dart';
 import 'workoutkit_platform_interface.dart';

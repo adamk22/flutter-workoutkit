@@ -10,10 +10,14 @@ import 'dart:typed_data';
 import 'src/classes/index.dart';
 import 'src/workoutkit_platform_interface.dart';
 
+/// The original name of [WorkoutKit]. Kept so existing code keeps working;
+/// both names refer to the same class.
+typedef Workoutkit = WorkoutKit;
+
 /// Entry point for workout validation, import/export and (deprecated)
 /// HealthKit permissions. See also `WorkoutScheduler` and
 /// `WorkoutPreviewButton`.
-abstract final class Workoutkit {
+abstract final class WorkoutKit {
   /// Gets the platform version.
   static Future<String?> getPlatformVersion() {
     return WorkoutkitPlatform.instance.getPlatformVersion();

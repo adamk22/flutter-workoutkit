@@ -1,6 +1,6 @@
 import 'package:flutter_workoutkit/src/utils/json.dart';
 
-import 'workouts/base_workout.class.dart';
+import 'workouts/base_workout.dart';
 
 /// Whether the app may schedule workouts on the user's Apple Watch.
 enum SchedulerAuthorizationState {
