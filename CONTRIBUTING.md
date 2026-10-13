@@ -76,7 +76,7 @@ When you fix a bug, add a test that fails without the fix. These suites were che
 
 ### CI
 
-GitHub Actions runs the Dart checks on Linux and the Swift tests on iOS 17.5, 18.6 and the latest simulator runtime. A missing runtime is downloaded with `xcodebuild -downloadPlatform`. The iOS 17.5 job runs the real-OS versions of the fallbacks that `onIOS17_0` simulates locally. Integration tests and `pod lib lint` run on the latest runtime only.
+GitHub Actions runs the Dart checks on Linux and the Swift tests on iOS 17.5, 18.6 and the latest simulator runtime. A missing runtime is downloaded with `xcodebuild -downloadPlatform`. The iOS 17.5 and 18.6 jobs use Xcode 16 on `macos-15`, because Xcode 26 doesn't offer those simulators as test destinations. The latest job uses the newest stable Xcode. The iOS 17.5 job runs the real-OS versions of the fallbacks that `onIOS17_0` simulates locally. Integration tests and `pod lib lint` run on the latest runtime only.
 
 ### Manual checks that need a device
 
